@@ -7,14 +7,23 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<!-- 	<security:http>
+	<security:http>
+		<security:intercept-url pattern="/" access="permitAll"/>
 		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
 		<security:form-login/>
 		
+		<security:form-login login-page="/emp/login.do" />
+		
+		<security:logout logout-url="/" />
 	</security:http>
 	
 	<security:authentication-manager>
-	
-	</security:authentication-manager> -->
+		<security:authentication-provider>
+			<security:user-service>
+				<security:user name="emp" authorities=""/>
+			</security:user-service>
+		</security:authentication-provider>
+		
+	</security:authentication-manager>
 
 </beans>

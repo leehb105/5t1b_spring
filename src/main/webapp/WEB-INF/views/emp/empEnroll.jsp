@@ -1,7 +1,10 @@
-<%@page import="com.otlb.semi.emp.model.vo.Emp"%>
-<%@page import="com.otlb.semi.emp.controller.EmpEnrollServlet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%
 	//값의 입력 여부를 servlet에서 확인하기 때문에
 	//하나라도 값을 입력하지 않고 가입하기를 누르면
@@ -60,14 +63,14 @@
 					<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
 					<div class="col-lg-7">
 						<div class="p-5">
-							<a href="<%= request.getContextPath() %>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+							<a href="${pageContext.request.contextPath}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 							<div class="text-center">
 								<h1 class="h4 text-gray-900 mb-4">회원가입</h1>
 							</div>
-							<form 
+							<form:form 
 								name="empEnrollFrm"
 								class="user" 
-								action="<%= request.getContextPath() %>/emp/empEnroll" 
+								action="${pageContext.request.contextPath}/emp/empEnroll.do" 
 								method="POST">
 								<div class="form-group">	
 									<input type="text" name="empNo" class="form-control form-control-user"
@@ -187,51 +190,6 @@
 											<option value="1952">1952</option>
 											<option value="1951">1951</option>
 											<option value="1950">1950</option>
-											<option value="1949">1949</option>
-											<option value="1948">1948</option>
-											<option value="1947">1947</option>
-											<option value="1946">1946</option>
-											<option value="1945">1945</option>
-											<option value="1944">1944</option>
-											<option value="1943">1943</option>
-											<option value="1942">1942</option>
-											<option value="1941">1941</option>
-											<option value="1940">1940</option>
-											<option value="1939">1939</option>
-											<option value="1938">1938</option>
-											<option value="1937">1937</option>
-											<option value="1936">1936</option>
-											<option value="1935">1935</option>
-											<option value="1934">1934</option>
-											<option value="1933">1933</option>
-											<option value="1932">1932</option>
-											<option value="1931">1931</option>
-											<option value="1930">1930</option>
-											<option value="1929">1929</option>
-											<option value="1928">1928</option>
-											<option value="1927">1927</option>
-											<option value="1926">1926</option>
-											<option value="1925">1925</option>
-											<option value="1924">1924</option>
-											<option value="1923">1923</option>
-											<option value="1922">1922</option>
-											<option value="1921">1921</option>
-											<option value="1920">1920</option>
-											<option value="1919">1919</option>
-											<option value="1918">1918</option>
-											<option value="1917">1917</option>
-											<option value="1916">1916</option>
-											<option value="1915">1915</option>
-											<option value="1914">1914</option>
-											<option value="1913">1913</option>
-											<option value="1912">1912</option>
-											<option value="1911">1911</option>
-											<option value="1910">1910</option>
-											<option value="1909">1909</option>
-											<option value="1908">1908</option>
-											<option value="1907">1907</option>
-											<option value="1906">1906</option>
-											<option value="1905">1905</option>
 										</select> 
 										</div>
 										<div class="col">
@@ -293,7 +251,7 @@
 								<!-- 회원가입 버튼 -->
 								<button type="submit" class="btn btn-primary btn-user btn-block">가입하기</button>
 								
-							</form>
+							</form:form>
 							<hr>
                              
                              <!-- 로그인 화면으로 이동 -->

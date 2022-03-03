@@ -14,20 +14,21 @@ import lombok.ToString;
 @ToString
 public class EmpEntity implements Serializable{
 
-		private static final long serialVersionUID = 1L;
-		
-		private int empNo;
-		private String empName;
-		private String password;
-		private Date birthdate;
-		private String deptCode;
-		private String jobCode;
-		private String empRole;
-		private String gender;
-		private String email;
-		private String phone;
-		private String quitYn;
-		private String banYn;
+	private static final long serialVersionUID = 1L;
+	
+	private int empNo;
+	private String empName;
+	private String password;
+	private Date birthdate;
+	private String deptCode;
+	private String jobCode;
+	private String empRole;
+	private String gender;
+	private String email;
+	private String phone;
+	private String quitYn;
+	private String banYn;
+	private int enabled;
 		
 		
 
