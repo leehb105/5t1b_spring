@@ -3,10 +3,12 @@ package com.spring.otlb.emp.model.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.spring.otlb.emp.model.dao.EmpDao;
 import com.spring.otlb.emp.model.vo.Emp;
 
+@Service
 public class EmpServiceImpl implements EmpService{
 
 	@Autowired
@@ -29,7 +31,7 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int insertEmp(Emp emp) {
-		return 0;
+		return empDao.insertEmp(emp);
 	}
 
 	@Override

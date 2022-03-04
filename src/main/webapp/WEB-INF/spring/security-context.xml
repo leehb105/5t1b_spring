@@ -6,11 +6,15 @@
 		http://www.springframework.org/schema/security/spring-security.xsd
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!-- 암호화처리 bean등록 -->
+	<bean 
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" 
+		id="bcryptPasswordEncoder"/>
+
 
 	<security:http>
 		<security:intercept-url pattern="/" access="permitAll"/>
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/>
-		<security:form-login/>
+		<!-- <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/> -->
 		
 		<security:form-login login-page="/emp/login.do" />
 		

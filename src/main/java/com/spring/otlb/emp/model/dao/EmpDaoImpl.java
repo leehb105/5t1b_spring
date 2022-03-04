@@ -2,10 +2,18 @@ package com.spring.otlb.emp.model.dao;
 
 import java.util.List;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.spring.otlb.emp.model.vo.Emp;
 
+@Repository
 public class EmpDaoImpl implements EmpDao{
 
+	@Autowired
+	private SqlSessionTemplate session;
+	
 	@Override
 	public Emp selectOneEmp(int no) {
 		return null;
@@ -18,7 +26,7 @@ public class EmpDaoImpl implements EmpDao{
 
 	@Override
 	public int insertEmp(Emp emp) {
-		return 0;
+		return session.update("emp.insertEmp", emp);
 	}
 
 	@Override

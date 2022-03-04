@@ -5,24 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%
-	//값의 입력 여부를 servlet에서 확인하기 때문에
-	//하나라도 값을 입력하지 않고 가입하기를 누르면
-	//기존에 입력했던 값이 사라지는 문제가 발생하여
-	//jsp에서 기존에 입력했던 값을 받아와서 해결
-	String empName = request.getParameter("empName");
-	String email = request.getParameter("email");
-	String phone = request.getParameter("phone");
-	String gender = request.getParameter("gender");
-
-	String messageType = null;
-	String messageContent = null;
-	if(session.getAttribute("messageType") != null 
-			&& session.getAttribute("messageContent") != null){
-		messageType = (String) session.getAttribute("messageType");
-		messageContent = (String) session.getAttribute("messageContent");
-	}
-%>	
+	
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +22,7 @@
 
 <!-- Custom fonts for this template-->
 <link
-	href="<%=request.getContextPath()%>/resources/vendor/fontawesome-free/css/all.min.css"
+	href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css"
 	rel="stylesheet" type="text/css">
 <link
 	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -47,9 +30,9 @@
 
 <!-- Custom styles for this template-->
 <link
-	href="<%=request.getContextPath()%>/resources/css/sb-admin-2.min.css"
+	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
 
 </head>
 
@@ -74,41 +57,41 @@
 								method="POST">
 								<div class="form-group">	
 									<input type="text" name="empNo" class="form-control form-control-user"
-										id="empNo" placeholder="사원번호" autocomplete="off">
+										id="empNo" placeholder="사원번호" autocomplete="off" value="11112222">
 										<div id="validateMessage"></div>									
 								</div>
 								<div class="form-group">	
 									<input  type="text" name="empName" class="form-control form-control-user" id="empName"
-										 placeholder="이름" autocomplete="off" value="<%= empName != null ? empName : "" %>">	
+										 placeholder="이름" autocomplete="off" value="이이">	
 									<div style="color: red; font-size: 0.8em;" id="nameCheckMessage"></div>							
 								</div>
 								<div class="form-group">
 									<input type="email" name="email" class="form-control form-control-user"
-										id="email" placeholder="이메일" autocomplete="off" value="<%= email != null ? email : "" %>">
+										id="email" placeholder="이메일" autocomplete="off" value="lele@test.com">
 									<div style="color: red; font-size: 0.8em;" id="emailCheckMessage"></div>		
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-6 mb-3 mb-sm-0">
 										<input  type="password" name="password" class="form-control form-control-user"
-											id="password" placeholder="비밀번호" autocomplete="off">
+											id="password" placeholder="비밀번호" autocomplete="off" value="1111qqqq!">
 											<div style="color: red; font-size: 0.8em;" id="passwordCheckMessage"></div>
 									</div>
 									<div class="col-sm-6">
 										<input type="password" name="passwordCheck" class="form-control form-control-user"
-											id="passwordCheck" placeholder="비밀번호 확인" autocomplete="off">
+											id="passwordCheck" placeholder="비밀번호 확인" autocomplete="off" value="1111qqqq!">
 										<div style="color: red; font-size: 0.8em;" id="passwordCheckMessage1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<input type="text" name="phone" class="form-control form-control-user" id="phone"
-										 placeholder="전화번호 (-) 제외하고 입력" autocomplete="off" value="<%= phone != null ? phone : "" %>">
+										 placeholder="전화번호 (-) 제외하고 입력" autocomplete="off" value="01022223333">
 									<div style="color: red; font-size: 0.8em;" id="phoneCheckMessage"></div>
 								</div>
 								<div class="form-group">
 									<select name="gender" id="gender" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
-										<option value="" <%= gender == null ? "selected" : ""  %> disabled hidden>성별</option>
-										<option  value="F" <%= "F".equals(gender) ? "selected" : "" %>>여자</option>
-										<option  value="M" <%= "M".equals(gender) ? "selected" : "" %>>남자</option>
+										<option value=""  disabled hidden>성별</option>
+										<option  value="F" >여자</option>
+										<option  value="M" >남자</option>
 									</select>
 								</div>
 								
@@ -116,7 +99,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col">
-											<select name="birthdayYear" id="year" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
+											<select name="year" id="year" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
 											<option value="" selected disabled hidden>년</option>
 											<option value="2021">2021</option>
 											<option value="2020">2020</option>
@@ -193,7 +176,7 @@
 										</select> 
 										</div>
 										<div class="col">
-											<select name="birthdayMonth" id="month" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
+											<select name="month" id="month" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
 											<option value="" selected disabled hidden>월</option>
 											<option value="1">1월</option>
 											<option value="2">2월</option>
@@ -210,7 +193,7 @@
 										</select> 
 										</div>
 										<div class="col">
-											<select name="birthdayDay" id="day" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
+											<select name="day" id="day" class="form-control rounded-pill" style="height:49px; font-size: .8rem;" required>
 											<option value="" selected disabled hidden>일</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -256,7 +239,7 @@
                              
                              <!-- 로그인 화면으로 이동 -->
 							<div class="text-center">
-								<a class="small" href="<%= request.getContextPath() %>/emp/login">로그인</a>
+								<a class="small" href="${pageContext.request.contextPath}/emp/login.do">로그인</a>
 							</div>
 						</div>
 					</div>
@@ -294,7 +277,7 @@ const $validateEmpNo = $("#empNo").blur(({target = empNo}) => {
 	const empNo = $("#empNo").val();
 	
 	$.ajax({
-		url: "<%= request.getContextPath() %>/emp/empNoCheck?empNo=" + empNo,
+		url: "${pageContext.request.contextPath}/emp/empNoCheck?empNo=" + empNo,
 		success(data){
 			// data == 1 ? 중복o : 중복x
 			//console.log("data = " + data);
@@ -400,55 +383,9 @@ phone.onkeyup = validatePhone;
 </script>
 
 
-<%
-	if(messageType != null) {
-%>
-<script>
 
-	// modal 실행
-	$(function(){
-		$("#staticBackdrop").modal('show');		
-	});
-</script>
 
-<!-- Modal -->
-	<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="staticBackdropLabel"><%= messageType %></h5>
-	          <% if(messageType.equals(EmpEnrollServlet.ERROR_MESSAGE)){ %>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-	          <% } %>
-	      </div>
-	      <div class="modal-body">
-	      	  <%= messageContent %>
-	      </div>
-	      <div class="modal-footer">
-		      <% if(messageType.equals(EmpEnrollServlet.SUCCESS_MESSAGE)){ %>
-				<button type="button" class="btn btn-secondary" id="success_button" data-dismiss="modal" onclick="location.href='<%= request.getContextPath() %>/emp/login'">확인</button>	      		
-		      <% } else { %>	
-		        <button type="button" class="btn btn-secondary" id="error_button" data-dismiss="modal">닫기</button>
-			  <% } %>	      
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	
-<script>
-	if(<%= messageType.equals(EmpEnrollServlet.SUCCESS_MESSAGE) %>)
-		$(".modal-header").attr("style", "background-color:#d9edf7");
-	else
-		$(".modal-header").attr("style", "background-color:#f2dede");
-</script>
 
-<%
-	session.removeAttribute("messageContent");
-	session.removeAttribute("messageType");
-	}
-%>
 
 
 

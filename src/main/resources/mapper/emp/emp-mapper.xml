@@ -12,7 +12,7 @@
 			birthdate = #{birthdate}, 
 			gender = #{gender}, 
 			email = #{email}, 
-			phone = #{phone}, 
+			phone = #{phone}
 		where 
 			emp_no = #{empNo}
 	</update>
