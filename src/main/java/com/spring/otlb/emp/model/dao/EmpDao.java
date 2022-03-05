@@ -21,6 +21,8 @@ public interface EmpDao {
 
 	public int checkEmpInfo(int empNo, String empName, String email);
 
+	public Emp loadUserByUsername(String username);
+
 
 
 }

@@ -10,15 +10,19 @@
 	<bean 
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" 
 		id="bcryptPasswordEncoder"/>
-
+	<bean 
+		id = "customSuccessHandler" 
+		class = "com.spring.otlb.emp.controller.CustomSuccessHandler"/>
 
 	<security:http>
 		<security:intercept-url pattern="/" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/> -->
 		
-		<security:form-login login-page="/emp/login.do" />
+		<security:form-login login-page="/emp/login.do" 
+			authentication-success-handler-ref="customSuccessHandler"/>
 		
-		<security:logout logout-url="/" />
+		<security:logout logout-url="/" 
+			invalidate-session="true"/>
 	</security:http>
 	
 	<security:authentication-manager>
