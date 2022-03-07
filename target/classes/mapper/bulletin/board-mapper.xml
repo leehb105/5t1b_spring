@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<select id="selectAllBoard" resultType="board">
+		select
+			* 
+		from 
+			(select row_number() over(order by no desc) rnum, b.*, 
+			(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
+			(select count(*) from attachment where board_no = b.no) attach_count, 
+			(select count(*) from board_comment where board_no = b.no) comment_count from board b)where category='공지' 
+			Union all select * from (select row_number() over(order by no desc) rnum, b.*, 
+			(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
+			(select count(*) from attachment where board_no = b.no) attach_count, 
+			(select count(*) from board_comment where board_no = b.no) comment_count from board b) 
+		where 
+			rnum between ? and ?
+			
+			
+			
+			
+		<![CDATA[
+			SELECT
+				*
+			from
+				(SELECT 
+					rownum rn,
+					tb1.*
+				FROM
+					(
+					SELECT
+						b.REG_DATE, b.BOARD_NO, b.BOOK_STATUS, b.PRICE, b.DEPOSIT, b.DELETE_YN,
+					    bi.TITLE, bi.AUTHOR, bi.PUBLISHER, bi.PUBDATE, bi.CATEGORY_NAME,bi.COVER,
+					    br.RES_NO, br.START_DATE, br.END_DATE,
+		    			mv.search_address, mv.jibun_address
+					from
+					    booking b join book_info bi ON
+					    b.isbn13 = bi.isbn13
+					    JOIN BOOKING_RESERVATION br ON
+					    b.board_no = br.board_no
+					    JOIN member_view mv ON
+		    			b.writer = mv.id
+						WHERE
+							bi.title LIKE '%' || #{bookTitle} || '%' 
+							AND
+							b.DELETE_YN = 'N'
+							AND
+							br.status is null
+							AND 
+							mv.search_address = #{address}
+						ORDER BY
+							b.reg_date DESC
+						) tb1
+					WHERE
+						rownum <= #{cri.pageNum} * #{cri.amount}
+				)
+				WHERE
+					rn > (#{cri.pageNum} - 1) * #{cri.amount}		
+		]]>
+	</select>
+	
+</mapper>

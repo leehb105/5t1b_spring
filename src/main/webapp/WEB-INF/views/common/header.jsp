@@ -1,12 +1,11 @@
 <%@page import="com.otlb.semi.emp.model.vo.Emp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<%
-Emp loginEmp = (Emp) session.getAttribute("loginEmp");
-String msg = (String) session.getAttribute("msg");
-if(msg != null) session.removeAttribute("msg");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,19 +26,18 @@ if(msg != null) session.removeAttribute("msg");
 <meta name="author" content="">
 
 <title>5T1B 커뮤니티에 오신것을 환영합니다!</title>
-<script src="<%= request.getContextPath() %>/js/otochatroom.js"></script>
+<script src="${pageContext.request.contextPath}/js/otochatroom.js"></script>
 <!-- 제이쿼리 링크 -->
-<script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+<!-- <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.js"></script> -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-<script src="<%=request.getContextPath()%>/js/otochatroom.js"></script>
-<script> 
-$(() =>{
-<% if(msg != null){ %>
-	alert("<%= msg %>");
-<%  } %>
-});
-</script>
+<script src="${pageContext.request.contextPath}/js/otochatroom.js"></script>
+
+<c:if test="${not empty msg}">
+	<script>
+		alert("${msg}");
+	</script>
+</c:if>
 
 <!-- Custom fonts for this template-->
 <!-- <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"> -->
@@ -72,7 +70,7 @@ $(() =>{
 	</button>
 
 	<!-- 5t1b 홈버튼-->
-	<a href="<%= request.getContextPath() %>">
+	<a href="${pageContext.request.contextPath}">
 	<img alt="logo" src="${pageContext.request.contextPath}/resources/img/logo.png">
 	</a>
 
@@ -163,7 +161,7 @@ $(() =>{
 		<li class="nav-item dropdown no-arrow mx-1">
 			<a
 				class="nav-link dropdown-toggle"
-				href="<%=request.getContextPath()%>/message/messageList"
+				href="${pageContext.request.contextPath}/message/messageList"
 				id="messagesDropdown" role="button"
 				aria-haspopup="true" aria-expanded="false"> 
 				<i class="fas fa-envelope fa-fw"></i> 
@@ -234,52 +232,70 @@ $(() =>{
 
 		<div class="topbar-divider d-none d-sm-block"></div>
 
-		<%
-		if (loginEmp == null) {
-		%>
+		<!-- Login -->
+		<sec:authorize access="isAnonymous()">
 
-		<button onclick="location.href='<%=request.getContextPath()%>/emp/login'" class="btn btn-sm btn-primary shadow-sm" style="margin:3px; height:2rem;">로그인 <i class="fas fa-unlock-alt"></i></button>
-		<button onclick="location.href='<%=request.getContextPath()%>/emp/empEnroll'" class="btn btn-sm btn-primary shadow-sm" style= "margin :3px; height:2rem;">회원가입 <i class="fas fa-user-plus"></i></button>
+			<div class="book-now-btn ml-3 ml-lg-5">
+				<button onclick="location.href='${pageContext.request.contextPath}/emp/empEnoll.do'" class="btn btn-sm btn-primary shadow-sm" style="margin:3px; height:2rem;">회원가입 <i class="fas fa-unlock-alt"></i></button>
+				<button onclick="location.href='${pageContext.request.contextPath}/emp/empLogin.do'" class="btn btn-sm btn-primary shadow-sm" style= "margin :3px; height:2rem;">로그인 <i class="fas fa-user-plus"></i></button>
+			</div>
+		</sec:authorize>
+		  
+		<sec:authorize access="isAuthenticated()">
+		<div style="padding-right:20px">
+			<c:choose>
+				<c:when test="${loginMember.id eq 'admin'}">
+					<!-- <a href="${pageContext.request.contextPath}/admin/admin.do">
+					<sec:authentication property="principal.username"/>
+					</a>님 &nbsp
+					<a href="${pageContext.request.contextPath}/booking/myBooking.do?pageNum=1&amout=5"><i class="fa fa-list fa-lg"></i></a> &nbsp
+					<a href="${pageContext.request.contextPath}/member/memberLogout.do" class="btn roberto-btn mb-15 w-10">로그아웃</a> -->
+				</c:when>
+				
+				<c:otherwise>
+					<!-- <a href="${pageContext.request.contextPath}/emp/mypageMain.do"> -->
+					<sec:authentication property="principal.username"/>
+					</a>님 &nbsp
 
-		<%
-		} else {
-		%>
-		<!-- Nav Item - User Information -->
-		<li class="nav-item dropdown no-arrow"><a
-			class="nav-link dropdown-toggle" href="#" id="userDropdown"
-			role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false"> <span
-				class="mr-2 d-none d-lg-inline text-gray-600 small"><%=loginEmp.getEmpName()%></span>
-				<img class="img-profile rounded-circle"
-				src="<%= request.getContextPath() + profileImagePath %>">
-		</a> <!-- Dropdown - User Information -->
-			<div
-				class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-				aria-labelledby="userDropdown">
-				<a class="dropdown-item" href="<%=request.getContextPath()%>/emp/empView"> <i
-					class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 마이 페이지
-				 </a> 
-		<!--		<a class="dropdown-item" href="#"> <i
-					class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Settings
-				</a> <a class="dropdown-item" href="#"> <i
-					class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i> Activity
-					Log
-				</a> -->
-				<div class="dropdown-divider"></div>
-<!-- 
-				<a class="dropdown-item" href="#" data-toggle="modal"
-					data-target="#logoutModal"> <i
-					class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-					Logout
-				</a>
- -->
- 				<a class="dropdown-item" href="<%= request.getContextPath() %>/emp/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-					로그아웃
-				</a>
-			</div></li>
-		<%
-		}
-		%>
+					<li class="nav-item dropdown no-arrow"><a
+						class="nav-link dropdown-toggle" href="#" id="userDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <span
+							class="mr-2 d-none d-lg-inline text-gray-600 small"><%=loginEmp.getEmpName()%></span>
+							<img class="img-profile rounded-circle"
+							<!-- src="<%= request.getContextPath() + profileImagePath %>"> -->
+							src="${pageContext.request.contextPath + profileImagePath}">
+					</a> <!-- Dropdown - User Information -->
+						<div
+							class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+							aria-labelledby="userDropdown">
+							<a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empView.do?"> <i
+								class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> 마이 페이지
+							 </a> 
+			
+							<div class="dropdown-divider"></div>
+			
+							 <a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empLogout.do"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+								로그아웃
+							</a>
+						</div>
+					</li>
+
+
+
+
+
+
+
+
+
+				</c:otherwise>
+			</c:choose>
+			</div>
+		</sec:authorize>
+
+
+
 	</ul>
 
 </nav>
@@ -291,7 +307,7 @@ $( document ).ready(function() {
 	//console.log("test");
 	var counter = document.getElementById("counter");
     $.ajax({
-		url: "<%= request.getContextPath() %>/message/messageLoadCount.do",
+		url: "${pageContext.request.contextPath}/message/messageLoadCount.do",
 		method: "GET",
 		success(data){
 

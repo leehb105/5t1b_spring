@@ -35,17 +35,6 @@ public class EmpController {
 		
 	}
 	@PostMapping("/empEnroll.do")
-//	public String empEnroll(
-//			@RequestParam int empNo,
-//			@RequestParam String empName,
-//			@RequestParam String email,
-//			@RequestParam String password,
-//			@RequestParam String passwordCheck,
-//			@RequestParam String phone,
-//			@RequestParam String gender,
-//			@RequestParam int year,
-//			@RequestParam int month,
-//			@RequestParam int day) {
 		public String empEnroll(
 				@RequestParam int empNo,
 				@RequestParam String empName,
