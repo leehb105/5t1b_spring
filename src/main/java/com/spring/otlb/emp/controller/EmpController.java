@@ -92,5 +92,11 @@ public class EmpController {
 			throw e; // tomcat이 error.jsp로 위임한다.
 		}
 	}
+	
+	@GetMapping("/empLogin.do")
+	public void empLogin() {
+		
+	}
+	
 
 }
