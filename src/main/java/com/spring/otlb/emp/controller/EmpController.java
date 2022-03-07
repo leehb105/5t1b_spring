@@ -115,14 +115,15 @@ public class EmpController {
 		String location = "/";
 		if(emp != null && bCryptPasswordEncoder.matches(password, emp.getPassword())) {
 			// 로그인 성공시
-			model.addAttribute("loginMember", emp);
+			model.addAttribute("loginEmp", emp);
 			
-			log.info("next = {}", next);
-			location = next;
+//			log.info("next = {}", next);
+//			location = next;
 //			redirectAttr.addFlashAttribute("msg", "로그인을 성공했습니다.");
 		}
 		else {
 			// 로그인 실패시
+			location = "/empLogin.do";
 			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
 		}
 		

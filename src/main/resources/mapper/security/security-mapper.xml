@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="security">
+	<select id="loadUserByUsername" resultMap="empMap">
+		select
+		    *
+		from
+		    emp e join authority a
+		        on e.emp_no = a.emp_no
+		where
+		    e.emp_no = #{username}
+		
+	
+	</select>
+	
+	<resultMap type="emp" id="empMap">
+		<id column="emp_no" property="empNo"/>
+		<result column="emp_name" property="empName"/>
+		<result column="password" property="password"/>
+		<result column="birthdate" property="birthdate"/>
+		<result column="dept_code" property="deptCode"/>
+		<result column="job_code" property="jobCode"/>
+		<result column="emp_role" property="empRole"/>
+		<result column="gender" property="gender"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="quit_yn" property="quitYn"/>
+		<result column="ban_yn" property="banYn"/>
+		<collection 
+			property="authorities" 
+			ofType="org.springframework.security.core.authority.SimpleGrantedAuthority">
+			
+			<constructor>
+				<arg column="authority" javaType="string"/>
+			</constructor>
+		</collection>
+	</resultMap>
+	
+</mapper>

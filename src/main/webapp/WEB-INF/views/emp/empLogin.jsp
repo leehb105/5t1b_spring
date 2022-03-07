@@ -27,7 +27,7 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.js"></script>
+    <!-- <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.js"></script> -->
 
 
 </head>
@@ -54,19 +54,20 @@
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
                                     	<br />
                                     </div>
-                                    <form 
+                                    <form:form 
                                     	id="loginFrm"
                                     	class="user"
-                                    	action="${pageContext.request.contextPath}/emp/login"
+                                    	action="${pageContext.request.contextPath}/emp/empLogin.do"
                                     	method="POST">
                                         <div class="form-group">
-                                            <input type="text" name="empNo" value="" class="form-control form-control-user"
+                                            <h6 id="empNoMsg" style="size: 50%; color: red;"></h6>
+                                            <input type="text" name="id" value="202110" class="form-control form-control-user"
                                                 id="empNo" aria-describedby="emailHelp"
                                                 placeholder="사원번호" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password" tabindex="0" required>
+                                                id="password" placeholder="Password" tabindex="0" value="qwerty1234!" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -77,13 +78,13 @@
 
                                          <input type="submit" value="로그인" class="btn btn-primary btn-user btn-block" />
 
-                                    </form>
+                                    </form:form>
                                     <hr>
                                     <div class="text-center">
                                         <a class="small" href="${pageContext.request.contextPath}/emp/findPassword">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll">회원가입</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll.do">회원가입</a>
                                         <br />
                                         <br />
                                         <br />
@@ -100,44 +101,40 @@
 
     </div>
 
-<script>
-$("#loginFrm").submit((e) =>{
-	if(!validateEmpNo({}))
-		return false;
-	
-	return true;
-});
-
-const validateEmpNo = ({target = empNo}) => {
-	const $empNo = $(empNo);
-	 if(!/^\d+$/.test($empNo.val())){
-		 const errorTitle = "사원번호 입력 오류";
-		 const errorMsg = "숫자만 입력해주세요.";
-		 $("#staticBackdropLabel").html(errorMsg);
-		 return false;
-	 }
-	 else{
-		 return true;
-	 }
-};
-
-
-</script>
 
 
 
 
 
 
-	<!-- Bootstrap core JavaScript-->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
 </body>
+
+<script>
+
+
+    $("#empNo").on('keyup', function(){
+        let $empNo = $('#empNo');
+        let msg = document.getElementById('empNoMsg');
+        let text = '';
+        if(!/^[0-9]/.test($empNo.val())){
+            // const errorMsg = "숫자만 입력해주세요.";
+            // msg.innerText = errorMsg;
+        }else{
+
+        }
+    });
+    
+    
+    </script>
 
 </html>

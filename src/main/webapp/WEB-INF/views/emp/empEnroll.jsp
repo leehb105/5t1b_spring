@@ -32,7 +32,8 @@
 <link
 	href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css"
 	rel="stylesheet">
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.0.js"></script>
+<!-- <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.js"></script> -->
+    
 
 </head>
 
@@ -239,7 +240,7 @@
                              
                              <!-- 로그인 화면으로 이동 -->
 							<div class="text-center">
-								<a class="small" href="${pageContext.request.contextPath}/emp/login.do">로그인</a>
+								<a class="small" href="${pageContext.request.contextPath}/emp/empLogin.do">로그인</a>
 							</div>
 						</div>
 					</div>
@@ -249,138 +250,7 @@
 	</div>
 
 
-<script>
-document.empEnrollFrm.onsubmit = (e) => {
-	// 이름 유효성 검사
-	if(!validateEmpName({}))
-		return false;
-	// 이메일 유효성 검사
-	if(!validateEmail({}))
-		return false;
-	// 비밀번호 유효성 검사
-	if(!validatePassword({}))
-		return false;
-	// 비밀번호 확인 유효성 검사
-	if(!validatePasswordCheck({}))
-		return false;
-	// 전화번호 유효성 검사
-	if(!validatePhone({}))
-		return false;
-	
-	return true;
-};
 
-
-
-// 사원번호 유효성 검사
-const $validateEmpNo = $("#empNo").blur(({target = empNo}) => {
-	const empNo = $("#empNo").val();
-	
-	$.ajax({
-		url: "${pageContext.request.contextPath}/emp/empNoCheck?empNo=" + empNo,
-		success(data){
-			// data == 1 ? 중복o : 중복x
-			//console.log("data = " + data);
-			
-			if(data == 1) {
-				// data == 1 -> 사원번호 중복
-				$("#validateMessage").text("유효한 사원번호 입니다.");
-				$("#validateMessage").removeClass("text-danger");
-				$("#validateMessage").addClass("text-success");
-			}
-			else{
-				// data == 0 -> 사원번호 길이 & 문자열 검사
-				const reg_empNo = /^\d{6}$/; // 6자리 숫자
-				if(reg_empNo.test(empNo)){
-					$("#validateMessage").text("발급받은 사원번호를 입력하세요.");
-					$("#validateMessage").addClass("text-danger");
-				}
-				else{
-					$("#validateMessage").text("6자리의 사원번호를 입력하세요.");
-					$("#validateMessage").addClass("text-danger");
-				}
-				
-			}
-		},
-		error: console.log
-	});
-});
-
-// 이름 유효성 검사
-const validateEmpName = ({target = empName}) => {
-	let empName = $("#empName").val();
-    if(!/^[가-힣]{2,}$/.test(empName)){
-    	$("#nameCheckMessage").html("특수문자, 영어, 숫자는 사용할 수 없습니다. 한글만 입력해주세요.");
-    	return false;
-    }
-    else{
-    	$("#nameCheckMessage").html("");
-    	return true;
-    }
-};
-
-// 이메일 유효성 검사
-const validateEmail = ({target = email}) =>{
-	let email = $("#email").val();
-	if(!/^[\w]{4,}@[\w]+(\.[\w]+){1,3}$/.test(email)){
-		$("#emailCheckMessage").html("유효한 이메일 형식이 아닙니다.");
-		return false;
-	}
-	else{
-		$("#emailCheckMessage").html("");
-		return true;
-	}
-};
-
-// 비밀번호 유효성 검사
-const validatePassword = ({target = password}) => {
-	let checkLen = /^.{8,15}$/;
-	let checkNum = /\d/;
-	let checkEng = /[a-zA-Z]/;
-	let checkSpc = /[~!@#$%^&*()_+|<>?:{}]/;
-	let password = $("#password").val();
-	
-	if(!checkLen.test(password) || !checkNum.test(password) || !checkEng.test(password) || !checkSpc.test(password)){
-		$("#passwordCheckMessage").html("비밀번호는 8~15자리 숫자/문자/특수문자를 포함해야합니다.");
-    	return false;
-	} else {
-		$("#passwordCheckMessage").html("");
-    	return true;
-	}
-	
-};
-
-// 비밀번호 확인 유효성 검사
-const validatePasswordCheck = ({target = passwordCheck}) => {
-	let passwordCheck = $("#passwordCheck").val();
-	let password = $("#password").val();
-	if(password != passwordCheck){
-		$("#passwordCheckMessage1").html("비밀번호가 일치하지 않습니다.");
-		return false;
-	} else {
-		$("#passwordCheckMessage1").html("");
-		return true;
-	}
-};
-
-// 전화번호 유효성 검사
-const validatePhone = ({target = phone}) => {
-	let phone = $("#phone").val();
-	if(!/^01[016789][^0][0-9]{6,7}$/.test(phone)){
-		$("#phoneCheckMessage").html("유효하지 않은 전화번호입니다.")
-		return false;
-	} else {
-		$("#phoneCheckMessage").html("");
-		return true;
-	}
-};
-
-empName.onkeyup = validateEmpName;
-email.onkeyup = validateEmail;
-password.onkeyup = validatePassword;
-passwordCheck.onkeyup = validatePasswordCheck;
-phone.onkeyup = validatePhone;
-</script>
 
 
 
@@ -400,5 +270,136 @@ phone.onkeyup = validatePhone;
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
 </body>
-
+<script>
+	document.empEnrollFrm.onsubmit = (e) => {
+		// 이름 유효성 검사
+		if(!validateEmpName({}))
+			return false;
+		// 이메일 유효성 검사
+		if(!validateEmail({}))
+			return false;
+		// 비밀번호 유효성 검사
+		if(!validatePassword({}))
+			return false;
+		// 비밀번호 확인 유효성 검사
+		if(!validatePasswordCheck({}))
+			return false;
+		// 전화번호 유효성 검사
+		if(!validatePhone({}))
+			return false;
+		
+		return true;
+	};
+	
+	
+	
+	// 사원번호 유효성 검사
+	const $validateEmpNo = $("#empNo").blur(({target = empNo}) => {
+		const empNo = $("#empNo").val();
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/emp/empNoCheck?empNo=" + empNo,
+			success(data){
+				// data == 1 ? 중복o : 중복x
+				//console.log("data = " + data);
+				
+				if(data == 1) {
+					// data == 1 -> 사원번호 중복
+					$("#validateMessage").text("유효한 사원번호 입니다.");
+					$("#validateMessage").removeClass("text-danger");
+					$("#validateMessage").addClass("text-success");
+				}
+				else{
+					// data == 0 -> 사원번호 길이 & 문자열 검사
+					const reg_empNo = /^\d{6}$/; // 6자리 숫자
+					if(reg_empNo.test(empNo)){
+						$("#validateMessage").text("발급받은 사원번호를 입력하세요.");
+						$("#validateMessage").addClass("text-danger");
+					}
+					else{
+						$("#validateMessage").text("6자리의 사원번호를 입력하세요.");
+						$("#validateMessage").addClass("text-danger");
+					}
+					
+				}
+			},
+			error: console.log
+		});
+	});
+	
+	// 이름 유효성 검사
+	const validateEmpName = ({target = empName}) => {
+		let empName = $("#empName").val();
+		if(!/^[가-힣]{2,}$/.test(empName)){
+			$("#nameCheckMessage").html("특수문자, 영어, 숫자는 사용할 수 없습니다. 한글만 입력해주세요.");
+			return false;
+		}
+		else{
+			$("#nameCheckMessage").html("");
+			return true;
+		}
+	};
+	
+	// 이메일 유효성 검사
+	const validateEmail = ({target = email}) =>{
+		let email = $("#email").val();
+		if(!/^[\w]{4,}@[\w]+(\.[\w]+){1,3}$/.test(email)){
+			$("#emailCheckMessage").html("유효한 이메일 형식이 아닙니다.");
+			return false;
+		}
+		else{
+			$("#emailCheckMessage").html("");
+			return true;
+		}
+	};
+	
+	// 비밀번호 유효성 검사
+	const validatePassword = ({target = password}) => {
+		let checkLen = /^.{8,15}$/;
+		let checkNum = /\d/;
+		let checkEng = /[a-zA-Z]/;
+		let checkSpc = /[~!@#$%^&*()_+|<>?:{}]/;
+		let password = $("#password").val();
+		
+		if(!checkLen.test(password) || !checkNum.test(password) || !checkEng.test(password) || !checkSpc.test(password)){
+			$("#passwordCheckMessage").html("비밀번호는 8~15자리 숫자/문자/특수문자를 포함해야합니다.");
+			return false;
+		} else {
+			$("#passwordCheckMessage").html("");
+			return true;
+		}
+		
+	};
+	
+	// 비밀번호 확인 유효성 검사
+	const validatePasswordCheck = ({target = passwordCheck}) => {
+		let passwordCheck = $("#passwordCheck").val();
+		let password = $("#password").val();
+		if(password != passwordCheck){
+			$("#passwordCheckMessage1").html("비밀번호가 일치하지 않습니다.");
+			return false;
+		} else {
+			$("#passwordCheckMessage1").html("");
+			return true;
+		}
+	};
+	
+	// 전화번호 유효성 검사
+	const validatePhone = ({target = phone}) => {
+		let phone = $("#phone").val();
+		if(!/^01[016789][^0][0-9]{6,7}$/.test(phone)){
+			$("#phoneCheckMessage").html("유효하지 않은 전화번호입니다.")
+			return false;
+		} else {
+			$("#phoneCheckMessage").html("");
+			return true;
+		}
+	};
+	
+	empName.onkeyup = validateEmpName;
+	email.onkeyup = validateEmail;
+	password.onkeyup = validatePassword;
+	passwordCheck.onkeyup = validatePasswordCheck;
+	phone.onkeyup = validatePhone;
+	</script>
 </html>
