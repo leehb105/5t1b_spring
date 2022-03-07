@@ -16,4 +16,15 @@
 		where 
 			emp_no = #{empNo}
 	</update>
+	
+	<select id="selectOneEmp">
+		select
+			*
+		from 
+			emp
+		where
+			emp_no = #{id}
+			
+	
+	</select>
 </mapper>

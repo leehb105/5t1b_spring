@@ -15,8 +15,8 @@ public class EmpServiceImpl implements EmpService{
 	private EmpDao empDao;
 	
 	@Override
-	public Emp selectOneEmp(int no) {
-		return null;
+	public Emp selectOneEmp(int id) {
+		return empDao.selectOneEmp(id);
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class EmpServiceImpl implements EmpService{
 	public int checkEmpInfo(int empNo, String empName, String email) {
 		return 0;
 	}
+
 
 
 }

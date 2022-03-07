@@ -15,8 +15,8 @@ public class EmpDaoImpl implements EmpDao{
 	private SqlSessionTemplate session;
 	
 	@Override
-	public Emp selectOneEmp(int no) {
-		return null;
+	public Emp selectOneEmp(int id) {
+		return session.selectOne("emp.selectOneEmp", id);
 	}
 
 	@Override

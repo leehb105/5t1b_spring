@@ -12,5 +12,6 @@
 
 <P>  The time on the server is ${serverTime}. </P>
 <a href="${pageContext.request.contextPath}/emp/empEnroll.do">버튼 </a>
+<a href="${pageContext.request.contextPath}/emp/empLogin.do">버튼 </a>
 </body>
 </html>

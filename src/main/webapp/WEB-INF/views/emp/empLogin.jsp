@@ -1,27 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	// 쿠키처리
-	Cookie[] cookies = request.getCookies();
-	String saveEmpNo = null;
-	if(cookies != null){
-		for(Cookie cookie : cookies){
-			String name = cookie.getName();
-			String value = cookie.getValue();
-			// System.out.println(name + " = " + value);
-			if("saveEmpNo".equals(name)){
-				saveEmpNo = value;
-			}
-		}
-	}
-	// System.out.println("saveEmpNo@empLogin.jsp = " + saveEmpNo);
-	
-	String modalHeader = (String) session.getAttribute("modalHeader");
-	String modalBody = (String) session.getAttribute("modalBody");
-	session.removeAttribute("modalHeader");
-	session.removeAttribute("modalBody");
-	//System.out.println("modalHeader = " + modalHeader);
-%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,14 +20,14 @@
     <title>5T1b - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="<%= request.getContextPath() %>/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="<%= request.getContextPath() %>/resources/css/sb-admin-2.min.css" rel="stylesheet">
-    <script src="<%= request.getContextPath() %>/js/jquery-3.6.0.js"></script>
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/js/jquery-3.6.0.js"></script>
 
 
 </head>
@@ -64,7 +48,7 @@
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
-                                <a href="<%= request.getContextPath() %>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                                <a href="${pageContext.request.contextPath}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                                     <div class="text-center">
                                     	<br />
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
@@ -73,10 +57,10 @@
                                     <form 
                                     	id="loginFrm"
                                     	class="user"
-                                    	action="<%= request.getContextPath() %>/emp/login"
+                                    	action="${pageContext.request.contextPath}/emp/login"
                                     	method="POST">
                                         <div class="form-group">
-                                            <input type="text" name="empNo" value="<%= saveEmpNo != null ? saveEmpNo : "" %>" class="form-control form-control-user"
+                                            <input type="text" name="empNo" value="" class="form-control form-control-user"
                                                 id="empNo" aria-describedby="emailHelp"
                                                 placeholder="사원번호" required>
                                         </div>
@@ -86,7 +70,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" name="saveNo" <%= saveEmpNo != null ? "checked" : "" %> class="custom-control-input" id="customCheck">
+                                                <input type="checkbox" name="saveNo"  class="custom-control-input" id="customCheck">
                                                 <label class="custom-control-label" for="customCheck">아이디 저장</label>
                                             </div>
                                         </div>
@@ -96,10 +80,10 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="<%= request.getContextPath() %>/emp/findPassword">비밀번호 찾기</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/emp/findPassword">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="<%= request.getContextPath() %>/emp/empEnroll">회원가입</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll">회원가입</a>
                                         <br />
                                         <br />
                                         <br />
@@ -115,18 +99,6 @@
         </div>
 
     </div>
-<%
-	if(modalHeader != null){
-%>
-<script>
-// modal 실행
-$(function(){
-	$("#staticBackdrop").modal('show');		
-});
-</script>
-<%
-	}
-%>
 
 <script>
 $("#loginFrm").submit((e) =>{
@@ -141,9 +113,7 @@ const validateEmpNo = ({target = empNo}) => {
 	 if(!/^\d+$/.test($empNo.val())){
 		 const errorTitle = "사원번호 입력 오류";
 		 const errorMsg = "숫자만 입력해주세요.";
-		 $("#staticBackdropLabel").html(errorTitle);
-		 $("#modalBody").html(errorMsg);
-		 $("#staticBackdrop").modal('show');
+		 $("#staticBackdropLabel").html(errorMsg);
 		 return false;
 	 }
 	 else{
@@ -153,26 +123,6 @@ const validateEmpNo = ({target = empNo}) => {
 
 
 </script>
-<!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel"><%= modalHeader != null ? modalHeader : "" %></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modalBody">
-      	<%= modalBody != null ? modalBody : "" %>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 
 

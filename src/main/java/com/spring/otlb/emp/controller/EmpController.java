@@ -1,16 +1,19 @@
 package com.spring.otlb.emp.controller;
 
-import java.sql.Date;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.otlb.emp.model.service.EmpService;
 import com.spring.otlb.emp.model.vo.Emp;
@@ -97,6 +100,33 @@ public class EmpController {
 	public void empLogin() {
 		
 	}
-	
+	@PostMapping("/empLogin.do")
+	public String empLogin(
+			@RequestParam int id,
+			@RequestParam String password,
+			@SessionAttribute(required=false) String next,
+			Model model,
+			RedirectAttributes redirectAttr) {
+		
+		Emp emp = empService.selectOneEmp(id);
+		log.info("member = {}", emp);
+		log.info("encodedPassword = {}", bCryptPasswordEncoder.encode(password));
+
+		String location = "/";
+		if(emp != null && bCryptPasswordEncoder.matches(password, emp.getPassword())) {
+			// 로그인 성공시
+			model.addAttribute("loginMember", emp);
+			
+			log.info("next = {}", next);
+			location = next;
+//			redirectAttr.addFlashAttribute("msg", "로그인을 성공했습니다.");
+		}
+		else {
+			// 로그인 실패시
+			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
+		}
+		
+		return "redirect:" + location;
+	}
 
 }
