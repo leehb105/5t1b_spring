@@ -13,6 +13,9 @@
 	<bean 
 		id = "customSuccessHandler" 
 		class = "com.spring.otlb.emp.controller.CustomSuccessHandler"/>
+	<bean 
+		id = "customUserDetailsService" 
+		class = "com.spring.otlb.security.model.CustomUserDetailsService"/>
 
 	<security:http>
 		<security:intercept-url pattern="/" access="permitAll"/>
@@ -26,12 +29,9 @@
 	</security:http>
 	
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
-				<security:user name="emp" authorities=""/>
-			</security:user-service>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
 		</security:authentication-provider>
-		
 	</security:authentication-manager>
 
 </beans>

@@ -38,23 +38,23 @@ public class BulletinDaoImpl implements BulletinDao{
 	}
 
 	@Override
-	public List<Board> selectAllBoard(Map<String, Integer> param) {
+	public List<Board> selectAllBoard(Map<String, Object> param) {
 		return session.selectList("board.selectAllBoard", param);
 	}
 
 	@Override
-	public List<Board> selectAllNotice(Map<String, Integer> param) {
+	public List<Board> selectAllNotice(Map<String, Object> param) {
 		return null;
 	}
 
 	@Override
-	public List<Board> selectAllAnonymousBoard(Map<String, Integer> param) {
+	public List<Board> selectAllAnonymousBoard(Map<String, Object> param) {
 		return null;
 	}
 
 	@Override
 	public int selectTotalBoardCount() {
-		return 0;
+		return session.selectOne("board.selectTotalBoardCount");
 	}
 
 	@Override

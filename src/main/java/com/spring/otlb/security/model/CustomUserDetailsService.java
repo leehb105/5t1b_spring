@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.otlb.emp.model.dao.EmpDao;
 import com.spring.otlb.emp.model.vo.Emp;
+import com.spring.otlb.security.model.dao.CustomUserDetailsDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,16 +17,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CustomUserDetailsService implements UserDetailsService{
 
 	@Autowired
-	private EmpDao empDao; 
+	private CustomUserDetailsDao customUserDetailsDao; 
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Emp emp = empDao.loadUserByUsername(username);
+	public UserDetails loadUserByUsername(String empNo) throws UsernameNotFoundException {
+		Emp emp = customUserDetailsDao.loadUserByUsername(Integer.valueOf(empNo));
 		
 		log.debug("emp = {}", emp);
 		
 		if(emp == null) {
-			throw new UsernameNotFoundException(username);
+			throw new UsernameNotFoundException(empNo);
 		}
 		return emp;
 	}

@@ -38,23 +38,23 @@ public class BulletinServiceImpl implements BulletinService{
 	}
 
 	@Override
-	public List<Board> selectAllBoard(Map<String, Integer> param) {
+	public List<Board> selectAllBoard(Map<String, Object> param) {
 		return bulletinDao.selectAllBoard(param);
 	}
 
 	@Override
-	public List<Board> selectAllNotice(Map<String, Integer> param) {
+	public List<Board> selectAllNotice(Map<String, Object> param) {
 		return null;
 	}
 
 	@Override
-	public List<Board> selectAllAnonymousBoard(Map<String, Integer> param) {
+	public List<Board> selectAllAnonymousBoard(Map<String, Object> param) {
 		return null;
 	}
 
 	@Override
 	public int selectTotalBoardCount() {
-		return 0;
+		return bulletinDao.selectTotalBoardCount();
 	}
 
 	@Override

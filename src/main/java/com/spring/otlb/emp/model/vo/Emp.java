@@ -28,9 +28,9 @@ public class Emp extends EmpEntity implements Serializable, UserDetails{
 	private List<SimpleGrantedAuthority> authorities;
 	
 	public Emp(int empNo, String empName, String password, Date birthdate, String deptCode, String jobCode,
-			String empRole, String gender, String email, String phone, String quitYn, String banYn, String deptName,
-			String jobName, List<SimpleGrantedAuthority> authorities) {
-		super(empNo, empName, password, birthdate, deptCode, jobCode, empRole, gender, email, phone, quitYn, banYn);
+			String empRole, String gender, String email, String phone, String quitYn, String banYn, String profileImage, 
+			String deptName, String jobName, List<SimpleGrantedAuthority> authorities) {
+		super(empNo, empName, password, birthdate, deptCode, jobCode, empRole, gender, email, phone, quitYn, banYn, profileImage);
 		this.deptName = deptName;
 		this.jobName = jobName;
 		this.authorities = authorities;
@@ -58,7 +58,7 @@ public class Emp extends EmpEntity implements Serializable, UserDetails{
 
 	@Override
 	public boolean isEnabled() {
-		return getQuitYn() == "N" ? true : false;
+		return getQuitYn().equals("N") ? true : false;
 	}
 
 	@Override

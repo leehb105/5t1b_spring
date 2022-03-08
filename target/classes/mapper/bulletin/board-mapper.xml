@@ -5,62 +5,63 @@
 
 <mapper namespace="board">
 
-	<select id="selectAllBoard" resultType="board">
-		select
-			* 
-		from 
-			(select row_number() over(order by no desc) rnum, b.*, 
-			(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
-			(select count(*) from attachment where board_no = b.no) attach_count, 
-			(select count(*) from board_comment where board_no = b.no) comment_count from board b)where category='공지' 
-			Union all select * from (select row_number() over(order by no desc) rnum, b.*, 
-			(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
-			(select count(*) from attachment where board_no = b.no) attach_count, 
-			(select count(*) from board_comment where board_no = b.no) comment_count from board b) 
-		where 
-			rnum between ? and ?
-			
-			
-			
-			
+	<select id="selectAllBoard" resultMap="boardMap">
 		<![CDATA[
 			SELECT
 				*
-			from
-				(SELECT 
+			FROM
+				(
+				SELECT
 					rownum rn,
 					tb1.*
 				FROM
-					(
-					SELECT
-						b.REG_DATE, b.BOARD_NO, b.BOOK_STATUS, b.PRICE, b.DEPOSIT, b.DELETE_YN,
-					    bi.TITLE, bi.AUTHOR, bi.PUBLISHER, bi.PUBDATE, bi.CATEGORY_NAME,bi.COVER,
-					    br.RES_NO, br.START_DATE, br.END_DATE,
-		    			mv.search_address, mv.jibun_address
-					from
-					    booking b join book_info bi ON
-					    b.isbn13 = bi.isbn13
-					    JOIN BOOKING_RESERVATION br ON
-					    b.board_no = br.board_no
-					    JOIN member_view mv ON
-		    			b.writer = mv.id
-						WHERE
-							bi.title LIKE '%' || #{bookTitle} || '%' 
-							AND
-							b.DELETE_YN = 'N'
-							AND
-							br.status is null
-							AND 
-							mv.search_address = #{address}
-						ORDER BY
-							b.reg_date DESC
-						) tb1
+					(SELECT
+						b.*,
+						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
+						(select count(*) from attachment where board_no = b.no) attach_count, 
+						(select count(*) from board_comment where board_no = b.no) comment_count
+					FROM
+						board b
 					WHERE
-						rownum <= #{cri.pageNum} * #{cri.amount}
-				)
+						b.delete_yn = 'N'
+					ORDER BY 
+						reg_date DESC
+					) tb1
 				WHERE
-					rn > (#{cri.pageNum} - 1) * #{cri.amount}		
+					rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+			WHERE
+				rn > (#{cri.pageNum} - 1) * #{cri.amount}
 		]]>
 	</select>
 	
+	<resultMap type="board" id="boardMap">
+		<id column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="read_count" property="readCount"/>
+		<result column="like_count" property="likeCount"/>
+		<result column="report_yn" property="reportYn"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="category" property="category"/>
+		<result column="delete_yn" property="deleteYn"/>
+		<result column="attach_count" property="attachCount"/>
+		<result column="comment_count" property="commentCount"/>
+		<association property="emp" resultMap="empMap"/>
+	</resultMap>
+	
+	<resultMap type="emp" id="empMap">
+		<id column="emp_no" property="empNo"/>
+		<result column="emp_name" property="empName" />
+	</resultMap>
+	
+	<select id="selectTotalBoardCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			board
+		WHERE
+			delete_yn = 'N'
+	</select>
 </mapper>

@@ -49,9 +49,6 @@ public class EmpDaoImpl implements EmpDao{
 		return 0;
 	}
 
-	@Override
-	public Emp loadUserByUsername(String username) {
-		return session.selectOne("emp.loadUserByUsername", username);
-	}
+	
 
 }

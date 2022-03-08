@@ -17,11 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.otlb.bulletin.model.service.BulletinService;
 import com.spring.otlb.bulletin.model.vo.Board;
-import com.spring.otlb.common.DateFormatUtils;
+import com.spring.otlb.common.Criteria;
+import com.spring.otlb.common.Paging;
 import com.spring.otlb.emp.model.vo.Emp;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/board")
+@Slf4j
 public class BoardController {
 
 	@Autowired
@@ -30,38 +34,33 @@ public class BoardController {
 	@GetMapping("/boardList.do")
 	public void boardList(
 			@RequestParam(defaultValue = "1") int pageNum, 
-    		@AuthenticationPrincipal Emp loginEmp,
     		Model model, 
     		HttpServletRequest request ) {
-//		final int numPerPage = 10;
-//		int cPage = 1;
-//		try {
-//			cPage = Integer.parseInt(request.getParameter("cPage"));
-//		} catch (NumberFormatException e) {}
-//		int start = (cPage - 1) * numPerPage + 1; 
-//		int end = cPage * numPerPage;
-		Map<String, Integer> param = new HashMap<>();
-//		param.put("start", start);
-//		param.put("end", end);
 		
+		int amount = 5;
+        Criteria cri = new Criteria();
+        cri.setPageNum(pageNum);
+        cri.setAmount(amount);
+			
+		Map<String, Object> param = new HashMap<>();
+		param.put("pageNum", pageNum);
+		param.put("cri", cri);
+
 		List<Board> list = bulletinService.selectAllBoard(param);
-		List<String> regDate = new ArrayList<>();
-		System.out.println("list@servlet = " + list);
+//		List<String> regDate = new ArrayList<>();
+		log.debug("list = {}", list);
 		
-		for(Board board : list) {
-			regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-		}
+//		for(Board board : list) {
+//			regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
+//		}
 		
-		int totalContent = bulletinService.selectTotalBoardCount();
-		String url = request.getRequestURI();
-//		String pagebar = EmpUtils.getPagebar(cPage, numPerPage, totalContent, url);
-//		System.out.println("pagebar@servlet = " + pagebar);
+		int total = bulletinService.selectTotalBoardCount();
+		Paging page = new Paging(cri, total);
+		
+		
+//		String url = request.getRequestURI();
 
-		
-		request.setAttribute("list", list);
-		request.setAttribute("regDate", regDate);
-//		request.setAttribute("pagebar", pagebar);
-		
-
+        model.addAttribute("list", list);
+        model.addAttribute("page", page);
 	}
 }

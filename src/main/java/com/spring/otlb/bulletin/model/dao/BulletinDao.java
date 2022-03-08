@@ -17,11 +17,11 @@ public interface BulletinDao {
 
 	public int updateBoard(Board board);
 
-	public List<Board> selectAllBoard(Map<String, Integer> param);
+	public List<Board> selectAllBoard(Map<String, Object> param);
 	
-	public List<Board> selectAllNotice(Map<String, Integer> param);
+	public List<Board> selectAllNotice(Map<String, Object> param);
 	
-	public List<Board> selectAllAnonymousBoard(Map<String, Integer> param);
+	public List<Board> selectAllAnonymousBoard(Map<String, Object> param);
 
 	public int selectTotalBoardCount();
 
