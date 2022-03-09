@@ -7,7 +7,7 @@ import com.spring.otlb.emp.model.vo.Emp;
 public interface EmpDao {
 
 
-	public Emp selectOneEmp(int no);
+	public Emp selectOneEmp(String empNo);
 
 	public int updateEmp(Emp emp);
 

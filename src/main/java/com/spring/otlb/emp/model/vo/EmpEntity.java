@@ -16,7 +16,7 @@ public class EmpEntity implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int empNo;
+	private String empNo;
 	private String empName;
 	private String password;
 	private Date birthdate;

@@ -23,7 +23,7 @@
 		from 
 			emp
 		where
-			emp_no = #{id}
+			emp_no = #{empNo}
 	</select>
 	
 </mapper>

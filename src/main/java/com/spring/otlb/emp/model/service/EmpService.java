@@ -14,7 +14,7 @@ public interface EmpService {
 //	public static final String isNotBanned = "N";
 	
 
-	public Emp selectOneEmp(int no);
+	public Emp selectOneEmp(String empNo);
 
 	public int updateEmp(Emp emp);
 

@@ -15,8 +15,8 @@ public class EmpServiceImpl implements EmpService{
 	private EmpDao empDao;
 	
 	@Override
-	public Emp selectOneEmp(int id) {
-		return empDao.selectOneEmp(id);
+	public Emp selectOneEmp(String empNo) {
+		return empDao.selectOneEmp(empNo);
 	}
 
 	@Override

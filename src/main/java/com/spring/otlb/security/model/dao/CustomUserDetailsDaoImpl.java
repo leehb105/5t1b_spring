@@ -12,7 +12,7 @@ public class CustomUserDetailsDaoImpl implements CustomUserDetailsDao{
 	private SqlSessionTemplate session;
 	
 	@Override
-	public Emp loadUserByUsername(int empNo) {
+	public Emp loadUserByUsername(String empNo) {
 		return session.selectOne("session.loadUserByUsername", empNo);
 	}
 

@@ -176,7 +176,7 @@
 		<sec:authorize access="isAuthenticated()">
 		<div style="padding-right:20px">
 			<c:choose>
-				<c:when test="${loginEmp.empNo eq 'admin'}">
+				<c:when test="${loginEmp.empNo eq 0}">
 					<!-- <a href="${pageContext.request.contextPath}/admin/admin.do">
 					<sec:authentication property="principal.username"/>
 					</a>님 &nbsp

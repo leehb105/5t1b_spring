@@ -61,7 +61,7 @@
                                     	method="POST">
                                         <div class="form-group">
                                             <h6 id="empNoMsg" style="size: 50%; color: red;"></h6>
-                                            <input type="text" name="id" value="202110" class="form-control form-control-user"
+                                            <input type="text" name="empNo" value="202110" class="form-control form-control-user"
                                                 id="empNo" aria-describedby="emailHelp"
                                                 placeholder="사원번호" required>
                                         </div>

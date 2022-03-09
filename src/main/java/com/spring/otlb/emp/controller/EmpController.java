@@ -36,7 +36,7 @@ public class EmpController {
 	}
 	@PostMapping("/empEnroll.do")
 		public String empEnroll(
-				@RequestParam int empNo,
+				@RequestParam String empNo,
 				@RequestParam String empName,
 				@RequestParam String email,
 				@RequestParam String password,
@@ -91,13 +91,13 @@ public class EmpController {
 	}
 	@PostMapping("/empLogin.do")
 	public String empLogin(
-			@RequestParam int id,
+			@RequestParam String empNo,
 			@RequestParam String password,
 			@SessionAttribute(required=false) String next,
 			Model model,
 			RedirectAttributes redirectAttr) {
 		
-		Emp emp = empService.selectOneEmp(id);
+		Emp emp = empService.selectOneEmp(empNo);
 		log.info("member = {}", emp);
 		log.info("encodedPassword = {}", bCryptPasswordEncoder.encode(password));
 
