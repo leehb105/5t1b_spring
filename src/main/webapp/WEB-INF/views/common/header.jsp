@@ -78,7 +78,7 @@
 	
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
-
+		<span>${principal} / ${loginEmp} / testtest</span>
 		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
 		<li class="nav-item dropdown no-arrow d-sm-none"><a
 			class="nav-link dropdown-toggle" href="#" id="searchDropdown"
@@ -172,11 +172,11 @@
 				<button onclick="location.href='${pageContext.request.contextPath}/emp/empLogin.do'" class="btn btn-sm btn-primary shadow-sm" style= "margin :3px; height:2rem;">로그인 <i class="fas fa-user-plus"></i></button>
 			</div>
 		</sec:authorize>
-		  
+		
 		<sec:authorize access="isAuthenticated()">
 		<div style="padding-right:20px">
 			<c:choose>
-				<c:when test="${loginEmp.empNo eq 0}">
+				<c:when test="${loginEmp eq 0}">
 					<!-- <a href="${pageContext.request.contextPath}/admin/admin.do">
 					<sec:authentication property="principal.username"/>
 					</a>님 &nbsp
