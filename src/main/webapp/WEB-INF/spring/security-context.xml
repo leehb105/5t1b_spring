@@ -21,7 +21,7 @@
 		<security:intercept-url pattern="/" access="permitAll"/>
 		<!-- <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/> -->
 		
-		<security:form-login login-page="/emp/login.do" 
+		<security:form-login login-page="/emp/empLogin.do" 
 			authentication-success-handler-ref="customSuccessHandler"/>
 		
 		<security:logout logout-url="/" 

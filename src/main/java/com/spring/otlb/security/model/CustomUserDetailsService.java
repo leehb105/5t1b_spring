@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.spring.otlb.emp.model.dao.EmpDao;
 import com.spring.otlb.emp.model.vo.Emp;
 import com.spring.otlb.security.model.dao.CustomUserDetailsDao;
+import com.spring.otlb.security.vo.CustomUser;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		if(emp == null) {
 			throw new UsernameNotFoundException(empNo);
 		}
-		return emp;
+		return new CustomUser(emp);
 	}
 
 }

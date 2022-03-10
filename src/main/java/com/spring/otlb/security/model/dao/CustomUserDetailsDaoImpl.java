@@ -2,6 +2,7 @@ package com.spring.otlb.security.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import com.spring.otlb.emp.model.vo.Emp;
@@ -13,7 +14,7 @@ public class CustomUserDetailsDaoImpl implements CustomUserDetailsDao{
 	
 	@Override
 	public Emp loadUserByUsername(String empNo) {
-		return session.selectOne("session.loadUserByUsername", empNo);
+		return session.selectOne("security.loadUserByUsername", empNo);
 	}
 
 }

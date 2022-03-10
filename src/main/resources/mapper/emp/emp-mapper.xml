@@ -17,13 +17,40 @@
 			emp_no = #{empNo}
 	</update>
 	
-	<select id="selectOneEmp" resultType="emp">
+	<select id="selectOneEmp" resultMap="empMap">
 		select
-			*
+			e.*,
+			a.authority
 		from 
-			emp
+			emp e join authority a
+		        on e.emp_no = a.emp_no
 		where
-			emp_no = #{empNo}
+			e.emp_no = #{empNo}
 	</select>
+	
+	<resultMap type="emp" id="empMap">
+		<id column="emp_no" property="empNo"/>
+		<result column="emp_name" property="empName"/>
+		<result column="password" property="password"/>
+		<result column="birthdate" property="birthdate"/>
+		<result column="dept_code" property="deptCode"/>
+		<result column="job_code" property="jobCode"/>
+		<result column="emp_role" property="empRole"/>
+		<result column="gender" property="gender"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="quit_yn" property="quitYn"/>
+		<result column="ban_yn" property="banYn"/>
+		<result column="enabled" property="enabled"/>
+		<result column="profile_image" property="profileImage"/>
+		<collection property="authorities" resultMap="authorityMap">
+		</collection>
+	</resultMap>
+	
+	<resultMap type="authority" id="authorityMap">
+		<result column="emp_no" property="empNo"/>
+		<result column="authority" property="authority"/>
+	</resultMap>
+	
 	
 </mapper>
