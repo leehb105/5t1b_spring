@@ -89,6 +89,28 @@
 			rownum <= 5
 		]]>
 	</select>
+	<select id="selectTopBoardMain" resultType="board">
+		<![CDATA[
+		select 
+			*
+		from 
+			(select 
+				no,
+				title ,
+				reg_date,
+				category,
+				like_count
+			from  
+				board
+			where  
+				category != '공지'
+				AND
+				reg_date >= (CURRENT_DATE-700)
+			ORDER BY 
+				like_count desc)
+		where rownum <= 5
+		]]>
+	</select>
 	
 	
 	

@@ -197,4 +197,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("board.selectBoardMain");
 	}
 
+	@Override
+	public List<Board> selectTopBoardMain() {
+		return session.selectList("board.selectTopBoardMain");
+	}
+
 }

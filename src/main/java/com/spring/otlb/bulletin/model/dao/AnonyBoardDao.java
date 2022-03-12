@@ -8,4 +8,6 @@ public interface AnonyBoardDao {
 
 	List<Board> selectAnonyBoardMain();
 
+	List<Board> selectTopAnonyBoardMain();
+
 }

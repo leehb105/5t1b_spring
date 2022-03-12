@@ -8,4 +8,6 @@ public interface AnonyBoardService {
 
 	List<Board> selectAnonyBoardMain();
 
+	List<Board> selectTopAnonyBoardMain();
+
 }

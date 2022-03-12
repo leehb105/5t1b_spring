@@ -17,6 +17,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class Notice extends Bulletin implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int attachCount; // 첨부 파일수
 	private List<Attachment> attachments;
 	

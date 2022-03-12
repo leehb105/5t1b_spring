@@ -29,19 +29,21 @@
 								</a>
 							</h6>
 						</div>
-						<div class="card-body">
-							<!-- 공지사항 내용 띄울 부분 -->
-							<p>
-								<a
-									href="${pageContext.request.contextPath}/board/noticeView?no=" 
-									style="color: black;">
+						<c:forEach items="${noticeList}" var="notice" varStatus="status">
+							<div class="card-body">
+								<!-- 공지사항 내용 띄울 부분 -->
+								<p>
+									<a
+										href="${pageContext.request.contextPath}/board/noticeView.do?no=${notice.no}" 
+										style="color: black;">
+										[공지]${notice.title}
 
-
-								</a>
-							</p>
-							<hr>
-						
-						</div>
+									</a>
+								</p>
+								<hr>
+							
+							</div>
+						</c:forEach>
 					</div>
 					<!-- 오늘의 메뉴 부분 -->
 					<div class="card shadow mb-4">
@@ -85,7 +87,8 @@
 								<p>
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${board.no}"
-										style="color: black;">[${board.category}]${board.title} [${board.commentCount}] ${board.regDate}</a>
+										style="color: black;">
+									[${board.category}]${board.title} [${board.commentCount}] ${board.regDate}</a>
 								</p>
 								<hr>
 							</div>
@@ -129,34 +132,36 @@
 
 							</h6>
 						</div>
-						<div class="card-body">
-							<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
-							<p>
-								<a
-									href="${pageContext.request.contextPath}/board/boardView?no="
-									style="color: black;">
-
-								</a>
-							</p>
-							<hr>
-						</div>
-
+						<c:forEach items="${topBoardList}" var="topBoard" varStatus="status">
+							<div class="card-body">
+								<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
+								<p>
+									<a
+										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
+										style="color: black;">
+										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] ${topBoard.regDate}
+									</a>
+								</p>
+								<hr>
+							</div>
+						</c:forEach>	
 						<hr>
 
-				
-						<div class="card-body">
-							<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
-							
-							<p>
-								<a
-									href="${pageContext.request.contextPath}/board/boardView?no="
-									style="color: black;">
+						<c:forEach items="${topAnonyBoardList}" var="topAnonyBoard" varStatus="status">
+							<div class="card-body">
+								<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
+								
+								<p>
+									<a
+										href="${pageContext.request.contextPath}/board/boardView?no="
+										style="color: black;">
+										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] ${topAnonyBoard.regDate}
+									</a>
+								</p>
+								<hr>
 
-								</a>
-							</p>
-							<hr>
-
-						</div>
+							</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>

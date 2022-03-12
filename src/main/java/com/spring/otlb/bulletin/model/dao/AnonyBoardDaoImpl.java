@@ -18,4 +18,9 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	public List<Board> selectAnonyBoardMain() {
 		return session.selectList("anonyBoard.selectAnonyBoardMain");
 	}
+
+	@Override
+	public List<Board> selectTopAnonyBoardMain() {
+		return session.selectList("anonyBoard.selectTopAnonyBoardMain");
+	}
 }

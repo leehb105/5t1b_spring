@@ -81,6 +81,8 @@ public interface BoardDao {
 
 	public List<Board> selectBoardMain();
 
+	public List<Board> selectTopBoardMain();
+
 	
 }
 

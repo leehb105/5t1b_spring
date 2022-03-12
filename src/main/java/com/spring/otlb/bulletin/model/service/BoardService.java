@@ -82,6 +82,8 @@ public interface BoardService {
 
 	public List<Board> selectBoardMain();
 
+	public List<Board> selectTopBoardMain();
+
 
 	
 }

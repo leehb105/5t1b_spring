@@ -19,4 +19,9 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.selectAnonyBoardMain();
 	}
 
+	@Override
+	public List<Board> selectTopAnonyBoardMain() {
+		return anonyBoardDao.selectTopAnonyBoardMain();
+	}
+
 }

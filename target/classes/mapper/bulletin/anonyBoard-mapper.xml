@@ -86,6 +86,25 @@
 			rownum <= 5
 		]]>
 	</select>
+	<select id="selectTopAnonyBoardMain" resultType="board">
+		<![CDATA[
+		select 
+			*
+		from 
+			(SELECT
+				no,
+				title ,
+				reg_date,
+				like_count
+			FROM
+				ANONYMOUS_BOARD
+			WHERE 
+				reg_date >= (CURRENT_DATE-700) 
+			ORDER BY 
+				like_count desc)
+		where rownum <= 5
+		]]>
+	</select>
 	
 	
 	

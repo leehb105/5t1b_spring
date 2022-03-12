@@ -197,4 +197,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectBoardMain();
 	}
 
+	@Override
+	public List<Board> selectTopBoardMain() {
+		return boardDao.selectTopBoardMain();
+	}
+
 }
