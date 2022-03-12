@@ -16,9 +16,9 @@ public class CustomUserDetailsDaoImpl implements CustomUserDetailsDao{
 	private SqlSessionTemplate session;
 	
 	@Override
-	public Emp loadUserByUsername(String username) {
-		log.debug("dao empNo = {}", username);
-		return session.selectOne("security.loadUserByUsername", username);
+	public Emp loadUserByUsername(String empNo) {
+		log.debug("dao empNo = {}", empNo);
+		return session.selectOne("security.loadUserByUsername", empNo);
 	}
 
 }

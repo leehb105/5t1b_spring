@@ -6,16 +6,16 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.otlb.bulletin.model.dao.BulletinDao;
+import com.spring.otlb.bulletin.model.dao.BoardDao;
 import com.spring.otlb.bulletin.model.vo.Attachment;
 import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 
 @Service
-public class BulletinServiceImpl implements BulletinService{
+public class BoardServiceImpl implements BoardService{
 
 	@Autowired
-	private BulletinDao bulletinDao;
+	private BoardDao boardDao;
 	
 	@Override
 	public int insertBoard(Board board) {
@@ -39,7 +39,7 @@ public class BulletinServiceImpl implements BulletinService{
 
 	@Override
 	public List<Board> selectAllBoard(Map<String, Object> param) {
-		return bulletinDao.selectAllBoard(param);
+		return boardDao.selectAllBoard(param);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class BulletinServiceImpl implements BulletinService{
 
 	@Override
 	public int selectTotalBoardCount() {
-		return bulletinDao.selectTotalBoardCount();
+		return boardDao.selectTotalBoardCount();
 	}
 
 	@Override
@@ -190,6 +190,11 @@ public class BulletinServiceImpl implements BulletinService{
 	@Override
 	public int updateNotice(Board board) {
 		return 0;
+	}
+
+	@Override
+	public List<Board> selectBoardMain() {
+		return boardDao.selectBoardMain();
 	}
 
 }

@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="board">
+<mapper namespace="anonyBoard">
 
 	<select id="selectAllBoard" resultMap="boardMap">
 		<![CDATA[
@@ -65,12 +65,11 @@
 			delete_yn = 'N'
 	</select>
 	
-	<select id="selectBoardMain" resultType="board">
+	<select id="selectAnonyBoardMain" resultType="board">
 		<![CDATA[
 		select 
 			tb.NO,
 			tb.title,
-			tb.category,
 			tb.reg_date,
 			tb.commentCount
 		from 
@@ -78,10 +77,8 @@
 				b.*,
 				(SELECT count(*) FROM BOARD_COMMENT WHERE NO = b.NO) commentCount
 			from  
-				board b
+				ANONYMOUS_BOARD b
 			WHERE
-				b.category != '공지'
-				AND
 				b.delete_yn = 'N'
 			order by 
 				reg_date desc ) tb

@@ -21,13 +21,13 @@ public class CustomUserDetailsService implements UserDetailsService{
 	private CustomUserDetailsDao customUserDetailsDao; 
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.debug("empNo = {}", username);
-		Emp emp = customUserDetailsDao.loadUserByUsername(username);
+	public UserDetails loadUserByUsername(String empNo) throws UsernameNotFoundException {
+		log.debug("loadUserByUsername empNo = {}", empNo);
+		Emp emp = customUserDetailsDao.loadUserByUsername(empNo);
 
 		
 		if(emp == null) {
-			throw new UsernameNotFoundException(username);
+			throw new UsernameNotFoundException(empNo);
 		}
 		return emp;
 	}

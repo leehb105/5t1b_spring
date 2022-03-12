@@ -1,4 +1,4 @@
-package com.spring.otlb.bulletin.model.service;
+package com.spring.otlb.bulletin.model.dao;
 
 import java.util.List;
 import java.util.Map;
@@ -7,9 +7,8 @@ import com.spring.otlb.bulletin.model.vo.Attachment;
 import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 
-
-public interface BulletinService {
-
+public interface BoardDao {
+	
 	public int insertBoard(Board board);
 
 	public int deleteBoard(int no);
@@ -80,6 +79,24 @@ public interface BulletinService {
 
 	public int updateNotice(Board board);
 
+	public List<Board> selectBoardMain();
 
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

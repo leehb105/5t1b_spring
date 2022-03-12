@@ -6,19 +6,19 @@
 <mapper namespace="security">
 	<select id="loadUserByUsername" resultMap="empMap">
 		select
-		    *
+		    e.*,
+    		a.AUTHORITY
 		from
 		    emp e join authority a
 		        on e.emp_no = a.emp_no
 		where
-		    e.emp_no = #{username}
+		    e.emp_no = #{empNo}
 		
 	
 	</select>
 	
 	<resultMap type="emp" id="empMap">
 		<id column="emp_no" property="empNo"/>
-		<result column="emp_no" property="empNo"/>
 		<result column="emp_name" property="empName"/>
 		<result column="password" property="password"/>
 		<result column="birthdate" property="birthdate"/>

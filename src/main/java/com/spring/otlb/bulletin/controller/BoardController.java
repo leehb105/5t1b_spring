@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.spring.otlb.bulletin.model.service.BulletinService;
+import com.spring.otlb.bulletin.model.service.BoardService;
 import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.common.Criteria;
 import com.spring.otlb.common.Paging;
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	@Autowired
-	private BulletinService bulletinService;
+	private BoardService bulletinService;
 	
 	@GetMapping("/boardList.do")
 	public void boardList(

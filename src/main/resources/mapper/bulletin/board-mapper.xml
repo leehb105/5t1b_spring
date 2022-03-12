@@ -64,4 +64,35 @@
 		WHERE
 			delete_yn = 'N'
 	</select>
+	
+	<select id="selectBoardMain" resultType="board">
+		<![CDATA[
+		select 
+			tb.NO,
+			tb.title,
+			tb.category,
+			tb.reg_date,
+			tb.commentCount
+		from 
+			(SELECT
+				b.*,
+				(SELECT count(*) FROM BOARD_COMMENT WHERE NO = b.NO) commentCount
+			from  
+				board b
+			WHERE
+				b.category != '공지'
+				AND
+				b.delete_yn = 'N'
+			order by 
+				reg_date desc ) tb
+		where 
+			rownum <= 5
+		]]>
+	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

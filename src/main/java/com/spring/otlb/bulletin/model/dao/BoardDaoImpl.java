@@ -12,7 +12,7 @@ import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 
 @Repository
-public class BulletinDaoImpl implements BulletinDao{
+public class BoardDaoImpl implements BoardDao{
 
 	@Autowired
 	private SqlSessionTemplate session;
@@ -190,6 +190,11 @@ public class BulletinDaoImpl implements BulletinDao{
 	@Override
 	public int updateNotice(Board board) {
 		return 0;
+	}
+
+	@Override
+	public List<Board> selectBoardMain() {
+		return session.selectList("board.selectBoardMain");
 	}
 
 }

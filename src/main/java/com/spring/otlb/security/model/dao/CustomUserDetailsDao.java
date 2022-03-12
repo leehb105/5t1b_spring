@@ -6,5 +6,5 @@ import com.spring.otlb.emp.model.vo.Emp;
 
 public interface CustomUserDetailsDao {
 
-	public Emp loadUserByUsername(String username);
+	public Emp loadUserByUsername(String empNo);
 }
