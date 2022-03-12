@@ -1,32 +1,9 @@
-package com.otlb.semi.foodMenu.model.service;
+package com.spring.otlb.foodMenu.model.service;
 
-import static com.otlb.semi.common.JdbcTemplate.close;
-import static com.otlb.semi.common.JdbcTemplate.commit;
-import static com.otlb.semi.common.JdbcTemplate.getConnection;
-import static com.otlb.semi.common.JdbcTemplate.rollback;
+import com.spring.otlb.foodMenu.model.vo.Survey;
 
-import java.sql.Connection;
-
-import com.otlb.semi.foodMenu.model.dao.SurveyDao;
-import com.otlb.semi.foodMenu.model.vo.Survey;
-
-public class SurveyService {
+public interface SurveyService {
 	
-	private SurveyDao surveyDao = new SurveyDao();
 
-	public int insertSurvey(Survey survey) {
-		Connection conn = null;
-		int result = 0;
-		try {
-			conn = getConnection();
-			result = surveyDao.insertSurvey(conn, survey);
-			commit(conn);
-		} catch (Exception e) {
-			rollback(conn);
-			throw e;
-		} finally {
-			close(conn);
-		}
-		return result;
-	}
+	public int insertSurvey(Survey survey);
 }

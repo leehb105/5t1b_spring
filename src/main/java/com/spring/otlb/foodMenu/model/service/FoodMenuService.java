@@ -1,21 +1,12 @@
-package com.otlb.semi.foodMenu.model.service;
+package com.spring.otlb.foodMenu.model.service;
 
-import static com.otlb.semi.common.JdbcTemplate.*;
-
-import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
-import com.otlb.semi.foodMenu.model.dao.FoodMenuDao;
-import com.otlb.semi.foodMenu.model.vo.FoodMenu;
+import com.spring.otlb.foodMenu.model.vo.FoodMenu;
 
-public class FoodMenuService {
-	private FoodMenuDao foodMenuDao = new FoodMenuDao();
+public interface FoodMenuService {
 
-	public List<FoodMenu> selectYearMonth(Date date) {
-		Connection conn = getConnection();
-		List<FoodMenu> list = foodMenuDao.selectYearMonth(conn, date);
-		close(conn);
-		return list;
-	}
+
+	public List<FoodMenu> selectYearMonth(Date date);
 }
