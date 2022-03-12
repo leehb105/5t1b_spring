@@ -48,27 +48,24 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
 		List<Notice> noticeList = noticeService.selectNoticeMain();
-		log.debug("noticeList = {}", noticeList);
+//		log.debug("noticeList = {}", noticeList);
 
 		List<Board> boardList = boardService.selectBoardMain();
-		log.debug("boardList = {}", boardList);
+//		log.debug("boardList = {}", boardList);
 
 		List<Board> anonymousBoardList = anonyBoardService.selectAnonyBoardMain();
-		log.debug("anonymousBoardList = {}", anonymousBoardList);
+//		log.debug("anonymousBoardList = {}", anonymousBoardList);
 
 		List<Board> topBoardList = boardService.selectTopBoardMain();
-		log.debug("topBoardList = {}", topBoardList);
+//		log.debug("topBoardList = {}", topBoardList);
 		
 		List<Board> topAnonyBoardList = anonyBoardService.selectTopAnonyBoardMain();
-		log.debug("topAnonyBoardList = {}", topAnonyBoardList);
+//		log.debug("topAnonyBoardList = {}", topAnonyBoardList);
 
 		
 		FoodMenu foodMenu = foodMenuService.selectFoodMenu();
-		log.debug("foodMenu = {}", foodMenu);
-//		
-//		request.getSession().setAttribute("noticeList", noticeList);
-//		request.getSession().setAttribute("likeContentBoardSelect", likeContentBoardSelect);
-//		request.getSession().setAttribute("likeContentAnonymous_boardSelect", likeContentAnonymous_boardSelect);
+//		log.debug("foodMenu = {}", foodMenu);
+		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("anonymousBoardList", anonymousBoardList);

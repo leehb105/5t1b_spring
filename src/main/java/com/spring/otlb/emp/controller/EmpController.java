@@ -102,28 +102,32 @@ public class EmpController {
 			Model model,
 			RedirectAttributes redirectAttr) {
 		
-		Emp emp = empService.selectOneEmp(empNo);
+//		Emp loginEmp = empService.selectOneEmp(empNo);
 		
 //		UserDetails test = customUserDetailsService.loadUserByUsername(empNo);
-		log.info("emp = {}", emp);
-		log.info("encodedPassword = {}", bCryptPasswordEncoder.encode(password));
-
-		String location = "/";
-		if(emp != null && bCryptPasswordEncoder.matches(password, emp.getPassword())) {
-			// 로그인 성공시
-			model.addAttribute("loginEmp", emp);
-			
-//			log.info("next = {}", next);
-//			location = next;
-//			redirectAttr.addFlashAttribute("msg", "로그인을 성공했습니다.");
-		}
-		else {
-			// 로그인 실패시
-			location = "/empLogin.do";
-			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
-		}
+//		log.info("loginEmp = {}", loginEmp);
+//		log.info("encodedPassword = {}", bCryptPasswordEncoder.encode(password));
+//
+//		String location = "/";
+//		if(loginEmp != null && bCryptPasswordEncoder.matches(password, loginEmp.getPassword())) {
+//			// 로그인 성공시
+//			model.addAttribute("loginEmp", loginEmp);
+//			
+////			log.info("next = {}", next);
+////			location = next;
+////			redirectAttr.addFlashAttribute("msg", "로그인을 성공했습니다.");
+//		}
+//		else {
+//			// 로그인 실패시
+//			location = "/empLogin.do";
+//			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
+//		}
 		
-		return "redirect:" + location;
+		return "redirect:";
 	}
 
+	@PostMapping("/empLogout.do")
+	public String empLogout() {
+		return "redirect:";
+	}
 }

@@ -15,6 +15,51 @@
 			EMP_NO = #{empNo}
 	
 	</select>
+	<select id="selectAllReceivedMessage" resultMap="messageMap">
+		select 
+			m.*, 
+			(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) sender_emp_name, 
+			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) sender_dept_name 
+		from 
+			message m 
+		WHERE 
+			m.receiver_emp_no = #{empNo}
+			and 
+			receiver_del_yn = 'N'
+		ORDER BY 
+			m.sent_date DESC
+	</select>
+	
+	<resultMap type="message" id="messageMap">
+		<id column="no" property="no"/>
+		<result column="content" property="content"/>
+		<result column="sender_emp_no" property="senderEmpNo"/>
+		<result column="receiver_emp_no" property="receiverEmpNo"/>
+		<result column="sent_date" property="sentDate"/>
+		<result column="read_date" property="readDate"/>
+		<result column="sender_del_yn" property="senderDelYn"/>
+		<result column="receiver_del_yn" property="receiverDelYn"/>
+
+		<association property="emp" resultMap="empMap"/>
+	</resultMap>
+	
+	<resultMap type="emp" id="empMap">
+		<result column="sender_emp_name" property="empName" />
+		<result column="sender_dept_name" property="deptName" />
+	</resultMap>
+
+	<select id="selectSentMessageCount" resultType="int">
+		SELECT 
+			COUNT(*) count 
+		FROM 
+			message 
+		WHERE 
+			receiver_emp_no = #{empNo}
+			AND 
+			read_date IS NULL 
+			AND 
+			receiver_del_yn = 'N'
+	</select>
 	
 	
 </mapper>

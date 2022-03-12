@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 			<div class="my-2"></div>
 			
             <!-- 쪽지보내기 버튼 -->
-            <a class="btn btn-light btn-icon-split" href="<%=request.getContextPath()%>/message/messageForm">            
+            <a class="btn btn-light btn-icon-split" href="${pageContext.request.contextPath}/message/messageForm">            
                 <span class="text"><i class="fas fa-envelope fa-fw"></i>쪽지쓰기</span>
                </a>
            	<div class="my-2"></div>
@@ -19,17 +26,17 @@
      
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item" >
-                <a class="nav-link" id="hover1" href="<%= request.getContextPath() %>/message/messageList" >
+                <a class="nav-link" id="hover1" href="${pageContext.request.contextPath}/message/messageList.do" >
                     <i class="fa fa-envelope-open"></i>
                     <span>받은쪽지함</span>
-                    <strong><span id="receivedCount"></span></strong>
+                    <strong><span id="receivedCount">[${messageCount}]</span></strong>
                     
                 </a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" id="hover2" href="<%= request.getContextPath() %>/message/sentMessageList" >
+                <a class="nav-link" id="hover2" href="${pageContext.request.contextPath}/message/sentMessageList.do" >
                     <i class="fa fa-paper-plane"></i>
                     <span>보낸쪽지함</span>
                 </a>
@@ -42,19 +49,19 @@
 <script>
 //$( document ).ready(function() {
 	//console.log("test");
-	var receivedCount = document.getElementById("receivedCount");
-    $.ajax({
-		url: "<%= request.getContextPath() %>/message/messageLoadCount.do",
-		method: "GET",
-		success(data){
+	// var receivedCount = document.getElementById("receivedCount");
+    // $.ajax({
+	// 	url: "${pageContext.request.contextPath}/message/messageLoadCount.do",
+	// 	method: "GET",
+	// 	success(data){
 
-			//span태그에 count데이터 삽입
-			receivedCount.innerText = "[" + data + "]";
+	// 		//span태그에 count데이터 삽입
+	// 		receivedCount.innerText = "[" + data + "]";
 
-		},
-		error: console.log
+	// 	},
+	// 	error: console.log
 
-	})
+	// })
 //});
 $( document ).ready(function(){
 	//console.log(document.location.href);

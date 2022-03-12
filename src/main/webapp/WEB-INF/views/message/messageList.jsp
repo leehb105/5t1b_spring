@@ -1,10 +1,14 @@
-<%@page import="com.otlb.semi.message.model.vo.Message"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 <!-- 받은 쪽지함 jsp -->
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -31,49 +35,52 @@
                                <th>내용</th>
                                <th>날짜</th>
                            </tr>
-                         </thead>
-                         <tbody>
-<%
-/* 
-	로그인 회원이 받은 쪽지데이터 출력
-*/
-List<Message> list = (List<Message>) request.getAttribute("list");
-List<String> titleList = (List<String>) request.getAttribute("titleList");
-List<String> sentDateList = (List<String>) request.getAttribute("sentDateList");
-	//for(Message message : list){
-	for(int i = 0; i < list.size(); i++){	
-		Message message = list.get(i);
-		String title = titleList.get(i);
-%>
-                         	<tr>
-                         		<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="<%= message.getNo()%>"/></td>
-                         		<!-- 안읽었다면 파란글씨 -->
-                         		<td width="180px" style="font-weight: bold;">
-                         			<a class="empPopover" data-toggle="popover" 
-		                         		data-emp-no="<%= message.getSenderEmpNo()%>"
-		                         		data-emp-name="<%= message.getEmp().getEmpName() %>" 
-		                         		<%= message.getReadDate() != null ? "style=\"color: #858796;\"" : "" %>>
-                         				<%= message.getEmp().getEmpName() %>(<%= message.getEmp().getDeptName() %>)
-                         			</a>
-        
-     						
-                         		<%-- <span ><%= message.getEmp().getEmpName() %>(<%= message.getEmp().getDeptName() %>)</span> --%>
-                         		</td>
-                         		<td>
-                         			<!-- 읽었다면 링크 회색글씨 처리-->
-                         			<a 
-                       				href="<%= request.getContextPath() %>/message/messageView?no=<%= message.getNo()%>" 
-									<%= message.getReadDate() != null ? "style=\"color: #858796;\"" : "" %>>
-                       				<%= title %>
-                       				</a>
-                   				</td>
-                         		<%-- <td><%= message.getSentDate() %></td> --%>
-                         		<td width="200px"><%= sentDateList.get(i) %></td>
-                         	</tr>
-<% 
-	}
- %>
-                         </tbody>
+                        </thead>
+                        <tbody>
+							<c:forEach items="${list}" var="message" varStatus="status">
+
+								<tr onclick="location.href='${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}'" style="cursor:pointer;">
+									<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="${message.no}"/></td>
+									<!-- 안읽었다면 파란글씨 -->
+									<td width="180px" style="font-weight: bold;">
+										<a class="empPopover" data-toggle="popover" 
+											data-emp-no="${message}"
+											data-emp-name="${message.emp.empName}" >
+										</a>
+										<c:if test="${message.readDate ne null}">
+											<a class="empPopover" data-toggle="popover" 
+											data-emp-no="${message}"
+											data-emp-name="${message.emp.empName}" 
+											style="color: #858796;">
+											${message.emp.empName}(${message.emp.deptName})
+											</a>
+										</c:if>
+										<c:if test="${message.readDate eq null}">
+											<a class="empPopover" data-toggle="popover" 
+											data-emp-no="${message}"
+											data-emp-name="${message.emp.empName}" >
+											${message.emp.empName}(${message.emp.deptName})
+										</a>
+
+										</c:if>
+								
+									<%-- <span ><%= message.getEmp().getEmpName() %>(<%= message.getEmp().getDeptName() %>)</span> --%>
+									</td>
+									<td>
+										<!-- 읽었다면 링크 회색글씨 처리-->
+										<a 
+										href="${pageContext.request.contextPath}/message/messageView.do?no=${message.no}" 
+										>
+										${message.content}
+										</a>
+									</td>
+									<td width="200px">
+										<fmt:formatDate value="${message.sentDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</td>
+									
+								</tr>
+							</c:forEach>
+                        </tbody>
  					</table>
 	 				<%-- <div id="pageBar"><%= request.getAttribute("pagebar") %></div> --%>
 	 			</div>
@@ -82,7 +89,7 @@ List<String> sentDateList = (List<String>) request.getAttribute("sentDateList");
 	 			id = "delFrm"
 				name="messageDelFrm"
 				method="POST" 
-				action="<%= request.getContextPath() %>/message/receivedMessageDelete" >
+				action="${pageContext.request.contextPath}/message/receivedMessageDelete" >
 				<input type="hidden" id="no" name="no" value="" />
 			</form>	
 	 		</div>
@@ -97,12 +104,12 @@ List<String> sentDateList = (List<String>) request.getAttribute("sentDateList");
             </div>
             <!-- End of Main Content -->
             
-<script src="<%= request.getContextPath() %>/js/empPopup.js"></script>
+<script src="${pageContext.request.contextPath}/js/empPopup.js"></script>
 <script>
     const empPopovers = document.getElementsByClassName("empPopover");
     for (let empPopover of empPopovers) {
         console.log(empPopover.dataset.empName);
-        setPopover("<%= request.getContextPath() %>", empPopover.dataset.empNo, empPopover, empPopover.dataset.empName, "<%= loginEmp.getEmpNo() %>", "<%= loginEmp.getEmpName() %>");
+        setPopover("${pageContext.request.contextPath}", empPopover.dataset.empNo, empPopover, empPopover.dataset.empName, "${loginEmp.empNo}", "${loginEmp.empName}");
  }
 </script>           
 <script>
@@ -155,4 +162,4 @@ $("input[name=check]").click(function() {
 	else $(".checkAll").prop("checked", true); 
 });
 </script>
-<%-- <%@ include file="/WEB-INF/views/common/footer.jsp"%> --%>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

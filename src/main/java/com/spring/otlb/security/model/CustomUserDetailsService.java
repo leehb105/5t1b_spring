@@ -22,14 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String empNo) throws UsernameNotFoundException {
-		log.debug("loadUserByUsername empNo = {}", empNo);
-		Emp emp = customUserDetailsDao.loadUserByUsername(empNo);
-
+//		log.debug("loadUserByUsername empNo = {}", empNo);
+		Emp loginEmp = customUserDetailsDao.loadUserByUsername(empNo);
+		log.debug("loginEmp = {}", loginEmp);
 		
-		if(emp == null) {
+		if(loginEmp == null) {
 			throw new UsernameNotFoundException(empNo);
 		}
-		return emp;
+		return loginEmp;
 	}
 
 }

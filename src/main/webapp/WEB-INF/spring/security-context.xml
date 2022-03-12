@@ -29,7 +29,8 @@
 			password-parameter="password"
 			authentication-success-handler-ref="customSuccessHandler"/>
 		
-		<security:logout logout-url="/" 
+		<security:logout logout-url="/emp/empLogout.do"
+			logout-success-url="/" 
 			invalidate-session="true"/>
 	</security:http>
 	

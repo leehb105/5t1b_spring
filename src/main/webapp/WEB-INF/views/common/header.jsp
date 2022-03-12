@@ -204,10 +204,10 @@
 							 </a> 
 			
 							<div class="dropdown-divider"></div>
-			
-							 <a class="dropdown-item" href="${pageContext.request.contextPath}/emp/empLogout.do"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-								로그아웃
-							</a>
+							<form:form action="${pageContext.request.contextPath}/emp/empLogout.do" method="POST">
+							 	<button class="dropdown-item"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>로그아웃</button>
+							</form:form>
+
 						</div>
 					</li>
 

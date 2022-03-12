@@ -1,4 +1,4 @@
-package com.otlb.semi.message.model.exception;
+package com.spring.otlb.message.model.exception;
 
 public class MessageException extends RuntimeException{
 
