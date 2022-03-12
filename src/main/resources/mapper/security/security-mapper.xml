@@ -11,7 +11,7 @@
 		    emp e join authority a
 		        on e.emp_no = a.emp_no
 		where
-		    e.emp_no = #{empNo}
+		    e.emp_no = #{username}
 		
 	
 	</select>

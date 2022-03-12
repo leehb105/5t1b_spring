@@ -28,7 +28,6 @@ public class EmpEntity implements Serializable{
 	private String phone;
 	private String quitYn;
 	private String banYn;
-	private String enabled;
 	private String profileImage;
 //	private int enabled;
 		

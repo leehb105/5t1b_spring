@@ -41,7 +41,6 @@
 		<result column="phone" property="phone"/>
 		<result column="quit_yn" property="quitYn"/>
 		<result column="ban_yn" property="banYn"/>
-		<result column="enabled" property="enabled"/>
 		<result column="profile_image" property="profileImage"/>
 		<collection property="authorities" resultMap="authorityMap">
 		</collection>
