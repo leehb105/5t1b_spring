@@ -62,11 +62,8 @@ public class HomeController {
 		log.debug("foodMenu = {}", foodMenu);
 //		
 //		request.getSession().setAttribute("noticeList", noticeList);
-//		request.getSession().setAttribute("boardList", boardList);
-//		request.getSession().setAttribute("anonymousBoardList", anonymousBoardList);
 //		request.getSession().setAttribute("likeContentBoardSelect", likeContentBoardSelect);
 //		request.getSession().setAttribute("likeContentAnonymous_boardSelect", likeContentAnonymous_boardSelect);
-//		request.getSession().setAttribute("foodMenu", foodMenu);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("anonymousBoardList", anonymousBoardList);
 		model.addAttribute("foodMenu", foodMenu);

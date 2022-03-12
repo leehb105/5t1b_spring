@@ -54,16 +54,16 @@
 						</div>
 
 						<div class="card-body" style="line-height:0.75em">
-							<p style="list-style-type: none; text-align: center;">[밥]</p>
-							<p style="text-align: center;"></p>
-							<p style="list-style-type: none; text-align: center;">[국]</p>
-							<p style="text-align: center;"></p>
-							<p style="list-style-type: none; text-align: center;">[반찬]</p>
-							<p style="text-align: center;"></p>
-							<p style="text-align: center;"></p>
-							<p style="text-align: center;"></p>
-							<p style="list-style-type: none; text-align: center;">[디저트]</p>
-							<p style="text-align: center;"></p>
+							<!-- <p style="list-style-type: none; text-align: center;">[밥]</p> -->
+							<p style="text-align: center;">${foodMenu.main}</p>
+							<!-- <p style="list-style-type: none; text-align: center;">[국]</p> -->
+							<p style="text-align: center;">${foodMenu.soup}</p>
+							<!-- <p style="list-style-type: none; text-align: center;">[반찬]</p> -->
+							<p style="text-align: center;">${foodMenu.side1}</p>
+							<p style="text-align: center;">${foodMenu.side2}</p>
+							<p style="text-align: center;">${foodMenu.side3}</p>
+							<!-- <p style="list-style-type: none; text-align: center;">[디저트]</p> -->
+							<p style="text-align: center;">${foodMenu.dessert}</p>
 						</div>
 					</div>
 				</div>
