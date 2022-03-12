@@ -78,20 +78,18 @@ public class MessageController {
 //		return null;
 //	}
 //	
-	@GetMapping("/sentMessageView.do")
-	public void sentMessageView(@RequestParam int no,
-			Model model) {
-		//보낸쪽지함
-		//글번호
-		log.debug("no = {}", no);
-		Message message = messageService.selectOneSentMessage(no);
-		message.setContent(LineFormatUtils.formatLine(message.getContent()));
-		
-		String sentDate = DateFormatUtils.formatDate(message.getSentDate());
-		
-		model.addAttribute("message", message);
-		
-	}
+//	@GetMapping("/sentMessageView.do")
+//	public void sentMessageView(@RequestParam int no,
+//			Model model) {
+//		//보낸쪽지함
+//		//글번호
+//		log.debug("no = {}", no);
+//		Message message = messageService.selectOneSentMessage(no);
+//		
+//		
+//		model.addAttribute("message", message);
+//		
+//	}
 //	
 //	@GetMapping("/messageLoadCount.do")
 //	public void messageLoadCount() {
@@ -182,32 +180,22 @@ public class MessageController {
 //		return null;
 //	}
 //	
-//	@GetMapping("/messageView.do")
-//	public void messageView() {
-//	//받은쪽지함
-//		
-//		//글번호
-//		int no = Integer.valueOf(request.getParameter("no"));
-//		
-//		int result = messageService.updateReadDate(no);
-//		String msg = result > 0 ? null : "쪽지 읽음처리 오류";
-//		
-//		Message message = messageService.selectOneReceivedMessage(no);
-//		message.setContent(LineFormatUtils.formatLine(message.getContent()));
-//		System.out.println("%%%%" + message);
+	@GetMapping("/receivedMessageView.do")
+	public void messageView(@RequestParam int no,
+			Model model) {
+		//받은쪽지함
+		log.debug("no = {}", no);
+		Message message = messageService.selectOneReceivedMessage(no);
+		
+		int result = messageService.updateReadDate(no);
+		String msg = result > 0 ? null : "쪽지 읽음처리 오류";
+		
+		model.addAttribute("message", message);
+		model.addAttribute("msg", msg);
+
+	}
 //	
-//		String date = DateFormatUtils.formatDate(message.getSentDate());
-//		
-//		request.setAttribute("message", message);
-//		request.setAttribute("date", date);
-//		request.setAttribute("msg", msg);
-//		
-//		request
-//			.getRequestDispatcher("/WEB-INF/views/message/messageView.jsp")
-//			.forward(request, response);
-//	}
-//	
-	@GetMapping("/messageList.do")
+	@GetMapping("/receivedMessageList.do")
 	public void messageList(Model model,
 			Principal principal) {
 		//받은 메세지함
@@ -288,44 +276,6 @@ public class MessageController {
 //	}
 //	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

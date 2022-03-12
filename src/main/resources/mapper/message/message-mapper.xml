@@ -18,8 +18,8 @@
 	<select id="selectAllReceivedMessage" resultMap="messageMap">
 		select 
 			m.*, 
-			(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) sender_emp_name, 
-			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) sender_dept_name 
+			(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) emp_name, 
+			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) dept_name 
 		from 
 			message m 
 		WHERE 
@@ -44,8 +44,8 @@
 	</resultMap>
 	
 	<resultMap type="emp" id="empMap">
-		<result column="sender_emp_name" property="empName" />
-		<result column="sender_dept_name" property="deptName" />
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
 	</resultMap>
 
 	<select id="selectSentMessageCount" resultType="int">
@@ -61,5 +61,30 @@
 			receiver_del_yn = 'N'
 	</select>
 	
+	<select id="selectOneSentMessage" resultMap="messageMap">
+		SELECT 
+			m.*, 
+			(SELECT emp_name FROM emp WHERE emp_no = m.receiver_emp_no) emp_name, 
+			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.receiver_emp_no) dept_name 
+		FROM 
+			message m 
+		WHERE 
+			NO = #{no}
+	</select>
+	
+	<select id="selectOneReceivedMessage" resultMap="messageMap">
+		SELECT 
+			m.*, 
+			(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) emp_name, 
+			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) dept_name 
+		FROM 
+			message m 
+		WHERE 
+			NO = #{no}
+	</select>
+	
+	<update id="updateReadDate">
+		UPDATE message SET read_date = current_date WHERE NO = #{no}
+	</update>
 	
 </mapper>

@@ -26,10 +26,10 @@
      
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item" >
-                <a class="nav-link" id="hover1" href="${pageContext.request.contextPath}/message/messageList.do" >
+                <a class="nav-link" id="hover1" href="${pageContext.request.contextPath}/message/receivedMessageList.do" >
                     <i class="fa fa-envelope-open"></i>
                     <span>받은쪽지함</span>
-                    <strong><span id="receivedCount">[${messageCount}]</span></strong>
+                    <strong><span id="receivedCount">[${messageCount > 0 ? messageCount : 0}]</span></strong>
                     
                 </a>
             </li>

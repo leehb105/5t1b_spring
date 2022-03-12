@@ -27,12 +27,12 @@ public class MessageDaoImpl implements MessageDao{
 
 	@Override
 	public Message selectOneReceivedMessage(int no) {
-		return null;
+		return session.selectOne("message.selectOneReceivedMessage", no);
 	}
 
 	@Override
 	public Message selectOneSentMessage(int no) {
-		return null;
+		return session.selectOne("message.selectOneSentMessage", no);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class MessageDaoImpl implements MessageDao{
 
 	@Override
 	public int updateReadDate(int no) {
-		return 0;
+		return session.update("message.updateReadDate", no);
 	}
 
 	@Override

@@ -68,7 +68,7 @@
 	<!-- XSS 처리 -->
 	<filter>
 		<filter-name>XSS</filter-name>
-	    <filter-class>com.spring.otlb.common.CustomSuccessHandler</filter-class>
+	    <filter-class>com.spring.otlb.common.CrossScriptingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 	    <filter-name>XSS</filter-name>

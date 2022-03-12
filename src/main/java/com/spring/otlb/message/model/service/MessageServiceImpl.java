@@ -22,12 +22,12 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public Message selectOneReceivedMessage(int no) {
-		return null;
+		return messageDao.selectOneReceivedMessage(no);
 	}
 
 	@Override
 	public Message selectOneSentMessage(int no) {
-		return null;
+		return messageDao.selectOneSentMessage(no);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public int updateReadDate(int no) {
-		return 0;
+		return messageDao.updateReadDate(no);
 	}
 
 	@Override

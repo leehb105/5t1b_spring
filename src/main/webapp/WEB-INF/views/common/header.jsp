@@ -148,7 +148,7 @@
 			<li class="nav-item dropdown no-arrow mx-1">
 				<a
 					class="nav-link dropdown-toggle"
-					href="${pageContext.request.contextPath}/message/messageList.do"
+					href="${pageContext.request.contextPath}/message/receivedMessageList.do"
 					id="messagesDropdown" role="button"
 					aria-haspopup="true" aria-expanded="false"> 
 					<i class="fas fa-envelope fa-fw"></i> 

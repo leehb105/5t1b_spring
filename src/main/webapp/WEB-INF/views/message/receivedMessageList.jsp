@@ -39,7 +39,7 @@
                         <tbody>
 							<c:forEach items="${list}" var="message" varStatus="status">
 
-								<tr onclick="location.href='${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}'" style="cursor:pointer;">
+								<tr onclick="location.href='${pageContext.request.contextPath}/message/receivedMessageView.do?no=${message.no}'" style="cursor:pointer;">
 									<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="${message.no}"/></td>
 									<!-- 안읽었다면 파란글씨 -->
 									<td width="180px" style="font-weight: bold;">
