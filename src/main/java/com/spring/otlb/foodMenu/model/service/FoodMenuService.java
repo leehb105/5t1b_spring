@@ -1,5 +1,6 @@
 package com.spring.otlb.foodMenu.model.service;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -9,4 +10,6 @@ public interface FoodMenuService {
 
 
 	public List<FoodMenu> selectYearMonth(Date date);
+
+	public FoodMenu selectFoodMenu();
 }

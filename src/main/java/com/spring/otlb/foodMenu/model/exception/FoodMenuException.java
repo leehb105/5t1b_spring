@@ -1,4 +1,4 @@
-package com.otlb.semi.foodMenu.model.exception;
+package com.spring.otlb.foodMenu.model.exception;
 
 public class FoodMenuException extends RuntimeException {
 

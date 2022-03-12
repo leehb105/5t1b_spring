@@ -1,6 +1,7 @@
 package com.spring.otlb;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,9 @@ import com.spring.otlb.bulletin.controller.BoardController;
 import com.spring.otlb.bulletin.model.service.AnonyBoardService;
 import com.spring.otlb.bulletin.model.service.BoardService;
 import com.spring.otlb.bulletin.model.vo.Board;
+import com.spring.otlb.foodMenu.controller.FoodMenuController;
+import com.spring.otlb.foodMenu.model.service.FoodMenuService;
+import com.spring.otlb.foodMenu.model.vo.FoodMenu;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +32,9 @@ public class HomeController {
 	
 	@Autowired
 	private AnonyBoardService anonyBoardService;
+	
+	@Autowired
+	private FoodMenuService foodMenuService;
 	
 	
 	/**
@@ -50,8 +57,9 @@ public class HomeController {
 //		List<BoardEntity> likeContentAnonymous_boardSelect = selectService.selectAnonymous_boardLikeContent();
 //		System.out.println("likeContentAnonymous_boardSelect Servlet" +likeContentAnonymous_boardSelect);
 //
-		FoodMenu foodMenu = selectService.selectFoodMenu();
-		System.out.println("foodMenu Servlet" + foodMenu);
+		
+		FoodMenu foodMenu = foodMenuService.selectFoodMenu();
+		log.debug("foodMenu = {}", foodMenu);
 //		
 //		request.getSession().setAttribute("noticeList", noticeList);
 //		request.getSession().setAttribute("boardList", boardList);
@@ -61,6 +69,7 @@ public class HomeController {
 //		request.getSession().setAttribute("foodMenu", foodMenu);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("anonymousBoardList", anonymousBoardList);
+		model.addAttribute("foodMenu", foodMenu);
 		
 		return "index";
 	}

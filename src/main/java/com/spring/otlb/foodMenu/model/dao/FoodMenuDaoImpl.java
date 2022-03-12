@@ -1,6 +1,7 @@
 package com.spring.otlb.foodMenu.model.dao;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,6 +19,11 @@ public class FoodMenuDaoImpl implements FoodMenuDao{
 	@Override
 	public List<FoodMenu> selectYearMonth(Date date) {
 		return null;
+	}
+
+	@Override
+	public FoodMenu selectFoodMenu() {
+		return session.selectOne("foodMenu.selectFoodMenu");
 	}
 
 }

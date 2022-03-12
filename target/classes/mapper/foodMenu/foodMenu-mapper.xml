@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="foodMenu">
+	<select id="selectFoodMenu" resultType="foodMenu">
+		select  
+			* 
+		from 
+			food_menu 
+		where 
+			TO_CHAR(menu_date,'YYYYMMDD') = TO_CHAR(CURRENT_date,'YYYYMMDD')
+	</select>
+	
+</mapper>
