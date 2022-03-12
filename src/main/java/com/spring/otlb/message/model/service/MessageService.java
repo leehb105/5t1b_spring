@@ -7,7 +7,7 @@ import com.spring.otlb.message.model.vo.Message;
 
 public interface MessageService {
 
-	public List<Message> selectAllSentMessage(int empNo);
+	public List<Message> selectAllSentMessage(String empNo);
 
 	public Message selectOneReceivedMessage(int no);
 
@@ -15,7 +15,7 @@ public interface MessageService {
 
 	public int insertMessage(Message message);
 
-	public List<Emp> selectAllMember();
+
 	
 	public int updateReadDate(int no);
 
@@ -23,13 +23,12 @@ public interface MessageService {
 
 	public int updateSenderDelYn(int no);
 
-	public int selectSentMessageCount(String empNo);
-
-	public Emp selectOneMember(int empNo);
+	public int selectReceivedMessageCount(String empNo);
 
 //	public int selectTotalSentMessageount(int empNo);
 
 	public List<Message> selectAllReceivedMessage(String empNo);
+
 	
 	
 	

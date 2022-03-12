@@ -17,13 +17,11 @@
 			emp_no = #{empNo}
 	</update>
 	
-	<select id="selectOneEmp" resultMap="empMap">
+	<select id="selectOneEmp" resultType="emp">
 		select
-			e.*,
-			a.authority
+			*
 		from 
-			emp e join authority a
-		        on e.emp_no = a.emp_no
+			emp
 		where
 			e.emp_no = #{empNo}
 	</select>
@@ -51,5 +49,8 @@
 		<result column="authority" property="authority"/>
 	</resultMap>
 	
+	<select id="selectAllMember" resultType="emp">
+		SELECT emp_no, emp_name FROM emp
+	</select>
 	
 </mapper>

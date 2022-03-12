@@ -1,8 +1,13 @@
-<%@page import="com.otlb.semi.message.model.vo.Message"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
+
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <body id="page-top">
     <!-- Page Wrapper -->
@@ -32,44 +37,34 @@
                            </tr>
                          </thead>
                          <tbody>
-<%
-/* 
-	로그인 회원이 보낸 쪽지데이터 출력
-*/
-List<Message> list = (List<Message>) request.getAttribute("list");
-List<String> titleList = (List<String>) request.getAttribute("titleList");
-List<String> sentDateList = (List<String>) request.getAttribute("sentDateList");
-List<String> readDateList = (List<String>) request.getAttribute("readDateList");
-	//for(Message message : list){
-	for(int i = 0; i < list.size(); i++){
-		Message message = list.get(i);
-		String title = titleList.get(i);
-%>
-                         	<tr>
-                         		<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="<%= message.getNo()%>"/></td>
-                         		<td width="180px" style="font-weight: bold;">
-                         			<a class="empPopover" data-toggle="popover" 
-		                         		data-emp-no="<%= message.getReceiverEmpNo()%>"
-		                         		data-emp-name="<%= message.getEmp().getEmpName() %>"
-		                         		style="color: #858796;">
-                         				<%= message.getEmp().getEmpName() %>(<%= message.getEmp().getDeptName() %>)
-                         			</a>
-                         		</td>
-                         		
-                         		<td>
-                         			<a href="<%= request.getContextPath() %>/message/sentMessageView?no=<%= message.getNo()%>"
-                         			style="color: #858796;" >
-                         				<%= title %>
-                       				</a>
-                    			</td>
-                         		<%-- <td><%= message.getSentDate() %></td> --%>
-                         		<%-- <td><%= message.getReadDate() != null ? message.getReadDate() : "읽지 않음" %></td> --%>
-                         		<td width="200px"><%= sentDateList.get(i) %></td>
-                         		<td width="200px"><%= readDateList.get(i) != null ? readDateList.get(i) : "읽지 않음" %></td>
-                         	</tr>
-<% 
-	}
- %>
+							<c:forEach items="${list}" var="message" varStatus="status">
+								<tr onclick="location.href='${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}'" style="cursor:pointer;">
+									<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="${message.no}"/></td>
+									<td width="180px" style="font-weight: bold;">
+										<a class="empPopover" data-toggle="popover" 
+											data-emp-no="${message.receiverEmpNo}"
+											data-emp-name="${message.emp.empName}"
+											style="color: #858796;">
+											${message.emp.empName}(${message.emp.deptName})
+										</a>
+									</td>
+									
+									<td>
+										<a href="${pageContext.request.contextPath}/message/sentMessageView?no=${message.no}"
+										style="color: #858796;" >
+											${message.content}
+										</a>
+									</td>
+									<%-- <td><%= message.getSentDate() %></td> --%>
+									<%-- <td><%= message.getReadDate() != null ? message.getReadDate() : "읽지 않음" %></td> --%>
+									<td width="200px">
+										<fmt:formatDate value="${message.sentDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</td>
+									<td width="200px">
+										<fmt:formatDate value="${message.readDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</td>
+								</tr>
+							</c:forEach>
                          </tbody>
  					</table>
 	 			</div>
@@ -78,7 +73,7 @@ List<String> readDateList = (List<String>) request.getAttribute("readDateList");
 	 			id = "delFrm"
 				name="messageDelFrm"
 				method="POST" 
-				action="<%= request.getContextPath() %>/message/sentMessageDelete" >
+				action="${pageContext.request.contextPath}/message/sentMessageDelete" >
 				<input type="hidden" id="no" name="no" value="" />
 			</form>	
 	 		</div>
@@ -93,12 +88,12 @@ List<String> readDateList = (List<String>) request.getAttribute("readDateList");
             </div>
             <!-- End of Main Content -->
 
-<script src="<%= request.getContextPath() %>/js/empPopup.js"></script>
+<script src="${pageContext.request.contextPath}/js/empPopup.js"></script>
 <script>
     const empPopovers = document.getElementsByClassName("empPopover");
     for (let empPopover of empPopovers) {
         console.log(empPopover.dataset.empName);
-        setPopover("<%= request.getContextPath() %>", empPopover.dataset.empNo, empPopover, empPopover.dataset.empName, "<%= loginEmp.getEmpNo() %>", "<%= loginEmp.getEmpName() %>");
+        setPopover("${pageContext.request.contextPath}", empPopover.dataset.empNo, empPopover, empPopover.dataset.empName, "${loginEmp.empNo}", "${loginEmp.empName}");
  }
 </script>  
 <script>

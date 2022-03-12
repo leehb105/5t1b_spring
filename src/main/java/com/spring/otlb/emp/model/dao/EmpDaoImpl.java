@@ -49,6 +49,11 @@ public class EmpDaoImpl implements EmpDao{
 		return 0;
 	}
 
+	@Override
+	public List<Emp> selectAllMember() {
+		return session.selectList("emp.selectAllMember");
+	}
+
 	
 
 }

@@ -1,13 +1,15 @@
-<%@page import="com.otlb.semi.message.model.vo.Message"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
     
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%
-	Message message = (Message) request.getAttribute("message");
-	String sentDate = (String) request.getAttribute("sentDate");
-%>
+
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -33,16 +35,18 @@
 	 				<table style="color: black;">
                            <tr>
                                <th>받는사람</th>
-                               <td style="padding-left: 30px;"><%= message.getEmp().getEmpName() %>(<%= message.getEmp().getDeptName() %>)</td>
+                               <td style="padding-left: 30px;">${message.emp.empName}(${message.emp.deptName})</td>
                            </tr>
                          	<tr>
                          		<th>보낸시간</th>
-                         		<td style="padding-left: 30px;"><%= sentDate %></td> 
+                         		<td style="padding-left: 30px;">
+									<fmt:formatDate value="${message.sentDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</td> 
                          	</tr>
  					</table>
  					<hr class="sidebar-divider">
  					<div class="container-container" style="color: black;">
-						<%= message.getContent() %>
+						${message.content}
  					</div>	
  					
 	 			</div>
@@ -54,8 +58,8 @@
 		 			id = "delFrm"
 					name="messageDelFrm"
 					method="POST" 
-					action="<%= request.getContextPath() %>/message/sentMessageDelete" >
-					<input type="hidden" id="no" name="no" value="<%= message.getNo() %>" />
+					action="${pageContext.request.contextPath}/message/sentMessageDelete" >
+					<input type="hidden" id="no" name="no" value="${message.no}" />
 				</form>
             </div>
             <!-- End of Main Content -->

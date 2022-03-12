@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.spring.otlb.emp.model.service.EmpService;
 import com.spring.otlb.emp.model.vo.Emp;
 import com.spring.otlb.message.model.service.MessageService;
 import com.spring.otlb.message.model.vo.Message;
@@ -29,6 +30,9 @@ public class MessageController {
 
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private EmpService empService;
 	
 //	@PostMapping("/messageEnroll.do")
 //	public String messageEnroll(Model model,
@@ -78,69 +82,35 @@ public class MessageController {
 //		return null;
 //	}
 //	
-//	@GetMapping("/sentMessageView.do")
-//	public void sentMessageView(@RequestParam int no,
-//			Model model) {
-//		//보낸쪽지함
-//		//글번호
-//		log.debug("no = {}", no);
-//		Message message = messageService.selectOneSentMessage(no);
-//		
-//		
-//		model.addAttribute("message", message);
-//		
-//	}
-//	
-//	@GetMapping("/messageLoadCount.do")
-//	public void messageLoadCount() {
-//		//System.out.println("@WebServlet(\"/message/messageLoadCount\") 호출성공");
-//		HttpSession session = request.getSession();
-//		Emp loginEmp = (Emp) session.getAttribute("loginEmp");
-//		int empNo = loginEmp.getEmpNo();
-////		System.out.println("empNO = " + empNo);
-//		
-//		int sentCount = messageService.selectSentMessageCount(empNo);
-////		System.out.println("servlet = " + sentCount);
-//		
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(sentCount);
-////		System.out.println(sb);
-//		response.setContentType("text/csv; charset=utf-8");
-//		response.getWriter().append(sb);
-//	}
-//	
-//	@GetMapping("/sentMessageList/do")
-//	public void sentMessageList() {
-//		HttpSession session = request.getSession();
-//		
-////		System.out.println(session.getAttribute("loginEmp"));
-//		Emp emp = (Emp) session.getAttribute("loginEmp");
-//		
-//		int empNo = emp.getEmpNo();
-//		List<Message> list = messageService.selectAllSentMessage(empNo);
-//		List<String> titleList = new ArrayList<>();
-//		List<String> sentDateList = new ArrayList<>();
-//		List<String> readDateList = new ArrayList<>();
-//		
-//		for(int i = 0; i < list.size(); i++) {
-//			if(list.get(i).getContent().length() > 50) {
-//				//n자가 넘는 쪽지의 경우 n자만출력해줌
-//				titleList.add(list.get(i).getContent().substring(0, 40) + "...더보기");
-//			}else {
-//				titleList.add(list.get(i).getContent());
-//			}
-//			//날짜처리
-//			sentDateList.add(DateFormatUtils.formatDate(list.get(i).getSentDate()));
-//			readDateList.add(DateFormatUtils.formatDate(list.get(i).getReadDate()));
-//		}
-//		request.setAttribute("list", list);
-//		request.setAttribute("titleList", titleList);
-//		request.setAttribute("sentDateList", sentDateList);
-//		request.setAttribute("readDateList", readDateList);
-//		request
-//			.getRequestDispatcher("/WEB-INF/views/message/sentMessageList.jsp")
-//			.forward(request, response);
-//	}
+	@GetMapping("/sentMessageView.do")
+	public void sentMessageView(@RequestParam int no,
+			Model model) {
+		//보낸쪽지함
+		//글번호
+		log.debug("no = {}", no);
+		Message message = messageService.selectOneSentMessage(no);
+		
+		
+		model.addAttribute("message", message);
+		
+	}
+	
+	
+	@GetMapping("/sentMessageList.do")
+	public void sentMessageList(Model model,
+			Principal principal) {
+		
+		List<Message> list = messageService.selectAllSentMessage(principal.getName());
+		
+		for(int i = 0; i < list.size(); i++) {
+			if(list.get(i).getContent().length() > 50) {
+				//n자가 넘는 쪽지의 경우 n자만출력해줌
+				list.get(i).setContent(list.get(i).getContent().substring(0, 40) + "...더보기");
+			}
+
+		}
+		model.addAttribute("list", list);
+	}
 //	
 //	@PostMapping("/sentMessageDelete.do")
 //	public String sentMessageDelete() {
@@ -211,69 +181,23 @@ public class MessageController {
 			}
 
 		}
-		int messageCount = messageService.selectSentMessageCount(principal.getName());
+		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
 		
 		model.addAttribute("list", list);
 		model.addAttribute("messageCount", messageCount);
 
 	}
 //	
-//	@GetMapping("/messageForm.do")
-//	public void messageForm() {
-//		String _receiverNo = request.getParameter("receiverNo");
-//		System.out.println(_receiverNo);
-//		//System.out.println("_empNo" + _senderNo);
-//		String receiver = null;
-//		if(_receiverNo != null) {
-//			Emp emp = messageService.selectOneMember(Integer.valueOf(_receiverNo));
-//			receiver = emp.getEmpNo() + "-" + emp.getEmpName();
-//			
-//		}
-//		System.out.println(receiver);
-//		request.setAttribute("receiver", receiver);
-//		
-//		request
-//			.getRequestDispatcher("/WEB-INF/views/message/messageForm.jsp")
-//			.forward(request, response);
-//	}
-//	
-//	@PostMapping("/receivedMessageDelete.do")
-//	public String receivedMessageDelete() {
-//		//넘어온 글 번호
-//		String no = request.getParameter("no");
-////		System.out.println(no);
-//		
-//		List<Integer> list = new ArrayList<>();
-//		//,가 넘어온 경우만 split처리
-//		if(no.contains(",")) {
-//			//,기준으로 문자열 split
-//			String[] noArr = no.split(",");
-//			
-//			//문자열 숫자를 정수형으로 형변환
-//			for(String str : noArr) {
-//				list.add(Integer.parseInt(str));
-//			}
-//			
-//		}else {
-//			//no가 단일값일경우
-//			list.add(Integer.parseInt(no));
-//		}
-//		String msg = "";
-//		for(int i = 0; i < list.size(); i++) {
-//			int result = messageService.updateReceiverDelYn(list.get(i));
-//			if(result > 0) {
-//				msg = (i+1) + "개의 쪽지 삭제에 성공하였습니다.";
-//			}else {
-//				msg = "일부 쪽지 삭제에 실패 하였습니다.";
-//				break;
-//			}
-//			
-//		}
-//		
-//		request.getSession().setAttribute("msg", msg);
-//		response.sendRedirect(request.getContextPath() + "/message/messageList");
-//		return null;
-//	}
+	@GetMapping("/messageForm.do")
+	public void messageForm(@RequestParam(required = false) String receiverNo) {
+		
+		if(receiverNo != null) {
+			Emp emp = empService.selectOneEmp(receiverNo);
+		}
+		
+	}
+	
+
 //	
 	
 

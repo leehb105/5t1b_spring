@@ -16,8 +16,8 @@ public class MessageServiceImpl implements MessageService{
 	private MessageDao messageDao;
 	
 	@Override
-	public List<Message> selectAllSentMessage(int empNo) {
-		return null;
+	public List<Message> selectAllSentMessage(String empNo) {
+		return messageDao.selectAllSentMessage(empNo);
 	}
 
 	@Override
@@ -35,10 +35,6 @@ public class MessageServiceImpl implements MessageService{
 		return 0;
 	}
 
-	@Override
-	public List<Emp> selectAllMember() {
-		return null;
-	}
 
 	@Override
 	public int updateReadDate(int no) {
@@ -56,13 +52,8 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public int selectSentMessageCount(String empNo) {
-		return messageDao.selectSentMessageCount(empNo);
-	}
-
-	@Override
-	public Emp selectOneMember(int empNo) {
-		return null;
+	public int selectReceivedMessageCount(String empNo) {
+		return messageDao.selectReceivedMessageCount(empNo);
 	}
 
 //	@Override
@@ -74,6 +65,7 @@ public class MessageServiceImpl implements MessageService{
 	public List<Message> selectAllReceivedMessage(String empNo) {
 		return messageDao.selectAllReceivedMessage(empNo);
 	}
+
 
 	
 

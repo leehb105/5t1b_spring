@@ -1,5 +1,6 @@
 package com.spring.otlb;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -23,6 +24,7 @@ import com.spring.otlb.bulletin.model.vo.Notice;
 import com.spring.otlb.foodMenu.controller.FoodMenuController;
 import com.spring.otlb.foodMenu.model.service.FoodMenuService;
 import com.spring.otlb.foodMenu.model.vo.FoodMenu;
+import com.spring.otlb.message.model.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,12 +43,15 @@ public class HomeController {
 	@Autowired 
 	private NoticeService noticeService;
 	
+	@Autowired
+	private MessageService messageService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model,
+			Principal principal) {
 		List<Notice> noticeList = noticeService.selectNoticeMain();
 //		log.debug("noticeList = {}", noticeList);
 
@@ -65,6 +70,10 @@ public class HomeController {
 		
 		FoodMenu foodMenu = foodMenuService.selectFoodMenu();
 //		log.debug("foodMenu = {}", foodMenu);
+		if(principal != null) {
+			int sentCount = messageService.selectReceivedMessageCount(principal.getName());
+			model.addAttribute("sentCount", sentCount);			
+		}
 		
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("boardList", boardList);

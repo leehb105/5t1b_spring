@@ -28,6 +28,6 @@ public interface EmpService {
 
 	public int checkEmpInfo(int empNo, String empName, String email);
 
-
+	public List<Emp> selectAllMember();
 
 }

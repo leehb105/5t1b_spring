@@ -14,7 +14,7 @@
 			<div class="my-2"></div>
 			
             <!-- 쪽지보내기 버튼 -->
-            <a class="btn btn-light btn-icon-split" href="${pageContext.request.contextPath}/message/messageForm">            
+            <a class="btn btn-light btn-icon-split" href="${pageContext.request.contextPath}/message/messageForm.do">            
                 <span class="text"><i class="fas fa-envelope fa-fw"></i>쪽지쓰기</span>
                </a>
            	<div class="my-2"></div>

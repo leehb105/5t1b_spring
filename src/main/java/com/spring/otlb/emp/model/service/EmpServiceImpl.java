@@ -49,6 +49,11 @@ public class EmpServiceImpl implements EmpService{
 		return 0;
 	}
 
+	@Override
+	public List<Emp> selectAllMember() {
+		return empDao.selectAllMember();
+	}
+
 
 
 }

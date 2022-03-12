@@ -9,7 +9,7 @@ public interface MessageDao {
 	
 	public List<Message> selectAllReceivedMessage(int empNo);
 
-	public List<Message> selectAllSentMessage(int empNo);
+	public List<Message> selectAllSentMessage(String empNo);
 
 	public Message selectOneReceivedMessage(int no);
 
@@ -17,7 +17,6 @@ public interface MessageDao {
 
 	public int insertMessage(Message message);
 
-	public List<Emp> selectAllMember();
 
 	public int updateReadDate(int no);
 
@@ -25,9 +24,8 @@ public interface MessageDao {
 	
 	public int updateSenderDelYn(int no);
 
-	public int selectSentMessageCount(String empNo);
+	public int selectReceivedMessageCount(String empNo);
 
-	public Emp selectOneMember(int empNo);
 
 //	public int selectTotalSentMessageount(int empNo);
 

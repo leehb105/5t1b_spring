@@ -21,8 +21,8 @@ public class MessageDaoImpl implements MessageDao{
 	}
 
 	@Override
-	public List<Message> selectAllSentMessage(int empNo) {
-		return null;
+	public List<Message> selectAllSentMessage(String empNo) {
+		return session.selectList("message.selectAllSentMessage", empNo);
 	}
 
 	@Override
@@ -41,11 +41,6 @@ public class MessageDaoImpl implements MessageDao{
 	}
 
 	@Override
-	public List<Emp> selectAllMember() {
-		return null;
-	}
-
-	@Override
 	public int updateReadDate(int no) {
 		return session.update("message.updateReadDate", no);
 	}
@@ -61,14 +56,10 @@ public class MessageDaoImpl implements MessageDao{
 	}
 
 	@Override
-	public int selectSentMessageCount(String empNo) {
-		return session.selectOne("message.selectSentMessageCount", empNo);
+	public int selectReceivedMessageCount(String empNo) {
+		return session.selectOne("message.selectReceivedMessageCount", empNo);
 	}
 
-	@Override
-	public Emp selectOneMember(int empNo) {
-		return null;
-	}
 
 //	@Override
 //	public int selectTotalSentMessageount(int empNo) {

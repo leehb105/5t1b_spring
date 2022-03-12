@@ -21,6 +21,7 @@ public interface EmpDao {
 
 	public int checkEmpInfo(int empNo, String empName, String email);
 
+	public List<Emp> selectAllMember();
 
 
 
