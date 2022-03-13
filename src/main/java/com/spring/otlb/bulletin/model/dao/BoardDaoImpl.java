@@ -29,7 +29,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Board selectOneBoard(int no) {
-		return null;
+		return session.selectOne("board.selectOneBoard", no);
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public List<BoardComment> selectBoardCommentList(int no) {
-		return null;
+		return session.selectList("board.selectBoardCommentList", no);
 	}
 
 	@Override
 	public int updateReadCount(int no) {
-		return 0;
+		return session.update("board.updateReadCount", no);
 	}
 
 	@Override

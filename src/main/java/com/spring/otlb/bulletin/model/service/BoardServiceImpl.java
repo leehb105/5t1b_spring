@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Board selectOneBoard(int no) {
-		return null;
+		return boardDao.selectOneBoard(no);
 	}
 
 	@Override
@@ -69,12 +69,12 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<BoardComment> selectBoardCommentList(int no) {
-		return null;
+		return boardDao.selectBoardCommentList(no);
 	}
 
 	@Override
 	public int updateReadCount(int no) {
-		return 0;
+		return boardDao.updateReadCount(no);
 	}
 
 	@Override

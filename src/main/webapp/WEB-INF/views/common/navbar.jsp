@@ -32,7 +32,7 @@
 
 			<!-- Nav Item - Charts -->
 
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/board/boardList">
+			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/board/boardList.do">
 
 					<span>자유게시판</span>
 			</a></li>
