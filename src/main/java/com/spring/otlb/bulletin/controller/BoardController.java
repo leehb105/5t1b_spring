@@ -31,7 +31,6 @@ import com.spring.otlb.common.Paging;
 import com.spring.otlb.emp.model.vo.Emp;
 
 import lombok.extern.slf4j.Slf4j;
-import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/board")
