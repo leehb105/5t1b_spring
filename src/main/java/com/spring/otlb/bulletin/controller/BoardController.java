@@ -139,7 +139,7 @@ public class BoardController {
 			throw e;
 		}
 	}
-//	
+	
 //	@GetMapping("/boardUpdate.do")
 //	public void boardUpdate() {
 //		int no = Integer.parseInt(request.getParameter("no"));
