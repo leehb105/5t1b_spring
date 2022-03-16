@@ -96,7 +96,7 @@
 			<!-- String commenterProfileImagePath = "/img/profile/profile.png";
 			Boolean commenterProfileImageExists = commenterImageList.get(i);
 			
-//			Boolean commenterProfileImageExists = (boolean) ((request.getAttribute("commenterProfileImageExists") == null) ? false : request.getAttribute("commenterProfileImageExists"));
+			Boolean commenterProfileImageExists = (boolean) ((request.getAttribute("commenterProfileImageExists") == null) ? false : request.getAttribute("commenterProfileImageExists"));
 			if(commenterProfileImageExists) commenterProfileImagePath = "/img/profile/" + bc.getEmpNo() + ".png"; -->
 			<!-- boolean removable = (
 					  loginEmp.getEmpNo() == bc.getEmpNo()
