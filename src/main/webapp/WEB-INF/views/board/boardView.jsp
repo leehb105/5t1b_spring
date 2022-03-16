@@ -148,7 +148,7 @@
 			<c:if test="bc.deleteYn eq 'N">
 					<tr class="level2">
 						<td style="padding-left: 50px; padding-bottom: 15px;">
-							<img class="img-profile rounded-circle" src="<%= request.getContextPath() + commenterProfileImagePath %>" height="30px" />
+							<img class="img-profile rounded-circle" src="${pageContext.request.contextPath}/commenterProfileImagePath" height="30px" />
 							<sub class="comment-writer empPopover" data-toggle="popover" style="font-weight: bold;" data-emp-no="${bc.empNo}">${bc.emp.empName}(${bc.emp.deptName})</sub>
 							<sub class="comment-date">${bc.regDate}</sub>
 							<br />
