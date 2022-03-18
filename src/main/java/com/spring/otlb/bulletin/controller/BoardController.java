@@ -238,7 +238,7 @@ public class BoardController {
 //		}
 //		return null;
 //	}
-//	
+	
 //	@PostMapping("/boardLikeCount.do")
 //	public String boardLikeCount() {
 //		int no = Integer.valueOf(request.getParameter("no"));
