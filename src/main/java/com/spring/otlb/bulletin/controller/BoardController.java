@@ -287,7 +287,7 @@ public class BoardController {
 //	public void boardForm() {
 //		
 //	}
-//	
+	
 //	@GetMapping("/boardFinder.do")
 //	public void boardFinder() {
 //		String searchType = request.getParameter("searchType");
