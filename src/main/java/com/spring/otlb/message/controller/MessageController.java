@@ -111,7 +111,7 @@ public class MessageController {
 		}
 		model.addAttribute("list", list);
 	}
-//	
+	
 //	@PostMapping("/sentMessageDelete.do")
 //	public String sentMessageDelete() {
 //		//넘어온 글 번호
