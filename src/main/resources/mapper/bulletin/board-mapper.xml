@@ -155,5 +155,50 @@
 		WHERE b.NO = #{no}
 	</select>
 	
+	<insert id="insertBoard">
+		insert into 
+			board(no, title, content, emp_no, category)
+		values(
+			seq_board_no.nextval,
+			#{title},
+			#{content},
+			#{empNo},
+			#{category}
+		)
+	</insert>
+	
+	<insert id="insertAttachment">
+		insert into
+			attachment(no, file_name, board_no)
+		values(
+			seq_attachment_no.nextval,
+			#{fileName},
+			#{boardNo}
+		)
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

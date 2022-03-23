@@ -19,7 +19,12 @@ public class BoardDaoImpl implements BoardDao{
 	
 	@Override
 	public int insertBoard(Board board) {
-		return 0;
+		return session.insert("board.insertBoard", board);
+	}
+
+	@Override
+	public int insertAttachment(Attachment attach) {
+		return session.insert("board.insertAttachment", attach);
 	}
 
 	@Override

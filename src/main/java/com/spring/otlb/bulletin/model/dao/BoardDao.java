@@ -83,6 +83,8 @@ public interface BoardDao {
 
 	public List<Board> selectTopBoardMain();
 
+	public int insertAttachment(Attachment attach);
+
 	
 }
 

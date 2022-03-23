@@ -8,12 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,8 +25,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.otlb.bulletin.model.service.BoardService;
+import com.spring.otlb.bulletin.model.vo.Attachment;
 import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 import com.spring.otlb.common.Criteria;
@@ -37,6 +43,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardController {
 
+	@Autowired
+	private ServletContext application;
+	
 	@Autowired
 	private BoardService boardService;
 	
@@ -283,10 +292,7 @@ public class BoardController {
 //		return null;
 //	}
 //	
-//	@GetMapping("/boardForm.do")
-//	public void boardForm() {
-//		
-//	}
+
 //	
 //	@GetMapping("/boardFinder.do")
 //	public void boardFinder() {
@@ -347,10 +353,64 @@ public class BoardController {
 //		response.sendRedirect(location);
 //		return null;
 //	}
-//	
-//	@PostMapping("/boardEnroll.do")
-//	public String boardEnroll() {
-//		try {
+	
+	@GetMapping("/boardEnroll.do")
+	public void boardEnroll() { }
+	
+	@PostMapping("/boardEnroll.do")
+	public String boardEnroll(
+			Model model,
+			@RequestParam(required = false, value = "upFile") MultipartFile[] upFiles,
+			Board board,
+			RedirectAttributes attributes) throws Exception {
+		try {
+			log.debug("board = {}", board);
+			log.debug("upFiles.length = {}", upFiles.length);
+			
+			String saveDirectory = application.getRealPath("/resources/upload");
+			
+			List<Attachment> attachments = new ArrayList<>();
+			
+			//업로드한 파일갯수별 처리
+			for(int i = 0; i < upFiles.length; i++) {
+				String fileName = null;
+				MultipartFile uploadFile = upFiles[i];
+				if(!uploadFile.isEmpty()) {
+					String originalFileName = uploadFile.getOriginalFilename();
+					String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
+					UUID uuid = UUID.randomUUID();	//UUID 구하기
+					fileName = uuid + "." + ext;
+					
+					File dest = new File(saveDirectory, fileName);
+					
+					uploadFile.transferTo(dest);
+					
+					Attachment attach = new Attachment();
+					attach.setFileName(fileName);
+					attachments.add(attach);
+				}
+			}
+			if(!attachments.isEmpty()) {
+				board.setAttachments(attachments);
+			}
+			
+			log.debug("board2 = {}", board);
+			
+			int result = boardService.insertBoard(board);
+			String msg = "";
+			if(result > 0) {
+				msg = "게시글을 등록했습니다!";
+				return "redirect:/board/boardList.do";
+			}else {
+				msg = "게시글을 등록오류입니다.";
+				return "redirect:/board/boardEnroll.do";
+			}
+			
+			
+			
+			
+			
+			
 //			System.out.println("이게 찍혀야됨");
 //			// A. server computer에 사용자 업로드파일 저장
 //			String saveDirectory = getServletContext().getRealPath("/upload/board"); // 여기서 /는 webroot 디렉토리
@@ -451,13 +511,12 @@ public class BoardController {
 //			String location = request.getContextPath() + "/board/boardView?no=" + board.getNo();
 //			System.out.println(location);
 //			response.sendRedirect(location);
-//		} catch (NumberFormatException | IOException e) {
-//			throw e;
-//		}
-//		return null;
-//		
-//	}
-//	
+		} catch (NumberFormatException | IOException e) {
+			throw e;
+		}
+		
+	}
+	
 //	@PostMapping("/boardCommentDelete.do")
 //	public String boardCommentDelete() {
 //		int boardNo = Integer.valueOf(request.getParameter("boardNo"));

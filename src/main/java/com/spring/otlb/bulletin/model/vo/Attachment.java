@@ -18,8 +18,8 @@ public class Attachment implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int no;
-	private String originalFilename;		// 사용자가 업로드한 파일명
-	private String renamedFilename;			// 서버컴퓨터에 저장된 파일명
+//	private String originalFilename;		// 사용자가 업로드한 파일명
+	private String fileName;			// 서버컴퓨터에 저장된 파일명
 	private Date regDate;
 	private int boardNo;
 	

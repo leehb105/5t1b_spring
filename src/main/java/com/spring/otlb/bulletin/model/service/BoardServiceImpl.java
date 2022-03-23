@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.otlb.bulletin.model.dao.BoardDao;
 import com.spring.otlb.bulletin.model.vo.Attachment;
@@ -12,6 +13,7 @@ import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class BoardServiceImpl implements BoardService{
 
 	@Autowired
@@ -19,9 +21,24 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public int insertBoard(Board board) {
-		return 0;
+		int result = boardDao.insertBoard(board);
+		List<Attachment> list = board.getAttachments();
+		if(list != null) {
+			for(Attachment attach : list) {
+				attach.setBoardNo(board.getNo());
+				result = insertAttachment(attach);
+			}
+		}
+		
+		return result;
+		
 	}
 
+	@Override
+	public int insertAttachment(Attachment attach) {
+		return boardDao.insertAttachment(attach);
+	}
+	
 	@Override
 	public int deleteBoard(int no) {
 		return 0;
@@ -201,5 +218,6 @@ public class BoardServiceImpl implements BoardService{
 	public List<Board> selectTopBoardMain() {
 		return boardDao.selectTopBoardMain();
 	}
+
 
 }

@@ -11,7 +11,9 @@ import com.spring.otlb.bulletin.model.vo.BoardComment;
 public interface BoardService {
 
 	public int insertBoard(Board board);
-
+	
+	public int insertAttachment(Attachment attach);
+	
 	public int deleteBoard(int no);
 	
 	public Board selectOneBoard(int no);
