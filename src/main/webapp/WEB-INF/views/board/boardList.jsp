@@ -37,7 +37,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 	<!-- Page Heading -->
 	<h1 style=" color: black; font-weight:bolder; text-shadow: 1px 1px skyblue; margin-left:20px; margin-top:30px">자유 게시판</h1>
 		<a class="btn btn-primary btn-icon-split"
-			href="${pageContext.request.contextPath}/board/boardForm.do" style="margin-left:90%; width: 100px; height:35px; border-radius:10px; padding-top:5px;;">
+			href="${pageContext.request.contextPath}/board/boardEnroll.do" style="margin-left:90%; width: 100px; height:35px; border-radius:10px; padding-top:5px;;">
 			<span>
 			<i class="fas fa-envelope fa-fw"></i>글쓰기</span>
 		</a>

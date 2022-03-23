@@ -400,9 +400,11 @@ public class BoardController {
 			String msg = "";
 			if(result > 0) {
 				msg = "게시글을 등록했습니다!";
+				attributes.addFlashAttribute("msg", msg);
 				return "redirect:/board/boardList.do";
 			}else {
 				msg = "게시글을 등록오류입니다.";
+				attributes.addFlashAttribute("msg", msg);
 				return "redirect:/board/boardEnroll.do";
 			}
 			

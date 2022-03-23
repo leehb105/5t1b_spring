@@ -165,6 +165,12 @@
 			#{empNo},
 			#{category}
 		)
+		<selectKey order="AFTER" resultType="_int" keyProperty="no">
+			select
+				seq_board_no.currval
+			from
+				dual
+		</selectKey>
 	</insert>
 	
 	<insert id="insertAttachment">

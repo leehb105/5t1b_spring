@@ -20,7 +20,7 @@
 
 
 			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/board/noticeList">
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/board/noticeList.do">
 
 					<span>공지사항</span>
 			</a></li>
@@ -32,7 +32,7 @@
 
 			<!-- Nav Item - Charts -->
 
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/board/boardList.do">
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/board/boardList.do">
 
 					<span>자유게시판</span>
 			</a></li>
@@ -43,7 +43,7 @@
 
 			<!-- Nav Item - Charts -->
 
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/board/anonymousBoardList">
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/board/anonymousBoardList.do">
 
 					<span>익명게시판</span>
 			</a></li>
@@ -52,7 +52,7 @@
 			<hr class="sidebar-divider">
 
 			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/foodMenu/calendar">
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/foodMenu/calendar.do">
 					<span>사내식당메뉴</span>
 			</a></li>
 
@@ -60,7 +60,7 @@
 			<hr class="sidebar-divider">
 
 			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/emp/empListView">
+			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/emp/empListView.do">
 					<span>사원목록</span>
 			</a></li>
 
