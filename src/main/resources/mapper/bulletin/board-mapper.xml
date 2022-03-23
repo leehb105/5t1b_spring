@@ -183,9 +183,35 @@
 		)
 	</insert>
 	
+	<select id="selectBoardAttachments" resultMap="boardAttachMap">
+		SELECT
+			b.*,
+			a.file_name
+		FROM
+			board b JOIN ATTACHMENT a ON
+			b.NO = a.BOARD_NO
+		WHERE
+			BOARD_NO = #{no}
+	</select>
 	
+	<resultMap type="board" id="boardAttachMap">
+		<id column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="read_count" property="readCount"/>
+		<result column="like_count" property="likeCount"/>
+		<result column="report_yn" property="reportYn"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="category" property="category"/>
+		<result column="delete_yn" property="deleteYn"/>
+		<collection property="attachments" resultMap="attachmentMap"/>
+	</resultMap>
 	
-	
+	<resultMap type="attachment" id="attachmentMap">
+		<id column="no" property="no"/>
+		<result column="file_name" property="fileName" />
+	</resultMap>
 	
 	
 	

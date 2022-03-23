@@ -2,6 +2,7 @@ package com.spring.otlb.bulletin.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -18,6 +19,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -51,7 +56,7 @@ public class BoardController {
 	
 	@GetMapping("/boardList.do")
 	public void boardList(
-			@RequestParam(defaultValue = "1") int pageNum, 
+			@RequestParam(defaultValue = "1", required = false) int pageNum, 
     		Model model, 
     		HttpServletRequest request ) {
 		
@@ -121,8 +126,10 @@ public class BoardController {
 			
 			
 			//게시판 데이터 가져오기
-			Board board = boardService.selectOneBoard(no);
+			Board board = boardService.selectBoardAttachments(no);
 			log.debug("board = {}", board);
+			
+			
 //			String filepath = BoardViewServlet.class.getResource("/../../img/profile").getPath();
 //			File writerProfileImage = new File(filepath + board.getEmpNo() + ".png");
 //			if(writerProfileImage.exists()) request.setAttribute("writerProfileImageExists", true);
@@ -148,6 +155,31 @@ public class BoardController {
 			throw e;
 		}
 	}
+	
+//	@GetMapping(
+//			value = "/fileDownload.do",
+//			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//	@ResponseBody
+//	public Resource fileDownload(@RequestParam int no, HttpServletResponse response) 
+//		throws UnsupportedEncodingException{
+//		Attachment attach = boardService.selectOneAttachment(no);
+//		log.debug("attach = {}", attach);
+//		
+//		//다운로드받을 파일 경로
+//		String saveDirectory = application.getRealPath("/resources/upload/board");
+//		File downFile = new File(saveDirectory, attach.getRenamedFilename());
+//		String location = "file:" + downFile; //file객체의 toString은 절대경로로 오버라이드되어있다.
+//		log.debug("location = {}", location);
+//		Resource resource = resourceLoader.getResource(location);
+//		
+//		//헤더설정
+//		String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");
+//		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+//		
+//		return resource;
+//	}
+	
+	
 	
 //	@GetMapping("/boardUpdate.do")
 //	public void boardUpdate() {
@@ -408,111 +440,6 @@ public class BoardController {
 				return "redirect:/board/boardEnroll.do";
 			}
 			
-			
-			
-			
-			
-			
-//			System.out.println("이게 찍혀야됨");
-//			// A. server computer에 사용자 업로드파일 저장
-//			String saveDirectory = getServletContext().getRealPath("/upload/board"); // 여기서 /는 webroot 디렉토리
-//			System.out.println("[BoardEnrollServlet] saveDirectory = " + saveDirectory);
-//			
-//			int maxPostSize = 1024 * 1024 * 10; // 10MB //바이트 단위
-//			String encoding = "utf-8";
-//			
-//			// 파일명 재지정 정책 객체
-//			// DefaultFileRenamePolicy : 동일한 이름의 파일은 numbering을 통해 overwrite을 방지
-////			FileRenamePolicy policy = new DefaultFileRenamePolicy();
-//			FileRenamePolicy policy = new AttachFileRenamePolicy();
-//			
-//			MultipartRequest multipartRequest = 
-//					new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
-//			
-//			
-//			// B. 업로드한 파일 정보를 db에 저장 : attachment테이블 하나당 1행 저장
-//			
-//			
-//			
-//			// 1. 사용자입력값 처리
-//			// MultipartRequest객체 생성하는 경우, 기존 request가 아닌 MultipartRequest객체에서 값을 가져와야 한다.
-//			String category = multipartRequest.getParameter("category");
-//			String title = multipartRequest.getParameter("title");
-//			String content = multipartRequest.getParameter("content");
-//			int empNo = Integer.parseInt(multipartRequest.getParameter("empNo"));
-//			
-//			Board board = new Board();
-//			board.setCategory(category);
-//			board.setTitle(title);
-//			board.setContent(content);
-//			board.setEmpNo(empNo);
-//			
-//			// 저장된 파일정보 -> Attachment객체 생성 -> List<Attachment>객체에 추가 -> Board객체에 추가
-//			File upFile1 = multipartRequest.getFile("upFile1");
-//			File upFile2 = multipartRequest.getFile("upFile2");
-//			File upFile3 = multipartRequest.getFile("upFile3");
-//			File upFile4 = multipartRequest.getFile("upFile4");
-//			File upFile5 = multipartRequest.getFile("upFile5");
-//			Map<String, File> map = new HashMap<>();
-//			map.put("upFile1", upFile1);
-//			map.put("upFile2", upFile2);
-//			map.put("upFile3", upFile3);
-//			map.put("upFile4", upFile4);
-//			map.put("upFile5", upFile5);
-//
-//			if(upFile1 != null || upFile2 != null || upFile3 != null || upFile4 != null || upFile5 != null) {
-//				List<Attachment> attachments = new ArrayList<>();
-//				Set<String> keySet = map.keySet();
-//				for(String key : keySet) {
-//					File file = map.get(key);
-//					if(file != null) {
-//						Attachment attach = EmpUtils.makeAttachment(multipartRequest, key);
-//						attachments.add(attach);
-//					}
-//				}
-//				board.setAttachments(attachments);
-//				System.out.println("[BoardEnrollServlet] attachments = " + attachments);
-//			}
-//
-///*			
-//			if(upFile1 != null || upFile2 != null || upFile3 != null || upFile4 != null || upFile5 != null) {
-//				List<Attachment> attachments = new ArrayList<>();
-//				// 현재 fk인 boardNo 필드값은 비어있다.
-//				if(upFile1 != null) {
-//					Attachment attach1 = EmpUtils.makeAttachment(multipartRequest, "upFile1");
-//					attachments.add(attach1);
-//				}
-//				if(upFile2 != null) {
-//					Attachment attach2 = EmpUtils.makeAttachment(multipartRequest, "upFile2");
-//					attachments.add(attach2);
-//				}	
-//				if(upFile3 != null) {
-//					Attachment attach2 = EmpUtils.makeAttachment(multipartRequest, "upFile3");
-//					attachments.add(attach2);
-//				}	
-//				if(upFile4 != null) {
-//					Attachment attach2 = EmpUtils.makeAttachment(multipartRequest, "upFile4");
-//					attachments.add(attach2);
-//				}	
-//				if(upFile5 != null) {
-//					Attachment attach2 = EmpUtils.makeAttachment(multipartRequest, "upFile5");
-//					attachments.add(attach2);
-//				}	
-//				board.setAttachments(attachments);
-//				System.out.println("[BoardEnrollServlet] attachments = " + attachments);
-//			}
-//*/			
-//			System.out.println("[BoardEnrollServlet] board = " + board);
-//			
-//			// 2. 업무로직
-//			int result = bulletinService.insertBoard(board);
-//			String msg = result > 0 ? "게시물 등록 성공" : "게시물 등록 실패";
-//			
-//			// 3. 응답요청
-//			request.getSession().setAttribute("msg", msg);
-//			String location = request.getContextPath() + "/board/boardView?no=" + board.getNo();
-//			System.out.println(location);
-//			response.sendRedirect(location);
 		} catch (NumberFormatException | IOException e) {
 			throw e;
 		}

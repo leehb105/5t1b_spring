@@ -86,6 +86,8 @@ public interface BoardService {
 
 	public List<Board> selectTopBoardMain();
 
+	public Board selectBoardAttachments(int no);
+
 
 	
 }

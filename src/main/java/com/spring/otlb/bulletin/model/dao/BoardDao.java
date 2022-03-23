@@ -85,6 +85,8 @@ public interface BoardDao {
 
 	public int insertAttachment(Attachment attach);
 
+	public Board selectBoardAttachments(int no);
+
 	
 }
 

@@ -219,5 +219,10 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectTopBoardMain();
 	}
 
+	@Override
+	public Board selectBoardAttachments(int no) {
+		return boardDao.selectBoardAttachments(no);
+	}
+
 
 }
