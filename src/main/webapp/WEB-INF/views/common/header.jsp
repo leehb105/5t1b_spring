@@ -128,15 +128,23 @@
 					<sec:authentication property="principal.username"/>
 					</a>님 &nbsp -->
 
-					<li class="nav-item dropdown no-arrow"><a
-						class="nav-link dropdown-toggle" href="#" id="userDropdown"
-						role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> 
-						<span
-							class="mr-2 d-none d-lg-inline text-gray-600 small">${loginEmp.empName}</span>
-						<img class="img-profile rounded-circle"
-						src="${pageContext.request.contextPath}/img/profile/${loginEmp.profileImage}">
-					</a> <!-- Dropdown - User Information -->
+					<li class="nav-item dropdown no-arrow">
+						<a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> 
+							<span
+								class="mr-2 d-none d-lg-inline text-gray-600 small">${loginEmp.empName}
+							</span>
+							<c:if test="${loginEmp.profileImage eq null}">
+								<img class="img-profile rounded-circle"
+									src="${pageContext.request.contextPath}/resources/img/profile/default_profile.png">
+							</c:if>
+							<c:if test="${loginEmp.profileImage ne null}"> 
+								<img class="img-profile rounded-circle"
+									src="${pageContext.request.contextPath}/resources/img/profile/${loginEmp.profileImage}">
+							</c:if>
+						</a> <!-- Dropdown - User Information -->
 						<div
 							class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 							aria-labelledby="userDropdown">

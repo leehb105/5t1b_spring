@@ -19,4 +19,6 @@ public interface AnonyBoardDao {
 	int insertAnonymousBoard(Board board);
 
 	int insertAnonyAttachment(Attachment attach);
+
+	Board selectAnonyBoardAttachments(int no);
 }

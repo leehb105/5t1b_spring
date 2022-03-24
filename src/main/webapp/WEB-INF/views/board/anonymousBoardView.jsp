@@ -1,17 +1,13 @@
-<%@page import="com.otlb.semi.emp.model.service.EmpService"%>
-<%@page import="com.otlb.semi.bulletin.model.service.BulletinService"%>
-<%@page import="java.util.Map"%>
-<%@page import="com.otlb.semi.bulletin.model.vo.BoardComment"%>
-<%@page import="java.util.List"%>
-<%@page import="com.otlb.semi.bulletin.model.vo.Board"%>
-<%@page import="com.otlb.semi.mainpage.model.vo.*" %>
-<%@page import="com.otlb.semi.bulletin.model.vo.Attachment"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-
-<body id="page-top">
-
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
 <%
 	Board board  = (Board) request.getAttribute("board");

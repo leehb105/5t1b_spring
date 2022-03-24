@@ -331,8 +331,15 @@ public class AnonyBoardController {
 
     }
 
-//    @GetMapping("/anonymousBoardView.do")
-//    public void anonymousBoardView(){
+    @GetMapping("/anonymousBoardView.do")
+    public void anonymousBoardView(
+            Model model,
+            @RequestParam int no
+    ){
+        log.debug("no = {}", no);
+
+        Board board = anonyBoardService.selectAnonyBoardAttachments(no);
+        log.debug("board = {}", board);
 //        int no = Integer.valueOf(request.getParameter("no"));
 //        System.out.println(no);
 //        // 쿠키 생성
@@ -408,7 +415,7 @@ public class AnonyBoardController {
 //        request
 //                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardView.jsp")
 //                .forward(request, response);
-//    }
+    }
 
 
 }

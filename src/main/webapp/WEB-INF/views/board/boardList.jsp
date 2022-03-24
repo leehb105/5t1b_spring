@@ -92,12 +92,12 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 					<option value="empName" >작성자</option>
 				</select>
 				<div id="search-input" class="search-type" style="display: inline-block;">
-					<form action="${pageContext.request.contextPath}/board/searchBoard.do" id="searchFrm">
+					<!-- <form action="${pageContext.request.contextPath}/board/searchBoard.do" id="searchFrm">
 						<input type="hidden" name="searchType" value=""/>
 						<input type="text" name="searchKeyword" value="" size="25" placeholder="검색어를 입력하세요."/>
 						<button type="button" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
 						<i class="fa fa-search" aria-hidden="true"></i></button>			
-					</form>	
+					</form>	 -->
 				</div>
 				
 				<!-- Pagination -->
@@ -114,6 +114,10 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
                         </c:if>
                     </ul>
                 </nav>
+				<form id='actionForm' action="${pageContext.request.contextPath}/board/boardList.do" method="get"> 
+                    <input type="hidden" name="pageNum" value="${page.cri.pageNum}"> 
+                    <!-- <input type="hidden" name="amount" value="${page.cri.amount}">  -->
+                </form>
 		    </div>
 		</div>
 	</div>
@@ -126,6 +130,15 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 
 
 <script>
+var actionForm = $('#actionForm'); 
+$('.page-item a').on('click', function(e) { e.preventDefault(); 
+	//걸어둔 링크로 이동하는 것을 일단 막음 
+	actionForm.find('input[name="pageNum"]').val($(this).attr('href')); 
+	actionForm.submit(); 
+});
+
+
+
 const category = document.getElementById('category').textContent;
 const main = document.getElementById('main');
 
@@ -146,16 +159,16 @@ if(category == '[공지]'){
 
 
 //검색옵션 지정
-var actionForm = $('#searchFrm'); 
-$('#searchBtn').on('click', function(e) { 
-	//걸어둔 링크로 이동하는 것을 일단 막음 
-	e.preventDefault(); 
-	//선택된 select 값 저장
-	$('input[name=searchType]').val($('#searchType option:selected').val());
-	// console.log($('input[name=searchType]').val());
-	//값 저장 후 제출
-	actionForm.submit(); 
-});
+// var actionForm = $('#searchFrm'); 
+// $('#searchBtn').on('click', function(e) { 
+// 	//걸어둔 링크로 이동하는 것을 일단 막음 
+// 	e.preventDefault(); 
+// 	//선택된 select 값 저장
+// 	$('input[name=searchType]').val($('#searchType option:selected').val());
+// 	// console.log($('input[name=searchType]').val());
+// 	//값 저장 후 제출
+// 	actionForm.submit(); 
+// });
 
 //검색어 미입력시 제출 금지
 window.onload = function(){

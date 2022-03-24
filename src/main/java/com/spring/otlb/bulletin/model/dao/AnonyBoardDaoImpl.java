@@ -45,4 +45,9 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	public int insertAnonyAttachment(Attachment attach) {
 		return session.insert("anonyBoard.insertAnonyAttachment", attach);
 	}
+
+	@Override
+	public Board selectAnonyBoardAttachments(int no) {
+		return session.selectOne("anonyBoard.selectAnonyBoardAttachments", no);
+	}
 }

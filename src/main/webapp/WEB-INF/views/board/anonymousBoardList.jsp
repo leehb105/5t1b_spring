@@ -74,15 +74,15 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 				</table>
 			</div>
 			<div id="search-container">
-		        <select id="searchType">
+		        <!-- <select id="searchType">
 		            <option value="title">제목</option>		
 					<option value="empName" >작성자</option>	
-		        </select>
+		        </select> -->
 		        <div id="search-title" class="search-type">
 		            <form action="${pageContext.request.contextPath}/board/anonymousBoardFinder.do">
 		                <input type="hidden" name="searchType" value="title"/>
-		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색할 제목을 입력하세요."/>
-		                <button type="submit" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
+		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색어를 입력하세요."/>
+		                <button type="submit" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
 		                <i class="fa fa-search" aria-hidden="true"></i></button>			
 		            </form>
 		        </div>
@@ -100,6 +100,10 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
                         </c:if>
                     </ul>
                 </nav>
+				<form id='actionForm' action="${pageContext.request.contextPath}/board/anonymousBoardList.do" method="get"> 
+                    <input type="hidden" name="pageNum" value="${page.cri.pageNum}"> 
+                    <!-- <input type="hidden" name="amount" value="${page.cri.amount}">  -->
+                </form>
 		    </div>
 		</div>
 		<div>
@@ -113,18 +117,36 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 
 
 <script>
+var actionForm = $('#actionForm'); 
+$('.page-item a').on('click', function(e) { e.preventDefault(); 
+	//걸어둔 링크로 이동하는 것을 일단 막음 
+	actionForm.find('input[name="pageNum"]').val($(this).attr('href')); 
+	actionForm.submit(); 
+});
 
-$(searchType).change((e) => {
-	$(".search-type").hide();
+// $(searchType).change((e) => {
+// 	$(".search-type").hide();
 	
-	const v = $(e.target).val();
-	$("#search-" + v).css("display", "inline-block");
+// 	const v = $(e.target).val();
+// 	$("#search-" + v).css("display", "inline-block");
+// });
+//검색어 미입력시 제출 금지
+window.onload = function(){
+	var searchBtn = document.getElementById('searchBtn');
+	//입력값이 없는 경우 버튼 비활성화
+	searchBtn.disabled = true;
+};
+$("input[name=searchKeyword]").on('keyup', function(){
+	if($('input[name=searchKeyword]').val().length > 0){
+		//입력값이 있을경우 버튼 활성화
+		searchBtn.disabled = false;
+	}else{
+		//입력값이 없는 경우 버튼 비활성화
+		searchBtn.disabled = true;
+	}
 });
 
 </script>
 
-</body>
-
-</html>
 <br /><br /><br /><br /><br />
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

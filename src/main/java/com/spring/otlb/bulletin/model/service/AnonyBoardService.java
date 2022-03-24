@@ -21,4 +21,6 @@ public interface AnonyBoardService {
 	public int insertAnonymousBoard(Board board);
 
 	public int insertAnonyAttachment(Attachment attach);
+
+	Board selectAnonyBoardAttachments(int no);
 }
