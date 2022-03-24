@@ -18,7 +18,7 @@ public class Paging {
 		this.cri = _criteria;
 		this.total = _total;
 		this.endPage = (int) (Math.ceil(_criteria.getPageNum() / 10.0)) * 10;
-		this.startPage = this.endPage - 10;
+		this.startPage = this.endPage - 9;
 		int realEnd = (int) (Math.ceil((_total * 1.0) / _criteria.getAmount()));
 		if (realEnd < this.endPage) {
 			this.endPage = realEnd;
