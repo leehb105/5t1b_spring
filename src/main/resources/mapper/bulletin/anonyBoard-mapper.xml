@@ -5,7 +5,7 @@
 
 <mapper namespace="anonyBoard">
 
-	<select id="selectAllBoard" resultMap="boardMap">
+	<select id="selectAllAnonymousBoard" resultMap="boardMap">
 		<![CDATA[
 			SELECT
 				*
@@ -18,10 +18,10 @@
 					(SELECT
 						b.*,
 						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
-						(select count(*) from attachment where board_no = b.no) attach_count, 
-						(select count(*) from board_comment where board_no = b.no) comment_count
+						(select count(*) from ANONYMOUS_ATTACHMENT where board_no = b.no) attach_count,
+						(select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = b.no) comment_count
 					FROM
-						board b
+						ANONYMOUS_BOARD b
 					WHERE
 						b.delete_yn = 'N'
 					ORDER BY 
@@ -35,7 +35,7 @@
 		]]>
 	</select>
 	
-	<resultMap type="board" id="boardMap">
+	<resultMap type="anonyBoard" id="boardMap">
 		<id column="no" property="no"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
@@ -56,11 +56,11 @@
 		<result column="emp_name" property="empName" />
 	</resultMap>
 	
-	<select id="selectTotalBoardCount" resultType="int">
+	<select id="selectTotalAnonyBoardCount" resultType="int">
 		SELECT
 			count(*)
 		FROM
-			board
+			ANONYMOUS_BOARD
 		WHERE
 			delete_yn = 'N'
 	</select>

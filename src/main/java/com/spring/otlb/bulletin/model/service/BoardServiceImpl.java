@@ -64,10 +64,7 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
-	@Override
-	public List<Board> selectAllAnonymousBoard(Map<String, Object> param) {
-		return null;
-	}
+
 
 	@Override
 	public int selectTotalBoardCount() {
@@ -119,10 +116,6 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
-	@Override
-	public List<Board> searchAnonymousBoard(Map<String, Object> param) {
-		return null;
-	}
 
 	@Override
 	public int updateBoardLikeCount(int no) {

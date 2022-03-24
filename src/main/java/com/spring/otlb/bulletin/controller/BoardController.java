@@ -88,13 +88,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boardView.do")
-	public void boardView(@RequestParam int no,
+	public void boardView(
+			@RequestParam int no,
 			Model model,
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
 			log.debug("no = {}", no);
-			// 쿠키 생성 
+			// 쿠키 생성
 			Cookie oldCookie = null;
 			Cookie[] cookies = request.getCookies();
 			log.debug("cookies = {}", cookies);
@@ -107,7 +108,7 @@ public class BoardController {
 					}
 				}
 			}
-			
+
 			if(oldCookie != null) {
 				 if (!oldCookie.getValue().contains("[" + no + "]")) {
 					 	boardService.updateReadCount(no);
@@ -127,7 +128,7 @@ public class BoardController {
 			
 			//게시판 데이터 가져오기
 			Board board = boardService.selectBoardAttachments(no);
-			log.debug("board = {}", board);
+			log.debug("board and attach= {}", board);
 			
 			
 //			String filepath = BoardViewServlet.class.getResource("/../../img/profile").getPath();
@@ -154,6 +155,7 @@ public class BoardController {
 			e.printStackTrace();
 			throw e;
 		}
+
 	}
 	
 //	@GetMapping(

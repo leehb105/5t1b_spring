@@ -188,10 +188,10 @@
 			b.*,
 			a.file_name
 		FROM
-			board b JOIN ATTACHMENT a ON
+			board b LEFT JOIN ATTACHMENT a ON
 			b.NO = a.BOARD_NO
 		WHERE
-			BOARD_NO = #{no}
+			b.no = #{no}
 	</select>
 	
 	<resultMap type="board" id="boardAttachMap">

@@ -24,7 +24,7 @@ public interface BoardService {
 	
 	public List<Board> selectAllNotice(Map<String, Object> param);
 	
-	public List<Board> selectAllAnonymousBoard(Map<String, Object> param);
+
 
 	public int selectTotalBoardCount();
 
@@ -46,7 +46,7 @@ public interface BoardService {
 
 	public List<Board> searchNotice(Map<String, Object> param);
 
-	public List<Board> searchAnonymousBoard(Map<String, Object> param);
+
 
 	public int updateBoardLikeCount(int no);
 

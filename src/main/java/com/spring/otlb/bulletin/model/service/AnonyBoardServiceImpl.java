@@ -1,6 +1,7 @@
 package com.spring.otlb.bulletin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,21 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 	@Override
 	public List<Board> selectTopAnonyBoardMain() {
 		return anonyBoardDao.selectTopAnonyBoardMain();
+	}
+
+	@Override
+	public List<Board> searchAnonymousBoard(Map<String, Object> param) {
+		return null;
+	}
+
+	@Override
+	public List<Board> selectAllAnonymousBoard(Map<String, Object> param) {
+		return anonyBoardDao.selectAllAnonymousBoard(param);
+	}
+
+	@Override
+	public int selectTotalAnonyBoardCount() {
+		return anonyBoardDao.selectTotalAnonyBoardCount();
 	}
 
 }
