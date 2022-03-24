@@ -163,4 +163,29 @@
 		<id column="no" property="no"/>
 		<result column="file_name" property="fileName" />
 	</resultMap>
+
+	<select id="selectAnonyBoardCommentList" resultMap="boardCommentMap">
+		SELECT
+			bc.*,
+			(SELECT emp_name FROM emp e WHERE bc.EMP_NO = e.EMP_NO) emp_name,
+			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = bc.EMP_NO) dept_name
+		FROM
+			ANONYMOUS_BOARD_COMMENT bc
+		WHERE
+			BOARD_NO = #{no}
+			START WITH comment_level = 1 CONNECT BY PRIOR NO = comment_ref ORDER siblings by NO
+	</select>
+
+	<resultMap type="boardComment" id="boardCommentMap">
+		<id column="no" property="no"/>
+		<result column="comment_level" property="commentLevel"/>
+		<result column="content" property="content"/>
+		<result column="report_yn" property="reportYn"/>
+		<result column="comment_ref" property="commentRef"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="board_no" property="boardNo"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="delete_yn" property="deleteYn"/>
+		<association property="emp" resultMap="empMap"/>
+	</resultMap>
 </mapper>

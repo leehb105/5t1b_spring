@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.spring.otlb.bulletin.model.vo.Attachment;
+import com.spring.otlb.bulletin.model.vo.BoardComment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,11 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 	@Override
 	public Board selectAnonyBoardAttachments(int no) {
 		return anonyBoardDao.selectAnonyBoardAttachments(no);
+	}
+
+	@Override
+	public List<BoardComment> selectAnonyBoardCommentList(int no) {
+		return anonyBoardDao.selectAnonyBoardCommentList(no);
 	}
 
 

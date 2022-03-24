@@ -3,6 +3,7 @@ package com.spring.otlb.bulletin.controller;
 import com.spring.otlb.bulletin.model.service.AnonyBoardService;
 import com.spring.otlb.bulletin.model.vo.Attachment;
 import com.spring.otlb.bulletin.model.vo.Board;
+import com.spring.otlb.bulletin.model.vo.BoardComment;
 import com.spring.otlb.common.Criteria;
 import com.spring.otlb.common.Paging;
 import lombok.extern.slf4j.Slf4j;
@@ -340,6 +341,12 @@ public class AnonyBoardController {
 
         Board board = anonyBoardService.selectAnonyBoardAttachments(no);
         log.debug("board = {}", board);
+
+        List<BoardComment> boardCommentList = anonyBoardService.selectAnonyBoardCommentList(no);
+        log.debug("boardCommentList = {}", boardCommentList);
+
+        model.addAttribute("board", board);
+        model.addAttribute("boardCommentList", boardCommentList);
 //        int no = Integer.valueOf(request.getParameter("no"));
 //        System.out.println(no);
 //        // 쿠키 생성

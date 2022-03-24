@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.otlb.bulletin.model.vo.Attachment;
 import com.spring.otlb.bulletin.model.vo.Board;
+import com.spring.otlb.bulletin.model.vo.BoardComment;
 
 public interface AnonyBoardService {
 
@@ -23,4 +24,6 @@ public interface AnonyBoardService {
 	public int insertAnonyAttachment(Attachment attach);
 
 	Board selectAnonyBoardAttachments(int no);
+
+	List<BoardComment> selectAnonyBoardCommentList(int no);
 }

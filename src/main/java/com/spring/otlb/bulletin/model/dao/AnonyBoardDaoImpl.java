@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.spring.otlb.bulletin.model.vo.Attachment;
+import com.spring.otlb.bulletin.model.vo.BoardComment;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -49,5 +50,10 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	@Override
 	public Board selectAnonyBoardAttachments(int no) {
 		return session.selectOne("anonyBoard.selectAnonyBoardAttachments", no);
+	}
+
+	@Override
+	public List<BoardComment> selectAnonyBoardCommentList(int no) {
+		return session.selectList("anonyBoard.selectAnonyBoardCommentList", no);
 	}
 }

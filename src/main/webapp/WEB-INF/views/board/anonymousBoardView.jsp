@@ -9,146 +9,113 @@
 <sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
-<%
-	Board board  = (Board) request.getAttribute("board");
-	String regDate = (String) request.getAttribute("regDate");
-	String content = (String) request.getAttribute("content");	
-%>
+
 
  		<!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 	        <div class="container-fluid">
 		    	<button class="btn btn-primary btn-icon-split" onclick="moveAnonymousList();" style="padding: 5px; margin-top: 20px;">목록</button>
-<%
-	if(board.getEmpNo() == loginEmp.getEmpNo()){
-%>			
+			
+			<c:if test="${board.empNo eq loginEmp.empNo}">
 				<button class="btn btn-primary btn-icon-split" onclick="updateBoard();" style="padding: 5px; margin-top: 20px;">수정</button>
 		    	<button class="btn btn-primary btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
-<%
-	}
-	else if(EmpService.ADMIN_ROLE.equals(loginEmp.getEmpRole())){
-%>			
+			</c:if>
+			
+			<sec:authorize access="isAuthenticated()">
 				<button class="btn btn-primary btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
-<% 
-	}
-%>			
+			</sec:authorize>
+
 				<hr class="sidebar-divider my-3">
 			</div>
 			 <div class="container-fluid" id="titleContent">
 			 	<p>익명게시판</p>
-		 		<h5 style="font-weight: bold; color: black;"><%= board.getTitle() %></h5>
+		 		<h5 style="font-weight: bold; color: black;">${board.title}</h5>
 			 	<span style="color: black;">익명</span>
-			 	<span style="margin-left: 30px;">추천수<%= board.getLikeCount() %></span>
-			 	<span style="margin-left: 10px;">조회<%= board.getReadCount() %></span>
-			 	<span style="margin-left: 10px;"><%= regDate %></span>
+			 	<span style="margin-left: 30px;">추천수${board.likeCount}</span>
+			 	<span style="margin-left: 10px;">조회${board.readCount}</span>
+			 	<span style="margin-left: 10px;">${board.regDate}</span>
 		 	</div>
-			 <br />
-			 
-			 <div class="container-fluid" id="Content" style="margin-top: 20px; margin-bottom: 50px;">
-			 	<span><%= content %></span>
-			 </div>
-			 <div class="container-fluid">
-			 	<button class="btn btn-primary btn-icon-split" id="recommend-btn" onclick="recommend();" style="padding: 5px; margin-top: 20px;"><i class="far fa-thumbs-up"> 추천하기</i></button>
-			 </div>
-			 <div class="container-fluid" id="attachContent" >
-			 <hr class="sidebar-divider my-3">
-<%
- 	List<Attachment> attachments = board.getAttachments();
-		if(attachments != null && !attachments.isEmpty()){
-			for(int i =0; i< attachments.size(); i++){
-				Attachment attach = attachments.get(i);			
-%>		
-				<p>첨부파일</p>
-				<table>
-					<tr>
-						<td>
-							<i class="fa fa-paperclip" src="<%=request.getContextPath() %> width=16px alt="첨부파일" ></i>
-							<a href="<%= request.getContextPath()%>/board/fileDownload?no=<%= attach.getNo() %>"><%= attach.getOriginalFilename() %></a>
-						</td>
-					</tr>
-				</table>
-<%
-		}
-%>
-				<hr class="sidebar-divider my-3">
-			</div>
-
-<%			
-	}
-%> 	
-			 
-			  <div class="container-fluid" id="commentContent">
-			 	<span>댓글 <%= board.getCommentCount() %></span>
-<% 
-	List<BoardComment> commentList = (List<BoardComment>) request.getAttribute("boardCommentList");
-	List<String> commentListContent = (List<String>) request.getAttribute("commentListContent");
-	List<String> commentListDate = (List<String>) request.getAttribute("commentListDate");
-	Map<Integer, String> anonyName = (Map<Integer, String>) request.getAttribute("anonyName");
-	if(commentList != null && !commentList.isEmpty()){
-%>
-				<table>
-<%
-		String name = "";
-		for(int i = 0; i < commentList.size(); i++){
-		//for(BoardComment bc : commentList){
-			BoardComment bc = commentList.get(i);
-			String commentDate = commentListDate.get(i);
-			String commentContent = commentListContent.get(i);
-			//댓글 작성자의 사번이 map에 있으면
-			int empNo = bc.getEmpNo();
-			if(anonyName.containsKey(empNo)){
-				name = anonyName.get(empNo);
-				System.out.println(name);
-			}
+			<br />
 			
-			if(bc.getCommentLevel() == 1){
-%>				
+			<div class="container-fluid" id="Content" style="margin-top: 20px; margin-bottom: 50px;">
+				<span>${board.content}</span>
+			</div>
+			<div class="container-fluid">
+				<button class="btn btn-primary btn-icon-split" id="recommend-btn" onclick="recommend();" style="padding: 5px; margin-top: 20px;"><i class="far fa-thumbs-up"> 추천하기</i></button>
+			</div>
+			<div class="container-fluid" id="attachContent" >
+				<hr class="sidebar-divider my-3">
+		
+				<c:if test="${board.attachments ne null}">
+					<c:forEach items="${board.attachments}" var="attach" varStatus="status">
+						<p>첨부파일</p>
+						<table>
+							<tr>
+								<td>
+									<i class="fa fa-paperclip" src="${pageContext.request.contextPath} width=16px alt='첨부파일'" ></i>
+									<a href="${pageContext.request.contextPath}/board/fileDownload?no=">${attach}</a>
+								</td>
+							</tr>
+						</table>
+
+						<hr class="sidebar-divider my-3">
+					</c:forEach>	
+				</c:if>
+			</div>
+ 	
+			 
+			<div class="container-fluid" id="commentContent">
+				<span>댓글 ${board.commentCount}</span>
+
+	<c:if test="${boardCommentList ne null}">
+			
+				<table>
+
+		<c:forEach items="${boardCommentList}" var="comment" varStatus="status">	
+			<c:if test="${comment.commentLevel == 1}">			
 					<tr class="level1">
 						<td style="padding: 10px;" width="1000px;">
-							<sub class="comment-writer" style="font-weight: bold;"><%= name %></sub>
-							<sub class="comment-date"><%= commentDate %></sub>
+							<sub class="comment-writer" style="font-weight: bold;">익명</sub>
+							<sub class="comment-date">${comment.regDate}</sub>
 							<br />
 							<!-- 댓글내용 -->
-							<%= commentContent %>
+							${comment.content}
 						</td>
 						<td>
-							<button class="btn btn-primary btn-icon-split" id="btn-reply" value="<%= bc.getNo()%>" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
+							<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 						</td>
 					</tr>
-<%
-			} else{
-%>
+			</c:if>
+			<c:if test="${comment.commentLevel != 1}">
+
 					<tr class="level2">
 						<td style="padding-left: 50px; padding-bottom: 15px;">
-							<sub class="comment-writer" style="font-weight: bold;"><%= name %></sub>
-							<sub class="comment-date"><%= commentDate %></sub>
+							<sub class="comment-writer" style="font-weight: bold;">익명</sub>
+							<sub class="comment-date">${comment.regDate}</sub>
 							<br />
 							<!-- 대댓글내용 -->
-							<%= commentContent %>
+							${comment.content}
 						</td>
 						<td>
-							<button class="btn btn-primary btn-icon-split" id="btn-reply" value="<%= bc.getNo()%>" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
+							<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 						</td>
 					</tr>
 
-<% 
-			}
-		}
-%>
-			
+
+			</c:if>
+		</c:forEach>		
 
 				</table>
-<%
-	}
-%>
+	</c:if>
+
 
 				<hr class="sidebar-divider my-3">
 				<!-- 댓글입력칸 -->
 				<form 
-					action="<%=request.getContextPath()%>/board/anonymousBoardCommentEnroll" 
+					action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
 					method="post"
 					name="boardCommentFrm">
-				    <input type="hidden" name="no" value="<%= board.getNo() %>" />
+				    <input type="hidden" name="no" value="${board.no}" />
 				    <input type="hidden" name="commentLevel" value="1" />
 				    <input type="hidden" name="commentRef" value="0" />    
 				    <div id="comment-input">
@@ -161,15 +128,15 @@
 			 <form
 				name=recommendFrm
 				method="POST" 
-				action="<%= request.getContextPath() %>/board/anonyLikeCount" >
-				<input type="hidden" name="no" value="<%= board.getNo() %>" />
+				action="${pageContext.request.contextPath}/board/anonyLikeCount.do" >
+				<input type="hidden" name="no" value="${board.no}" />
 				<input type="hidden" name="board" value="anonyBoard" />
 			</form>	
 			<form 
-				action="<%= request.getContextPath() %>/board/anonymousBoardDelete" 
+				action="${pageContext.request.contextPath}/board/anonymousBoardDelete.do" 
 				name="boardDeleteFrm"
 				method="POST">
-				<input type="hidden" name="no" value="<%= board.getNo() %>"/>
+				<input type="hidden" name="no" value="${board.no}"/>
 			</form>
 
 <script>
@@ -181,7 +148,7 @@ function deleteBoard() {
 }
 //수정하기 버튼
 function updateBoard() {
-	location.href = "<%= request.getContextPath() %>/board/anonymousBoardUpdate?no=<%= board.getNo() %>";
+	location.href = "${pageContext.request.contextPath}/board/anonymousBoardUpdate?no=${board.no}";
 }
 //추천하기 버튼
 function recommend(){
@@ -219,9 +186,9 @@ function commentReply(e) {
 	const tr = `<tr>
 		<td colspan="2" style="text-align:left">
 			<form 
-				action="<%=request.getContextPath()%>/board/anonymousBoardCommentEnroll" 
+				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
 				method="post">
-			    <input type="hidden" name="no" value="<%= board.getNo() %>" />
+			    <input type="hidden" name="no" value="${board.no}" />
 			    <input type="hidden" name="commentLevel" value="2" />
 			    <input type="hidden" name="commentRef" value="\${commentRef}" />    
 				<textarea name="content" cols="60" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
@@ -249,7 +216,7 @@ function commentReply(e) {
 
 //게시판 리스트로 돌아가는 함수
 function moveAnonymousList() {
-	location.href = "<%= request.getContextPath()%>/board/anonymousBoardList";
+	location.href = "${pageContext.request.contextPath}/board/anonymousBoardList.do";
 }
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
