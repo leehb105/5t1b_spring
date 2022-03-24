@@ -101,10 +101,7 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
-	@Override
-	public int insertAnonymousBoard(Board board) {
-		return 0;
-	}
+
 
 	@Override
 	public int insertNotice(Board board) {

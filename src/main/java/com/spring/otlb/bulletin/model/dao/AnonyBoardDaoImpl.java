@@ -3,6 +3,7 @@ package com.spring.otlb.bulletin.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.otlb.bulletin.model.vo.Attachment;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,5 +34,15 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	@Override
 	public int selectTotalAnonyBoardCount() {
 		return session.selectOne("anonyBoard.selectTotalAnonyBoardCount");
+	}
+
+	@Override
+	public int insertAnonymousBoard(Board board) {
+		return session.insert("anonyBoard.insertAnonymousBoard", board);
+	}
+
+	@Override
+	public int insertAnonyAttachment(Attachment attach) {
+		return session.insert("anonyBoard.insertAnonyAttachment", attach);
 	}
 }

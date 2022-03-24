@@ -40,7 +40,7 @@ public interface BoardService {
 	
 	public List<Board> searchBoard(Map<String, Object> param);
 
-	public int insertAnonymousBoard(Board board);
+
 
 	public int insertNotice(Board board);
 

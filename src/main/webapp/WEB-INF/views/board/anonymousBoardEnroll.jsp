@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
 
@@ -43,7 +50,7 @@
 							<form 
 								id="boardEnrollForm" 
 								class="user" 
-								action="<%= request.getContextPath() %>/board/anonymousBoardEnroll" 
+								action="${pageContext.request.contextPath}/board/anonymousBoardEnroll.do?${_csrf.parameterName}=${_csrf.token}" 
 								method="POST"
 								enctype="multipart/form-data">
 								<div class="row">
@@ -63,7 +70,7 @@
 									</div>
 								</div>
 								<!-- 사원번호 -->
-								<input type="hidden" name="empNo" value="<%= loginEmp.getEmpNo() %>"/>
+								<input type="hidden" name="empNo" value="${loginEmp.empNo}"/>
 
 								<!-- 첨부파일 -->
 								<span id="createInputFileByButton">
@@ -74,7 +81,7 @@
 													style="width: 50px;" id="button-addon1">+</button>
 											</div>
 											<div class="custom-file">
-												<input type="file" name="upFile1" class="w-70 custom-file-input" id="inputGroupFile01"
+												<input type="file" name="upFile" class="w-70 custom-file-input" id="inputGroupFile01"
 													aria-describedby="button-addon1" style="cursor:pointer;"/>
 											    <label class="custom-file-label" for="inputGroupFile01" >클릭해서 파일 추가하기</label>
 											</div>
@@ -180,7 +187,7 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="<%= request.getContextPath() %>/board/boardList";
+		location.href="${pageContext.request.contextPath}/board/anonymousBoardList.do";
 	}
 };
 

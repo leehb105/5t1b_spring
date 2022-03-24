@@ -35,7 +35,7 @@
 		]]>
 	</select>
 	
-	<resultMap type="anonyBoard" id="boardMap">
+	<resultMap type="board" id="boardMap">
 		<id column="no" property="no"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
@@ -106,8 +106,33 @@
 		]]>
 	</select>
 	
-	
-	
+	<insert id="insertAnonymousBoard">
+		insert into
+			ANONYMOUS_BOARD(no, title, content, emp_no, category)
+		values(
+			seq_anonymous_board_no.nextval,
+			#{title},
+			#{content},
+			#{empNo},
+			'익명'
+		)
+		<selectKey order="AFTER" resultType="_int" keyProperty="no">
+			select
+				seq_anonymous_board_no.currval
+			from
+				dual
+		</selectKey>
+	</insert>
+
+	<insert id="insertAnonyAttachment">
+		insert into
+			ANONYMOUS_ATTACHMENT(no, file_name, board_no)
+		values(
+				  seq_anonymous_attachment_no.nextval,
+				  #{fileName},
+				  #{boardNo}
+			  )
+	</insert>
 	
 	
 	

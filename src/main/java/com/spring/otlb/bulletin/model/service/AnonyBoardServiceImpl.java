@@ -3,6 +3,8 @@ package com.spring.otlb.bulletin.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.spring.otlb.bulletin.model.vo.Attachment;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import com.spring.otlb.bulletin.model.dao.AnonyBoardDao;
 import com.spring.otlb.bulletin.model.vo.Board;
 
 @Service
+@Slf4j
 public class AnonyBoardServiceImpl implements AnonyBoardService{
 
 	@Autowired
@@ -39,5 +42,26 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 	public int selectTotalAnonyBoardCount() {
 		return anonyBoardDao.selectTotalAnonyBoardCount();
 	}
+
+	@Override
+	public int insertAnonymousBoard(Board board) {
+		int result = anonyBoardDao.insertAnonymousBoard(board);
+		List<Attachment> list = board.getAttachments();
+		if(list != null) {
+			for(Attachment attach : list) {
+				attach.setBoardNo(board.getNo());
+				log.debug("boardNo = {}", attach.getBoardNo());
+				result = insertAnonyAttachment(attach);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	public int insertAnonyAttachment(Attachment attach) {
+		return anonyBoardDao.insertAnonyAttachment(attach);
+	}
+
 
 }
