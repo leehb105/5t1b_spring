@@ -206,4 +206,8 @@
 	<update id="updateAnonyBoardLikeCount">
 		update ANONYMOUS_BOARD set like_count = like_count + 1 where no = #{no}
 	</update>
+
+	<update id="deleteAnonymousBoard">
+		update ANONYMOUS_BOARD set delete_yn = 'Y' where no = #{no}
+	</update>
 </mapper>

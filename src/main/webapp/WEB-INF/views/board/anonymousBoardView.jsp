@@ -143,12 +143,12 @@
 			<input type="hidden" name="no" value="${board.no}" />
 			<input type="hidden" name="board" value="anonyBoard" />
 		</form>	 -->
-		<form 
+		<form:form
 			action="${pageContext.request.contextPath}/board/anonymousBoardDelete.do" 
 			name="boardDeleteFrm"
 			method="POST">
 			<input type="hidden" name="no" value="${board.no}"/>
-		</form>
+		</form:form>
 
 
 <script>
@@ -160,7 +160,7 @@ function deleteBoard() {
 }
 //수정하기 버튼
 function updateBoard() {
-	location.href = "${pageContext.request.contextPath}/board/anonymousBoardUpdate?no=${board.no}";
+	location.href = "${pageContext.request.contextPath}/board/anonymousBoardUpdate.do?no=${board.no}";
 }
 //추천하기 버튼
 // function recommend(){

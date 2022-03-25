@@ -32,4 +32,6 @@ public interface AnonyBoardService {
 	Attachment selectOneAttachment(int no);
 
 	int updateAnonyBoardLikeCount(int no);
+
+	int deleteAnonymousBoard(int no);
 }

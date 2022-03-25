@@ -44,11 +44,11 @@ public class AnonyBoardController {
     private AnonyBoardService anonyBoardService;
 
     @PostMapping("/anonyLikeCount.do")
-    public String anonyLikeCount(Model model,
+    public String anonyLikeCount(
              RedirectAttributes attributes,
              HttpServletRequest request,
              HttpServletResponse response,
-             int no){
+             @RequestParam int no){
 
         log.debug("no = {}", no);
         // 쿠키 생성
@@ -95,49 +95,8 @@ public class AnonyBoardController {
         }
 
         return "redirect:/board/anonymousBoardView.do?no=" + no;
-//        int no = Integer.valueOf(request.getParameter("no"));
-//
-//        String msg = "";
-//        // 쿠키 생성
-//        Cookie[] cookies = request.getCookies();
-//        boolean hasRead = false;
-//        String anonyBoardLikeCookieVal = "";
-//        if(cookies != null ) {
-//            for(Cookie cookie : cookies) {
-//                String name = cookie.getName();
-//                String value = cookie.getValue();
-//                if("anonyBoardLikeCookie".equals(name)) {
-//                    anonyBoardLikeCookieVal = value;
-//                    if(value.contains("[" + no + "]")) {
-//                        hasRead = true;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//
-//        // 좋아요 증가 및 쿠키 생성
-//        if(!hasRead) {
-//            int result = bulletinService.updateAnonyBoardLikeCount(no);
-//
-//            Cookie cookie = new Cookie("anonyBoardLikeCookie",anonyBoardLikeCookieVal + "[" + no + "]");
-//            cookie.setPath(request.getContextPath());
-//            cookie.setMaxAge(365 * 24 * 60 * 60);
-//            response.addCookie(cookie);
-//            //System.out.println("조회수 증가 & 쿠키 생성 ");
-//            msg = result > 0 ? "추천하셨습니다!" : "추천에 오류가 있습니다...";
-//        } else {
-//            msg = "이미 추천하셨습니다.";
-//        }
-//
-//
-//        request.getSession().setAttribute("msg", msg);
-//
-//        String location = request.getContextPath() + "/board/anonymousBoardView?no=" + no;
-//        response.sendRedirect(location);
-//        return null;
     }
-//
+
 //    @PostMapping("/anonymousBoardCommentEnroll.do")
 //    public String anonymousBoardCommentEnroll(){
 //        HttpSession session = request.getSession();
@@ -160,19 +119,24 @@ public class AnonyBoardController {
 //        response.sendRedirect(location);
 //        return null;
 //    }
-//
-//    @PostMapping("/anonymousBoardDelete.do")
-//    public String anonymousBoardDelete(){
-//        int no = Integer.parseInt(request.getParameter("no"));
-//        int result = bulletinService.deleteAnonymousBoard(no);
-//
-//        String msg = result > 0 ? "게시물 삭제 성공" : "게시물 삭제 실패";
-//
-//        request.getSession().setAttribute("msg", msg);
-//        String location = request.getContextPath() + "/board/anonymousBoardList";
-//        response.sendRedirect(location);
-//        return null;
-//    }
+
+    @PostMapping("/anonymousBoardDelete.do")
+    public String anonymousBoardDelete(
+            RedirectAttributes attributes,
+            @RequestParam int no
+    ){
+          log.debug("no = {}", no);
+          int result = anonyBoardService.deleteAnonymousBoard(no);
+          String msg = "";
+          if(result > 0){
+              msg = "게시글을 삭제했습니다.";
+          }else{
+              msg = "게시글 삭제 오류";
+          }
+
+          attributes.addFlashAttribute("msg", msg);
+          return "redirect:/board/anonymousBoardList.do";
+    }
 
     @GetMapping("/anonymousBoardEnroll.do")
     public void anonymousBoardEnroll(){}
@@ -283,20 +247,19 @@ public class AnonyBoardController {
 //                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardList.jsp")
 //                .forward(request, response);
 //    }
-//
-//    @GetMapping("/anonymousBoardUpdate.do")
-//    public void anonymousBoardUpdate(){
-//        int no = Integer.parseInt(request.getParameter("no"));
-//
-//        Board board = bulletinService.selectOneAnonymousBoard(no);
-//        System.out.println(board);
-//
-//        request.setAttribute("board", board);
-//        request
-//                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardUpdate.jsp")
-//                .forward(request, response);
-//    }
-//
+
+    @GetMapping("/anonymousBoardUpdate.do")
+    public void anonymousBoardUpdate(
+            Model model,
+            @RequestParam int no
+    ){
+            log.debug("no = {}", no);
+            Board board = anonyBoardService.selectAnonyBoardAttachments(no);
+            log.debug("board = {}", board);
+
+            model.addAttribute("board", board);
+    }
+
 //    @PostMapping("/anonymousBoardUpdate.do")
 //    public String anonymousBoardUpdate(){
 //        try {
@@ -395,18 +358,11 @@ public class AnonyBoardController {
         param.put("cri", cri);
 
         List<Board> list = anonyBoardService.selectAllAnonymousBoard(param);
-//		List<String> regDate = new ArrayList<>();
-        log.debug("list = {}", list);
 
-//		for(Board board : list) {
-//			regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-//		}
 
         int total = anonyBoardService.selectTotalAnonyBoardCount();
         Paging page = new Paging(cri, total);
 
-
-//		String url = request.getRequestURI();
 
         model.addAttribute("list", list);
         model.addAttribute("page", page);
@@ -462,43 +418,6 @@ public class AnonyBoardController {
         model.addAttribute("boardCommentList", boardCommentList);
 
         return "/board/anonymousBoardView";
-//        int no = Integer.valueOf(request.getParameter("no"));
-//        System.out.println(no);
-//        // 쿠키 생성
-//        Cookie[] cookies = request.getCookies();
-//        boolean hasRead = false;
-//        String boardCookieVal = "";
-//        if(cookies != null ) {
-//            for(Cookie cookie : cookies) {
-//                String name = cookie.getName();
-//                String value = cookie.getValue();
-//                if("anonyBoardCookie".equals(name)) {
-//                    boardCookieVal = value;
-//                    if(value.contains("[" + no + "]")) {
-//                        hasRead = true;
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//        // 조회수 증가 및 쿠키 생성
-//        if(!hasRead) {
-//            int result = bulletinService.updateAnonyReadCount(no);
-//
-//            Cookie cookie = new Cookie("anonyBoardCookie",boardCookieVal + "[" + no + "]");
-//            cookie.setPath(request.getContextPath() + "/board/anonymousBoardView");
-//            cookie.setMaxAge(365 * 24 * 60 * 60);
-//            response.addCookie(cookie);
-//            System.out.println("조회수 증가 & 쿠키 생성 ");
-//        }
-//
-//        //게시판 데이터 가져오기
-//        Board board = bulletinService.selectOneAnonyBoard(no);
-//
-//        //System.out.println(board);
-//        String regDate = DateFormatUtils.formatDate(board.getRegDate());
-//        String content = LineFormatUtils.formatLine(board.getContent());
-//
 //        //게시판 댓글 가져오기
 //        List<BoardComment> boardCommentList = bulletinService.selectAnonyBoardCommentList(no);
 //        Map<Integer, String> anonyName = new HashMap<>();
@@ -516,27 +435,7 @@ public class AnonyBoardController {
 //                //System.out.println(anonyName.get(empNo));
 //            }
 //        }
-//
-//
-//
-//        List<String> commentListContent = new ArrayList<>();
-//        List<String> commentListDate = new ArrayList<>();
-//
-//        for(BoardComment bc : boardCommentList) {
-//            commentListContent.add(LineFormatUtils.formatLine(bc.getContent()));
-//            commentListDate.add(DateFormatUtils.formatDateBoard(bc.getRegDate()));
-//        }
-//        request.setAttribute("board", board);
-//        request.setAttribute("regDate", regDate);
-//        request.setAttribute("content", content);
-//        request.setAttribute("boardCommentList", boardCommentList);
-//        request.setAttribute("commentListContent", commentListContent);
-//        request.setAttribute("commentListDate", commentListDate);
-//        request.setAttribute("anonyName", anonyName);
-//
-//        request
-//                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardView.jsp")
-//                .forward(request, response);
+
     }
 
 

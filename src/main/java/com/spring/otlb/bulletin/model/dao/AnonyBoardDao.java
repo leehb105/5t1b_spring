@@ -30,4 +30,6 @@ public interface AnonyBoardDao {
 	Attachment selectOneAttachment(int no);
 
 	int updateAnonyBoardLikeCount(int no);
+
+	int deleteAnonymousBoard(int no);
 }

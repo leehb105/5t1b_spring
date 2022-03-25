@@ -89,5 +89,10 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.updateAnonyBoardLikeCount(no);
 	}
 
+	@Override
+	public int deleteAnonymousBoard(int no) {
+		return anonyBoardDao.deleteAnonymousBoard(no);
+	}
+
 
 }
