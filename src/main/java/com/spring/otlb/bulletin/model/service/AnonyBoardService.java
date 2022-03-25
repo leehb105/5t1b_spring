@@ -26,4 +26,8 @@ public interface AnonyBoardService {
 	Board selectAnonyBoardAttachments(int no);
 
 	List<BoardComment> selectAnonyBoardCommentList(int no);
+
+	public int updateReadCount(int no);
+
+	Attachment selectOneAttachment(int no);
 }

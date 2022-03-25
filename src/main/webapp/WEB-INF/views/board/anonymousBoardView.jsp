@@ -31,8 +31,8 @@
 			<p>익명게시판</p>
 			<h5 style="font-weight: bold; color: black;">${board.title}</h5>
 			<span style="color: black;">익명</span>
-			<span style="margin-left: 30px;">추천수${board.likeCount}</span>
-			<span style="margin-left: 10px;">조회${board.readCount}</span>
+			<span style="margin-left: 30px;">추천수 ${board.likeCount}</span>
+			<span style="margin-left: 10px;">조회 ${board.readCount}</span>
 			<span style="margin-left: 10px;">
 				<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 			</span>
@@ -48,21 +48,21 @@
 		<div class="container-fluid" id="attachContent" >
 			<hr class="sidebar-divider my-3">
 	
-			<c:if test="${board.attachments ne null}">
-				<c:forEach items="${board.attachments}" var="attach" varStatus="status">
+			<c:forEach items="${board.attachments}" var="attach" varStatus="status">
+				<c:if test="${attach.fileName ne null}">
 					<p>첨부파일</p>
 					<table>
 						<tr>
 							<td>
 								<i class="fa fa-paperclip" src="${pageContext.request.contextPath} width=16px alt='첨부파일'" ></i>
-								<a href="${pageContext.request.contextPath}/board/fileDownload?no=">${attach}</a>
+								<a href="${pageContext.request.contextPath}/board/anonyFileDownload?no=${attach.no}">${attach.fileName}</a>
 							</td>
 						</tr>
 					</table>
 
 					<hr class="sidebar-divider my-3">
-				</c:forEach>	
-			</c:if>
+				</c:if>
+			</c:forEach>	
 		</div>
 
 			

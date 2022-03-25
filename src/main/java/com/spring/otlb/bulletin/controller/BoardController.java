@@ -88,7 +88,7 @@ public class BoardController {
 	}
 	
 	@GetMapping("/boardView.do")
-	public void boardView(
+	public String boardView(
 			@RequestParam int no,
 			Model model,
 			HttpServletRequest request,
@@ -155,7 +155,7 @@ public class BoardController {
 			e.printStackTrace();
 			throw e;
 		}
-
+		return "/board/boardView";
 	}
 	
 //	@GetMapping(

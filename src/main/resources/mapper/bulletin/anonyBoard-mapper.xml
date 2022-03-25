@@ -188,4 +188,19 @@
 		<result column="delete_yn" property="deleteYn"/>
 		<association property="emp" resultMap="empMap"/>
 	</resultMap>
+
+	<update id="updateReadCount">
+		update ANONYMOUS_BOARD set read_count = read_count + 1 where no = #{no}
+	</update>
+
+	<select id="selectOneAttachment" resultType="attachment">
+		select
+			file_name
+		from
+			ANONYMOUS_ATTACHMENT
+		where
+			board_no = #{no}
+	</select>
+
+
 </mapper>

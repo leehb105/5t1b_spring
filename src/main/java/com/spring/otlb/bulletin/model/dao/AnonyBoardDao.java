@@ -24,4 +24,8 @@ public interface AnonyBoardDao {
 	Board selectAnonyBoardAttachments(int no);
 
 	List<BoardComment> selectAnonyBoardCommentList(int no);
+
+	int updateReadCount(int no);
+
+	Attachment selectOneAttachment(int no);
 }

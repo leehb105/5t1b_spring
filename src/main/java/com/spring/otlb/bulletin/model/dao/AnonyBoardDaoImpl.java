@@ -56,4 +56,14 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	public List<BoardComment> selectAnonyBoardCommentList(int no) {
 		return session.selectList("anonyBoard.selectAnonyBoardCommentList", no);
 	}
+
+	@Override
+	public int updateReadCount(int no) {
+		return session.update("anonyBoard.updateReadCount", no);
+	}
+
+	@Override
+	public Attachment selectOneAttachment(int no) {
+		return session.selectOne("anonyBoard.selectOneAttachment", no);
+	}
 }

@@ -9,20 +9,24 @@ import com.spring.otlb.common.Paging;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -32,6 +36,9 @@ public class AnonyBoardController {
 
     @Autowired
     private ServletContext application;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     @Autowired
     private AnonyBoardService anonyBoardService;
@@ -177,6 +184,31 @@ public class AnonyBoardController {
         }
 
     }
+    @GetMapping(
+            value = "/anonyFileDownload",
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public Resource fileDownload(@RequestParam int no, HttpServletResponse response)
+            throws UnsupportedEncodingException {
+        Attachment attach = anonyBoardService.selectOneAttachment(no);
+        log.debug("attach = {}", attach);
+
+        //다운로드받을 파일 경로
+        String saveDirectory = application.getRealPath("/resources/upload");
+        File downFile = new File(saveDirectory, attach.getFileName());
+        String location = "file:" + downFile; //file객체의 toString은 절대경로로 오버라이드되어있다.
+        log.debug("location = {}", location);
+        Resource resource = resourceLoader.getResource(location);
+
+        //헤더설정
+        String filename = new String(attach.getFileName().getBytes("utf-8"), "iso-8859-1");
+        response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+
+        return resource;
+    }
+
+
+
 //
 //    @GetMapping("/anonymousBoardFinder.do")
 //    public void anonymousBoardFinder(){
@@ -333,11 +365,42 @@ public class AnonyBoardController {
     }
 
     @GetMapping("/anonymousBoardView.do")
-    public void anonymousBoardView(
+    public String anonymousBoardView(
             Model model,
-            @RequestParam int no
+            @RequestParam int no,
+            HttpServletRequest request,
+            HttpServletResponse response
     ){
         log.debug("no = {}", no);
+        // 쿠키 생성
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        log.debug("cookies = {}", cookies);
+        //쿠키값이 있다면
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                //boardView 쿠키 여부 확인
+                if(cookie.getName().equals("anonyBoardView")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if(oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + no + "]")) {
+                anonyBoardService.updateReadCount(no);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + no + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }
+        } else {
+            anonyBoardService.updateReadCount(no);
+            Cookie newCookie = new Cookie("anonyBoardView","[" + no + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
 
         Board board = anonyBoardService.selectAnonyBoardAttachments(no);
         log.debug("board = {}", board);
@@ -347,6 +410,8 @@ public class AnonyBoardController {
 
         model.addAttribute("board", board);
         model.addAttribute("boardCommentList", boardCommentList);
+
+        return "/board/anonymousBoardView";
 //        int no = Integer.valueOf(request.getParameter("no"));
 //        System.out.println(no);
 //        // 쿠키 생성
