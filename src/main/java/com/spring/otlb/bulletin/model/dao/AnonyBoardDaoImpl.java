@@ -66,4 +66,9 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	public Attachment selectOneAttachment(int no) {
 		return session.selectOne("anonyBoard.selectOneAttachment", no);
 	}
+
+	@Override
+	public int updateAnonyBoardLikeCount(int no) {
+		return session.update("anonyBoard.updateAnonyBoardLikeCount", no);
+	}
 }

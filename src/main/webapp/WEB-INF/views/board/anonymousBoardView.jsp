@@ -43,7 +43,14 @@
 			<span>${board.content}</span>
 		</div>
 		<div class="container-fluid">
-			<button class="btn btn-primary btn-icon-split" id="recommend-btn" onclick="recommend();" style="padding: 5px; margin-top: 20px;"><i class="far fa-thumbs-up"> 추천하기</i></button>
+			<form:form 
+				action="${pageContext.request.contextPath}/board/anonyLikeCount.do"
+				method="post">
+				<input type="hidden" name="no" value="${board.no}" />
+				<button class="btn btn-primary btn-icon-split" id="recommend-btn" type="submit" style="padding: 5px; margin-top: 20px;">
+					<i class="far fa-thumbs-up"> 추천하기</i>
+				</button>
+			</form:form>	
 		</div>
 		<div class="container-fluid" id="attachContent" >
 			<hr class="sidebar-divider my-3">
@@ -129,13 +136,13 @@
 				</div>
 			</form>
 		</div>
-		<form
+		<!-- <form
 			name=recommendFrm
 			method="POST" 
 			action="${pageContext.request.contextPath}/board/anonyLikeCount.do" >
 			<input type="hidden" name="no" value="${board.no}" />
 			<input type="hidden" name="board" value="anonyBoard" />
-		</form>	
+		</form>	 -->
 		<form 
 			action="${pageContext.request.contextPath}/board/anonymousBoardDelete.do" 
 			name="boardDeleteFrm"
@@ -156,9 +163,9 @@ function updateBoard() {
 	location.href = "${pageContext.request.contextPath}/board/anonymousBoardUpdate?no=${board.no}";
 }
 //추천하기 버튼
-function recommend(){
-	$("form[name=recommendFrm]").submit();	
-}
+// function recommend(){
+// 	$("form[name=recommendFrm]").submit();	
+// }
 
 /* 댓글 쓰기 100자 제한 코드 */
 $('textarea[name=content]').on('keyup', function() {

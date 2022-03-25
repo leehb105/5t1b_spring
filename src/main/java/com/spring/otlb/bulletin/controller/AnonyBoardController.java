@@ -43,8 +43,58 @@ public class AnonyBoardController {
     @Autowired
     private AnonyBoardService anonyBoardService;
 
-//    @PostMapping("/anonyLikeCount.do")
-//    public String anonyLikeCount(){
+    @PostMapping("/anonyLikeCount.do")
+    public String anonyLikeCount(Model model,
+             RedirectAttributes attributes,
+             HttpServletRequest request,
+             HttpServletResponse response,
+             int no){
+
+        log.debug("no = {}", no);
+        // 쿠키 생성
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        log.debug("cookies = {}", cookies);
+        String msg = "";
+        int result = -1;
+
+        //쿠키값이 있다면
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                //boardView 쿠키 여부 확인
+                if(cookie.getName().equals("anonyBoardLikeCount")) {
+                    oldCookie = cookie;
+                }
+            }
+        }
+
+        if(oldCookie != null) {
+            //현재 게시글의 쿠키를 가지고 있지 않으면
+            if (!oldCookie.getValue().contains("[" + no + "]")) {
+                result = anonyBoardService.updateAnonyBoardLikeCount(no);
+                oldCookie.setValue(oldCookie.getValue() + "_[" + no + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(oldCookie);
+            }else{
+                msg = "이미 추천하셨습니다.";
+                attributes.addFlashAttribute("msg", msg);
+            }
+        } else {
+            //oldCookie가 없으면 새로 생성해준다
+            result = anonyBoardService.updateAnonyBoardLikeCount(no);
+            Cookie newCookie = new Cookie("anonyBoardLikeCount","[" + no + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 24);
+            response.addCookie(newCookie);
+        }
+
+        if(result == 0){
+            msg = "추천 오류";
+            attributes.addFlashAttribute("msg", msg);
+        }
+
+        return "redirect:/board/anonymousBoardView.do?no=" + no;
 //        int no = Integer.valueOf(request.getParameter("no"));
 //
 //        String msg = "";
@@ -86,7 +136,7 @@ public class AnonyBoardController {
 //        String location = request.getContextPath() + "/board/anonymousBoardView?no=" + no;
 //        response.sendRedirect(location);
 //        return null;
-//    }
+    }
 //
 //    @PostMapping("/anonymousBoardCommentEnroll.do")
 //    public String anonymousBoardCommentEnroll(){

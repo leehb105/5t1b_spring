@@ -30,4 +30,6 @@ public interface AnonyBoardService {
 	public int updateReadCount(int no);
 
 	Attachment selectOneAttachment(int no);
+
+	int updateAnonyBoardLikeCount(int no);
 }

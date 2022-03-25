@@ -137,6 +137,7 @@
 	<select id="selectAnonyBoardAttachments" resultMap="boardAttachMap">
 		SELECT
 			b.*,
+		    a.no attach_no,
 			a.file_name
 		FROM
 			ANONYMOUS_BOARD b LEFT JOIN ANONYMOUS_ATTACHMENT a ON
@@ -160,7 +161,7 @@
 	</resultMap>
 
 	<resultMap type="attachment" id="attachmentMap">
-		<id column="no" property="no"/>
+		<id column="attach_no" property="no"/>
 		<result column="file_name" property="fileName" />
 	</resultMap>
 
@@ -199,8 +200,10 @@
 		from
 			ANONYMOUS_ATTACHMENT
 		where
-			board_no = #{no}
+			no = #{no}
 	</select>
 
-
+	<update id="updateAnonyBoardLikeCount">
+		update ANONYMOUS_BOARD set like_count = like_count + 1 where no = #{no}
+	</update>
 </mapper>

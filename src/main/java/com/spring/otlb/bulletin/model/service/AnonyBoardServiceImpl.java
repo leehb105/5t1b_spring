@@ -84,5 +84,10 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.selectOneAttachment(no);
 	}
 
+	@Override
+	public int updateAnonyBoardLikeCount(int no) {
+		return anonyBoardDao.updateAnonyBoardLikeCount(no);
+	}
+
 
 }

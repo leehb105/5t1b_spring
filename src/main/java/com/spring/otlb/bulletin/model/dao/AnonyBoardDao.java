@@ -28,4 +28,6 @@ public interface AnonyBoardDao {
 	int updateReadCount(int no);
 
 	Attachment selectOneAttachment(int no);
+
+	int updateAnonyBoardLikeCount(int no);
 }
