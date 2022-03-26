@@ -122,7 +122,7 @@
 
 			<hr class="sidebar-divider my-3">
 			<!-- 댓글입력칸 -->
-			<form 
+			<form:form
 				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
 				method="post"
 				name="boardCommentFrm">
@@ -134,7 +134,7 @@
 					<br />
 					<button type="submit" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;">등록</button>
 				</div>
-			</form>
+			</form:form>
 		</div>
 		<!-- <form
 			name=recommendFrm

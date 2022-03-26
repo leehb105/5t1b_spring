@@ -97,8 +97,12 @@ public class AnonyBoardController {
         return "redirect:/board/anonymousBoardView.do?no=" + no;
     }
 
-//    @PostMapping("/anonymousBoardCommentEnroll.do")
-//    public String anonymousBoardCommentEnroll(){
+    @PostMapping("/anonymousBoardCommentEnroll.do")
+    public String anonymousBoardCommentEnroll(
+            RedirectAttributes attributes,
+            int no
+      ){
+        log.debug("no = {}", no);
 //        HttpSession session = request.getSession();
 //        Emp emp = (Emp) session.getAttribute("loginEmp");
 //
@@ -118,7 +122,8 @@ public class AnonyBoardController {
 //        String location = request.getContextPath() + "/board/anonymousBoardView?no=" + bc.getBoardNo();
 //        response.sendRedirect(location);
 //        return null;
-//    }
+        return null;
+    }
 
     @PostMapping("/anonymousBoardDelete.do")
     public String anonymousBoardDelete(
