@@ -24,7 +24,7 @@ public class BoardCommentEntity implements Serializable{
 	private int commentRef;
 	private Timestamp regDate;
 	private int boardNo;
-	private int empNo;
+	private String empNo;
 	private String deleteYn;
 
 

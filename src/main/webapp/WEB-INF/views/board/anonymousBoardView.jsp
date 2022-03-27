@@ -195,9 +195,10 @@ $(document.boardCommentFrm).submit((e) => {
 function commentReply(e) {
 	//대댓글 상위댓글 저장
 	const commentRef = e.value;
+	console.log(commentRef);
 	const tr = `<tr>
 		<td colspan="2" style="text-align:left">
-			<form 
+			<form:form
 				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
 				method="post">
 			    <input type="hidden" name="no" value="${board.no}" />
@@ -206,7 +207,7 @@ function commentReply(e) {
 				<textarea name="content" cols="60" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
 			    <br />
 				<button type="submit" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;">등록</button>
-			</form>
+			</form:form>
 		</td>`;
 	const baseTr = e.parentNode.parentNode;
 	const $baseTr = $(e.target).parent().parent();

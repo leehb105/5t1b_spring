@@ -102,31 +102,26 @@ public class AnonyBoardController {
     public String anonymousBoardCommentEnroll(
             RedirectAttributes attributes,
             Principal principal,
-            @RequestParam int no
+            @RequestParam int no,
+            BoardComment boardComment
       ){
             log.debug("no = {}", no);
             log.debug("id = {}", principal.getName());
+            log.debug("boardComment = {}", boardComment);
 
-//        HttpSession session = request.getSession();
-//        Emp emp = (Emp) session.getAttribute("loginEmp");
-//
-//        int no = Integer.valueOf(request.getParameter("no"));
-//        int empNo = emp.getEmpNo();
-//        int commentLevel = Integer.valueOf(request.getParameter("commentLevel"));
-//        int commentRef = Integer.valueOf(request.getParameter("commentRef"));
-//        String content = request.getParameter("content");
-//        BoardComment bc = new BoardComment(0, commentLevel, content, null, commentRef, null, no, empNo, null);
-//        //System.out.println(content);
-//
-//        int result = bulletinService.insertAnonyBoardComment(bc);
-//        String msg = result > 0 ? "댓글을 등록했습니다!" : "댓글 등록에 실패했습니다...";
-//        session.setAttribute("msg", msg);
-//
-//        //댓글작성한 해당 글로 리다이렉트
-//        String location = request.getContextPath() + "/board/anonymousBoardView?no=" + bc.getBoardNo();
-//        response.sendRedirect(location);
-//        return null;
-            return null;
+            boardComment.setEmpNo(principal.getName());
+            int result = anonyBoardService.insertAnonyBoardComment(boardComment);
+
+            String msg = "";
+            if(result > 0){
+                msg = "댓글이 등록되었습니다!";
+            }else{
+                msg = "댓글 작성 오류";
+            }
+            attributes.addFlashAttribute("msg", msg);
+
+            return "redirect:/board/anonymousBoardView.do?no=" + no;
+
     }
 
     @PostMapping("/anonymousBoardDelete.do")
