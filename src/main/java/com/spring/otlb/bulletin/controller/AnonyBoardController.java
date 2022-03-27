@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -100,9 +101,12 @@ public class AnonyBoardController {
     @PostMapping("/anonymousBoardCommentEnroll.do")
     public String anonymousBoardCommentEnroll(
             RedirectAttributes attributes,
-            int no
+            Principal principal,
+            @RequestParam int no
       ){
-        log.debug("no = {}", no);
+            log.debug("no = {}", no);
+            log.debug("id = {}", principal.getName());
+
 //        HttpSession session = request.getSession();
 //        Emp emp = (Emp) session.getAttribute("loginEmp");
 //
@@ -122,7 +126,7 @@ public class AnonyBoardController {
 //        String location = request.getContextPath() + "/board/anonymousBoardView?no=" + bc.getBoardNo();
 //        response.sendRedirect(location);
 //        return null;
-        return null;
+            return null;
     }
 
     @PostMapping("/anonymousBoardDelete.do")
