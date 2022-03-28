@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.spring.otlb.common.Criteria;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.otlb.emp.model.vo.Emp;
@@ -26,6 +27,7 @@ public class Board extends BoardEntity implements Serializable {
 	private List<Attachment> attachments;
 	private MultipartFile uploadFile;
 	private int commentCount; //댓글 수
+	private Criteria cri;
 
 	public Board(int no, String title, String content, Timestamp regDate, int readCount, int likeCount, String reportYn,
 			int empNo, String category, String deleteYn, Emp emp) {

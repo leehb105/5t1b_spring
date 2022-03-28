@@ -40,8 +40,8 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 	}
 
 	@Override
-	public int selectTotalAnonyBoardCount() {
-		return anonyBoardDao.selectTotalAnonyBoardCount();
+	public int selectTotalAnonyBoardCount(Map<String, Object> param) {
+		return anonyBoardDao.selectTotalAnonyBoardCount(param);
 	}
 
 	@Override
@@ -98,6 +98,8 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 	public int insertAnonyBoardComment(BoardComment boardComment) {
 		return anonyBoardDao.insertAnonyBoardComment(boardComment);
 	}
+
+
 
 
 }

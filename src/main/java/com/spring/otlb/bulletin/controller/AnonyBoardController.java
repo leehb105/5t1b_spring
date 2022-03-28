@@ -230,30 +230,53 @@ public class AnonyBoardController {
     }
 
 
-
-//
 //    @GetMapping("/anonymousBoardFinder.do")
-//    public void anonymousBoardFinder(){
-//        String searchType = request.getParameter("searchType");
-//        String searchKeyword = request.getParameter("searchKeyword");
-//        Map<String, Object> param = new HashMap<>();
-//        param.put("searchType", searchType);
-//        param.put("searchKeyword", searchKeyword);
-//        System.out.println("param@servlet = " + param);
+//    public String anonymousBoardFinder(
+//            Model model,
+//            @RequestParam String searchKeyword,
+//            @RequestParam(defaultValue = "1", required = false) int pageNum
+//        ){
+//            log.debug("searchKeyword = {}", searchKeyword);
+//            int amount = 5;
+//            Criteria cri = new Criteria();
+//            cri.setPageNum(pageNum);
+//            cri.setAmount(amount);
+//            Map<String, Object> param = new HashMap<>();
+//            param.put("pageNum", pageNum);
+//            param.put("cri", cri);
+//            param.put("searchKeyword", searchKeyword);
 //
-//        List<Board> list = bulletinService.searchAnonymousBoard(param);
-//        List<String> regDate = new ArrayList<>();
-//        System.out.println("list : " + list);
+//            List<Board> list = anonyBoardService.selectAnonymousBoardByTitle(param);
+//            log.debug("list = {}", list);
 //
-//        for(Board board : list) {
-//            regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-//        }
+//            int total = anonyBoardService.selectTotalAnonyBoardCountByTitle(param);
+//            Paging page = new Paging(cri, total);
 //
-//        request.setAttribute("list", list);
-//        request.setAttribute("regDate", regDate);
-//        request
-//                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardList.jsp")
-//                .forward(request, response);
+//
+//            model.addAttribute("list", list);
+//            model.addAttribute("page", page);
+//
+//            return "/board/anonymousBoardList";
+////        String searchType = request.getParameter("searchType");
+////        String searchKeyword = request.getParameter("searchKeyword");
+////        Map<String, Object> param = new HashMap<>();
+////        param.put("searchType", searchType);
+////        param.put("searchKeyword", searchKeyword);
+////        System.out.println("param@servlet = " + param);
+////
+////        List<Board> list = bulletinService.searchAnonymousBoard(param);
+////        List<String> regDate = new ArrayList<>();
+////        System.out.println("list : " + list);
+////
+////        for(Board board : list) {
+////            regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
+////        }
+////
+////        request.setAttribute("list", list);
+////        request.setAttribute("regDate", regDate);
+////        request
+////                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardList.jsp")
+////                .forward(request, response);
 //    }
 
     @GetMapping("/anonymousBoardUpdate.do")
@@ -355,11 +378,15 @@ public class AnonyBoardController {
     @GetMapping("/anonymousBoardList.do")
     public void anonymousBoardList(
             @RequestParam(defaultValue = "1", required = false) int pageNum,
+            @RequestParam(required = false) String searchKeyword,
             Model model){
         int amount = 5;
+        log.debug("searchKeyword = {}", searchKeyword);
         Criteria cri = new Criteria();
         cri.setPageNum(pageNum);
         cri.setAmount(amount);
+        cri.setKeyword(searchKeyword);
+        log.debug("cri = {}", cri);
 
         Map<String, Object> param = new HashMap<>();
         param.put("pageNum", pageNum);
@@ -368,7 +395,7 @@ public class AnonyBoardController {
         List<Board> list = anonyBoardService.selectAllAnonymousBoard(param);
 
 
-        int total = anonyBoardService.selectTotalAnonyBoardCount();
+        int total = anonyBoardService.selectTotalAnonyBoardCount(param);
         Paging page = new Paging(cri, total);
 
 
@@ -440,23 +467,7 @@ public class AnonyBoardController {
         model.addAttribute("boardCommentList", boardCommentList);
 
         return "/board/anonymousBoardView";
-//        //게시판 댓글 가져오기
-//        List<BoardComment> boardCommentList = bulletinService.selectAnonyBoardCommentList(no);
-//        Map<Integer, String> anonyName = new HashMap<>();
-//        int count = 1;
-//        for(int i = 0; i < boardCommentList.size(); i++) {
-//            //System.out.println(boardCommentList.get(i));
-//            //사번 저장
-//            int empNo = boardCommentList.get(i).getEmpNo();
-//            //System.out.println(empNo);
-//            //댓글작성자가 map에 없으면
-//            if(!anonyName.containsKey(empNo)) {
-//                //System.out.println(12345678);
-//                String temp = "익명" + count++;
-//                anonyName.put(empNo, temp);
-//                //System.out.println(anonyName.get(empNo));
-//            }
-//        }
+
 
     }
 

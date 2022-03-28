@@ -15,7 +15,7 @@ public interface AnonyBoardDao {
 
     List<Board> selectAllAnonymousBoard(Map<String, Object> param);
 
-	int selectTotalAnonyBoardCount();
+	int selectTotalAnonyBoardCount(Map<String, Object> param);
 
 	int insertAnonymousBoard(Board board);
 
@@ -34,4 +34,6 @@ public interface AnonyBoardDao {
 	int deleteAnonymousBoard(int no);
 
 	int insertAnonyBoardComment(BoardComment boardComment);
+
+
 }

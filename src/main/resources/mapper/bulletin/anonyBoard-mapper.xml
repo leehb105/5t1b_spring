@@ -17,14 +17,18 @@
 				FROM
 					(SELECT
 						b.*,
-						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
+						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name,
 						(select count(*) from ANONYMOUS_ATTACHMENT where board_no = b.no) attach_count,
 						(select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = b.no) comment_count
 					FROM
 						ANONYMOUS_BOARD b
 					WHERE
-						b.delete_yn = 'N'
-					ORDER BY 
+						 b.delete_yn = 'N'
+						 <if test = "cri.keyword != null">
+							and
+							b.title like '%' ||  #{cri.keyword} || '%'
+						</if>
+					ORDER BY
 						reg_date DESC
 					) tb1
 				WHERE
@@ -63,6 +67,11 @@
 			ANONYMOUS_BOARD
 		WHERE
 			delete_yn = 'N'
+			<if test = "cri.keyword != null">
+				and
+				title like '%' ||  #{cri.keyword} || '%'
+			</if>
+
 	</select>
 	
 	<select id="selectAnonyBoardMain" resultType="board">
@@ -230,4 +239,47 @@
 			#{empNo}
 	  	)
 	</insert>
+
+	<select id="selectAnonymousBoardByTitle" resultMap="boardMap">
+		<![CDATA[
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					rownum rn,
+					tb1.*
+				FROM
+					(SELECT
+						 b.*,
+						 (SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name,
+						 (select count(*) from ANONYMOUS_ATTACHMENT where board_no = b.no) attach_count,
+						 (select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = b.no) comment_count
+					 FROM
+						 ANONYMOUS_BOARD b
+					 WHERE
+					     b.title like '%' ||  #{searchKeyword} || '%'
+					     and
+						 b.delete_yn = 'N'
+					 ORDER BY
+						 reg_date DESC
+					) tb1
+				WHERE
+					rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+		WHERE
+			rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
+	</select>
+
+	<select id="selectTotalAnonyBoardCountByTitle" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			ANONYMOUS_BOARD
+		WHERE
+			title like '%' ||  #{searchKeyword} || '%'
+			and
+			delete_yn = 'N'
+	</select>
 </mapper>

@@ -80,7 +80,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 		        </select> -->
 		        <div id="search-title" class="search-type">
 		            <form action="${pageContext.request.contextPath}/board/anonymousBoardFinder.do">
-		                <input type="hidden" name="searchType" value="title"/>
+		                <!-- <input type="hidden" name="searchType" value="title"/> -->
 		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색어를 입력하세요."/>
 		                <button type="submit" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
 		                <i class="fa fa-search" aria-hidden="true"></i></button>			
@@ -102,6 +102,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
                 </nav>
 				<form id='actionForm' action="${pageContext.request.contextPath}/board/anonymousBoardList.do" method="get"> 
                     <input type="hidden" name="pageNum" value="${page.cri.pageNum}"> 
+                    <input type="hidden" name="searchKeyword" value="${page.cri.keyword}"> 
                     <!-- <input type="hidden" name="amount" value="${page.cri.amount}">  -->
                 </form>
 		    </div>

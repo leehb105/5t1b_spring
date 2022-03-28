@@ -33,8 +33,8 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	}
 
 	@Override
-	public int selectTotalAnonyBoardCount() {
-		return session.selectOne("anonyBoard.selectTotalAnonyBoardCount");
+	public int selectTotalAnonyBoardCount(Map<String, Object> param) {
+		return session.selectOne("anonyBoard.selectTotalAnonyBoardCount", param);
 	}
 
 	@Override
@@ -81,4 +81,6 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 	public int insertAnonyBoardComment(BoardComment boardComment) {
 		return session.insert("anonyBoard.insertAnonyBoardComment", boardComment);
 	}
+
+
 }
