@@ -108,7 +108,11 @@ public class AnonyBoardController {
             log.debug("no = {}", no);
             log.debug("id = {}", principal.getName());
             log.debug("boardComment = {}", boardComment);
-
+//            log.debug("reCommentRef = {}", reCommentRef);
+//
+//            if(boardComment.getCommentLevel() != 1){
+//                boardComment.setCommentRef(reCommentRef);
+//            }
             boardComment.setEmpNo(principal.getName());
             int result = anonyBoardService.insertAnonyBoardComment(boardComment);
 
@@ -417,6 +421,20 @@ public class AnonyBoardController {
 
         List<BoardComment> boardCommentList = anonyBoardService.selectAnonyBoardCommentList(no);
         log.debug("boardCommentList = {}", boardCommentList);
+
+
+        Map<String, String> map = new HashMap<>();
+        for(int i = 0; i < boardCommentList.size(); i++){
+            if(!map.containsKey(boardCommentList.get(i).getEmpNo())){
+                map.put(boardCommentList.get(i).getEmpNo(), "익명" + (i + 1));
+            }
+        }
+        for(int i = 0;  i < boardCommentList.size(); i++){
+            if(map.containsKey(boardCommentList.get(i).getEmpNo())){
+                boardCommentList.get(i).setEmpNo(map.get(boardCommentList.get(i).getEmpNo()));
+            }
+
+        }
 
         model.addAttribute("board", board);
         model.addAttribute("boardCommentList", boardCommentList);

@@ -84,7 +84,7 @@
 						<c:if test="${comment.commentLevel == 1}">			
 								<tr class="level1">
 									<td style="padding: 10px;" width="1000px;">
-										<sub class="comment-writer" style="font-weight: bold;">익명</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
 										<sub class="comment-date">
 											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 										</sub>
@@ -101,8 +101,10 @@
 
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">
-										<sub class="comment-writer" style="font-weight: bold;">익명</sub>
-										<sub class="comment-date">${comment.regDate}</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-date">
+											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										</sub>
 										<br />
 										<!-- 대댓글내용 -->
 										${comment.content}
@@ -128,11 +130,11 @@
 				name="boardCommentFrm">
 				<input type="hidden" name="no" value="${board.no}" />
 				<input type="hidden" name="commentLevel" value="1" />
-				<input type="hidden" name="commentRef" value="0" />    
+				<!-- <input type="hidden" name="commentRef" value="0" />     -->
 				<div id="comment-input">
 					<textarea name="content" cols="100" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
 					<br />
-					<button type="submit" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;">등록</button>
+					<button type="submit" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-bottom: 10px;">등록</button>
 				</div>
 			</form:form>
 		</div>
@@ -190,33 +192,38 @@ $(document.boardCommentFrm).submit((e) => {
 		e.preventDefault();
 	}
 });
+let commentRefVal; 
 
 //대댓글 기능
 function commentReply(e) {
 	//대댓글 상위댓글 저장
-	const commentRef = e.value;
-	console.log(commentRef);
+	commentRefVal = e.value;
+	console.log(commentRefVal);
 	const tr = `<tr>
 		<td colspan="2" style="text-align:left">
 			<form:form
 				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
-				method="post">
+				method="post"
+				name="reCommentFrm">
 			    <input type="hidden" name="no" value="${board.no}" />
 			    <input type="hidden" name="commentLevel" value="2" />
-			    <input type="hidden" name="commentRef" value="\${commentRef}" />    
-				<textarea name="content" cols="60" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
+			    <input type="hidden" name="reCommentRef" id="reCommentRef" value="" />    
+				<textarea name="content" cols="100" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
 			    <br />
-				<button type="submit" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;">등록</button>
+				<button type="submit" id="reCommentBtn" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-bottom: 10px;">등록</button>
 			</form:form>
 		</td>`;
+
 	const baseTr = e.parentNode.parentNode;
 	const $baseTr = $(e.target).parent().parent();
 	const $tr = $(tr);
+
 
 	$tr.insertAfter(baseTr)	
 	.find("form")
 	.submit((e) => {
 		const $content = $("[name=content]", e.target);
+		$('#reCommentRef').val(commentRefVal);
 		if(!/^(.|\n)+$/.test($content.val())){
 			alert("댓글을 작성해주세요.");
 			e.preventDefault();
@@ -224,9 +231,31 @@ function commentReply(e) {
 	});
 
 	//$(e.target).off("click");
-		
+
 }
 
+// $(reCommentBtn).on('click', function(){
+
+// 	$('#reCommentRef').val(commentRefVal);
+// 	console.log($('#reCommentRef').val());
+
+// 	//댓글등록전 검사
+// 	$(document.boardCommentFrm).submit((e) => {
+
+// 	const $content = $("[name=content]", e.target);
+// 	if(!/^(.|\n)+$/.test($content.val())){
+// 		alert("댓글을 작성해주세요.");
+// 		e.preventDefault();
+// 	}
+// 	});
+
+
+// });
+	
+
+
+
+$(document.reCommentFrm)
 //게시판 리스트로 돌아가는 함수
 function moveAnonymousList() {
 	location.href = "${pageContext.request.contextPath}/board/anonymousBoardList.do";
