@@ -79,7 +79,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 					<option value="empName" >작성자</option>	
 		        </select> -->
 		        <div id="search-title" class="search-type">
-		            <form action="${pageContext.request.contextPath}/board/anonymousBoardFinder.do">
+		            <form action="${pageContext.request.contextPath}/board/anonymousBoardList.do">
 		                <!-- <input type="hidden" name="searchType" value="title"/> -->
 		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색어를 입력하세요."/>
 		                <button type="submit" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
