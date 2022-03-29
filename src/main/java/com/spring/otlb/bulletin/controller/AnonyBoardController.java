@@ -402,7 +402,6 @@ public class AnonyBoardController {
         model.addAttribute("list", list);
         model.addAttribute("page", page);
 
-
     }
 
     @GetMapping("/anonymousBoardView.do")
