@@ -381,12 +381,12 @@ public class AnonyBoardController {
             @RequestParam(required = false) String searchKeyword,
             Model model){
         int amount = 5;
-        log.debug("searchKeyword = {}", searchKeyword);
+//        log.debug("searchKeyword = {}", searchKeyword);
         Criteria cri = new Criteria();
         cri.setPageNum(pageNum);
         cri.setAmount(amount);
         cri.setKeyword(searchKeyword);
-        log.debug("cri = {}", cri);
+//        log.debug("cri = {}", cri);
 
         Map<String, Object> param = new HashMap<>();
         param.put("pageNum", pageNum);
