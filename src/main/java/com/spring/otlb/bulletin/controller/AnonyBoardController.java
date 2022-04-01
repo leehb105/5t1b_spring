@@ -415,7 +415,7 @@ public class AnonyBoardController {
         // 쿠키 생성
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
-        log.debug("cookies = {}", cookies);
+//        log.debug("cookies = {}", cookies);
         //쿠키값이 있다면
         if(cookies != null) {
             for(Cookie cookie : cookies) {
