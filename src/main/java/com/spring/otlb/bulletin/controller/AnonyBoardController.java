@@ -446,7 +446,7 @@ public class AnonyBoardController {
         log.debug("board = {}", board);
 
         List<BoardComment> boardCommentList = anonyBoardService.selectAnonyBoardCommentList(no);
-        log.debug("boardCommentList = {}", boardCommentList);
+//        log.debug("boardCommentList = {}", boardCommentList);
 
 
         Map<String, String> map = new HashMap<>();
