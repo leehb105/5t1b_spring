@@ -105,9 +105,9 @@ public class AnonyBoardController {
             @RequestParam int no,
             BoardComment boardComment
       ){
-            log.debug("no = {}", no);
-            log.debug("id = {}", principal.getName());
-            log.debug("boardComment = {}", boardComment);
+//            log.debug("no = {}", no);
+//            log.debug("id = {}", principal.getName());
+//            log.debug("boardComment = {}", boardComment);
 //            log.debug("reCommentRef = {}", reCommentRef);
 //
 //            if(boardComment.getCommentLevel() != 1){
