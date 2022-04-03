@@ -230,54 +230,6 @@ public class AnonyBoardController {
     }
 
 
-//    @GetMapping("/anonymousBoardFinder.do")
-//    public String anonymousBoardFinder(
-//            Model model,
-//            @RequestParam String searchKeyword,
-//            @RequestParam(defaultValue = "1", required = false) int pageNum
-//        ){
-//            log.debug("searchKeyword = {}", searchKeyword);
-//            int amount = 5;
-//            Criteria cri = new Criteria();
-//            cri.setPageNum(pageNum);
-//            cri.setAmount(amount);
-//            Map<String, Object> param = new HashMap<>();
-//            param.put("pageNum", pageNum);
-//            param.put("cri", cri);
-//            param.put("searchKeyword", searchKeyword);
-//
-//            List<Board> list = anonyBoardService.selectAnonymousBoardByTitle(param);
-//            log.debug("list = {}", list);
-//
-//            int total = anonyBoardService.selectTotalAnonyBoardCountByTitle(param);
-//            Paging page = new Paging(cri, total);
-//
-//
-//            model.addAttribute("list", list);
-//            model.addAttribute("page", page);
-//
-//            return "/board/anonymousBoardList";
-////        String searchType = request.getParameter("searchType");
-////        String searchKeyword = request.getParameter("searchKeyword");
-////        Map<String, Object> param = new HashMap<>();
-////        param.put("searchType", searchType);
-////        param.put("searchKeyword", searchKeyword);
-////        System.out.println("param@servlet = " + param);
-////
-////        List<Board> list = bulletinService.searchAnonymousBoard(param);
-////        List<String> regDate = new ArrayList<>();
-////        System.out.println("list : " + list);
-////
-////        for(Board board : list) {
-////            regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-////        }
-////
-////        request.setAttribute("list", list);
-////        request.setAttribute("regDate", regDate);
-////        request
-////                .getRequestDispatcher("/WEB-INF/views/anonymousBoard/anonymousBoardList.jsp")
-////                .forward(request, response);
-//    }
 
     @GetMapping("/anonymousBoardUpdate.do")
     public void anonymousBoardUpdate(
