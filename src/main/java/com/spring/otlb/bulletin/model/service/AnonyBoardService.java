@@ -38,4 +38,5 @@ public interface AnonyBoardService {
 	int insertAnonyBoardComment(BoardComment boardComment);
 
 
+	int updateAnonymousBoard(Board board);
 }
