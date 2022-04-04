@@ -36,9 +36,9 @@
 
 						<br />
 						<!-- boardEnrollForm -->
-						<form:form
+						<form
 							id="boardUpdateForm" class="user"
-							action="${pageContext.request.contextPath}/board/anonymousBoardUpdate.do"
+							action="${pageContext.request.contextPath}/board/anonymousBoardUpdate.do?${_csrf.parameterName}=${_csrf.token}"
 							method="POST" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col form-group">
@@ -130,7 +130,7 @@
 								</div>
 							</div>
 
-						</form:form>
+						</form>
 						<br /> <br />
 					</div>
 				</div>

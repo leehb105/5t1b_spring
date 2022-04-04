@@ -243,8 +243,19 @@ public class AnonyBoardController {
             model.addAttribute("board", board);
     }
 
-//    @PostMapping("/anonymousBoardUpdate.do")
-//    public String anonymousBoardUpdate(){
+    @PostMapping("/anonymousBoardUpdate.do")
+    public String anonymousBoardUpdate(
+            RedirectAttributes attributes,
+            Board board,
+            @RequestParam(required = false, value = "upFile") MultipartFile[] upFiles){
+
+            log.debug("board = {}", board);
+            log.debug("upFiles.length = {}", upFiles.length);
+
+            int result = anonyBoardService.updateAnonymousBoard(board);
+
+
+            return "redirect:/board/anonymousBoardList.do";
 //        try {
 //            // A. server computer에 사용자 업로드파일 저장
 //            String saveDirectory = getServletContext().getRealPath("/upload/board");
@@ -325,7 +336,7 @@ public class AnonyBoardController {
 //            throw e;
 //        }
 //        return null;
-//    }
+    }
 
     @GetMapping("/anonymousBoardList.do")
     public void anonymousBoardList(
