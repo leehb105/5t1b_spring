@@ -281,6 +281,15 @@
 			delete_yn = 'N'
 	</select>
 
+	<select id="selectAttachments" resultType="attachment">
+		select
+			file_name
+		from
+			ANONYMOUS_ATTACHMENT
+		where
+ 			board_no = #{no}
+	</select>
+
 	<update id="updateAnonymousBoard">
 		update ANONYMOUS_BOARD set
 			title = #{title},

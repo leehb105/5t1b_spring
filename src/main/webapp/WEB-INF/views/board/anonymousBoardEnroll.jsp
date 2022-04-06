@@ -207,7 +207,7 @@ function createInputFile(){
 	if(count <= 5){
 		//console.log(count);
 		const idValue = "inputGroupFile0" + count;
-		const attrValue = "upFile" + count;
+		// const attrValue = "upFile" + count;
 		const buttonAddon = "button-addon" + count;
 		const inputFile = `
 		<div class="form-group" id="createdTag">
@@ -217,7 +217,7 @@ function createInputFile(){
 						style="width: 50px;" id=\${buttonAddon}>-</button>
 				</div>
 				<div class="custom-file">
-					<input type="file" class="w-70 custom-file-input" id=\${idValue} name=\${attrValue}
+					<input type="file" class="w-70 custom-file-input" id=\${idValue} name=upFile
 						aria-describedby=\${buttonAddon} style="cursor:pointer;"/>
 						 <label class="custom-file-label" for=\${idValue} >클릭해서 파일 추가하기</label>
 				</div>

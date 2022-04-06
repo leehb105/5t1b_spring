@@ -55,23 +55,23 @@
 		<div class="container-fluid" id="attachContent" >
 			<hr class="sidebar-divider my-3">
 	
-			<c:forEach items="${board.attachments}" var="attach" varStatus="status">
-				<c:if test="${attach.fileName ne null}">
-					<p>첨부파일</p>
-					<table>
+			<p>첨부파일</p>
+			<table>
+				<c:forEach items="${board.attachments}" var="attach" varStatus="status">
+					<c:if test="${attach.fileName ne null}">
 						<tr>
 							<td>
 								<i class="fa fa-paperclip" src="${pageContext.request.contextPath} width=16px alt='첨부파일'" ></i>
 								<a href="${pageContext.request.contextPath}/board/anonyFileDownload?no=${attach.no}">${attach.fileName}</a>
 							</td>
 						</tr>
-					</table>
-
-					<hr class="sidebar-divider my-3">
-				</c:if>
-			</c:forEach>	
+						
+					</c:if>
+				</c:forEach>	
+			</table>
+			<hr class="sidebar-divider my-3">
 		</div>
-
+		
 			
 		<div class="container-fluid" id="commentContent">
 			<span>댓글 ${board.commentCount}</span>

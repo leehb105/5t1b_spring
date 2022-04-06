@@ -104,5 +104,10 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.updateAnonymousBoard(board);
 	}
 
+	@Override
+	public List<Attachment> selectAttachments(int no) {
+		return anonyBoardDao.selectAttachments(no);
+	}
+
 
 }

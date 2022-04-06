@@ -87,5 +87,10 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 		return session.update("anonyBoard.updateAnonymousBoard", board);
 	}
 
+	@Override
+	public List<Attachment> selectAttachments(int no) {
+		return session.selectList("anonyBoard.selectAttachments", no);
+	}
+
 
 }

@@ -249,19 +249,65 @@ public class AnonyBoardController {
             Board board,
             @RequestParam(required = false, value = "upFile") MultipartFile[] upFiles){
 
-            log.debug("board = {}", board);
-            log.debug("upFiles.length = {}", upFiles.length);
+        log.debug("post board = {}", board);
+        log.debug("upFiles.length = {}", upFiles.length);
+//        log.debug("upFiles[0] = {}", upFiles[0]);
+//        log.debug("upFiles[1] = {}", upFiles[1]);
+//        log.debug("board.getAttachments() = {}", board.getAttachments());
+        //기존의 업로드 파일
+        List<Attachment> oldAttach = anonyBoardService.selectAttachments(board.getNo());
+        log.debug("oldAttach = {}", oldAttach.size());
+        try{
+            String saveDirectory = application.getRealPath("/resources/upload");
 
-            int result = anonyBoardService.updateAnonymousBoard(board);
+            //파일 삭제
+//            for(int i = 0; i < board.getAttachments().size(); i++){
+//                File file = new File(saveDirectory + "/" + board.getAttachments().get(i));
+//                log.debug("file = {}", file);
+//                if(file.exists()){
+//                    file.delete();
+//                }
+//            }
 
-            String msg = "";
-            if(result > 0){
-               msg = "게시글을 수정하였습니다.";
-               attributes.addFlashAttribute("msg", msg);
-                return "redirect:/board/anonymousBoardList.do";
-            }else{
-                return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
+            List<Attachment> attachments = new ArrayList<>();
+
+            //업로드한 파일갯수별 처리
+            for(int i = 0; i < upFiles.length; i++) {
+                String fileName = null;
+                MultipartFile uploadFile = upFiles[i];
+                if(!uploadFile.isEmpty()) {
+                    String originalFileName = uploadFile.getOriginalFilename();
+                    String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
+                    UUID uuid = UUID.randomUUID();	//UUID 구하기
+                    fileName = uuid + "." + ext;
+
+                    File dest = new File(saveDirectory, fileName);
+
+                    uploadFile.transferTo(dest);
+
+                    Attachment attach = new Attachment();
+                    attach.setFileName(fileName);
+                    attachments.add(attach);
+                }
             }
+            if(!attachments.isEmpty()) {
+                board.setAttachments(attachments);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    int result = anonyBoardService.updateAnonymousBoard(board);
+
+        String msg = "";
+        if(result > 0){
+           msg = "게시글을 수정하였습니다.";
+           attributes.addFlashAttribute("msg", msg);
+            return "redirect:/board/anonymousBoardList.do";
+        }else{
+            return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
+        }
 
 
 

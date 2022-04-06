@@ -67,27 +67,21 @@
 								<hr />
 								<div class="row justify-content-between">
 									<div class="col-10">기존 첨부파일</div>
-									<div class="col-1">삭제</div>
 								</div>
 								<br />
 								<c:forEach items="${board.attachments}" var="attach" varStatus="status">
 									<!-- 기존 첨부파일 -->
 									<span id="">
 										<div class="form-group">
-											<div class="row justify-content-between">
-												<div class="col-10">
-													<div class="custom-file">
-														<input type="text"
-															class="w-70 custom-file-input" id="inputGroupFile01"
-															aria-describedby="button-addon1" style="cursor: pointer;" />
-														<label class="custom-file-label" for="inputGroupFile01">${attach.fileName}</label>
-													</div>	
-												</div>
-												<div class="col-1">
-													<div class="custom-control custom-switch" style="margin-top: 5px;">
-														<input type="checkbox" value="${attach.no}" name="delFile" class="custom-control-input" id="${attach.no}" />
-														<label for="${attach.no}" class="custom-control-label"></label>
-													</div>
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<button class="btn btn-danger" type="button" onclick="removeFile(this);"
+													style="width: 50px;">-</button>
+												</div>	
+												<div class="custom-file">
+													<input type="file" name="upFile" class="w-70 custom-file-input" id="${attach.no}"
+														aria-describedby="button-addon1" style="cursor:pointer;"/>
+													<label class="custom-file-label" for="${attach.no}" >${attach.fileName}</label>
 												</div>
 											</div>
 										</div>
@@ -102,7 +96,7 @@
 								<div class="form-group">
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
-											<button class="btn btn-primary" type="button" onclick="createInputFile()"
+											<button class="btn btn-primary" type="button" onclick="createInputFile();"
 												style="width: 50px;" id="button-addon1">+</button>
 										</div>
 										<div class="custom-file">
@@ -286,6 +280,26 @@ function removeTag(){
 			$("#fileMessage").html("");		
 			$("#button-addon1").prop("disabled", false);
 			break;
+	}
+	
+}
+
+function removeFile(e){
+	// console.log(e);
+	let $obj = $(e);
+
+	if($obj.text() == '-'){
+		//파일 disabled처리
+		$obj.parent().siblings().children().attr("disabled",true);
+		//버튼 타입 변경
+		$obj.attr('class','btn btn-primary');
+		$obj.text('+');
+	}else if($obj.text() == '+'){
+		//파일 되살리기
+		$obj.parent().siblings().children().attr("disabled",false);
+		//버튼 타입 변경
+		$obj.attr('class','btn btn-danger');
+		$obj.text('-');
 	}
 	
 }

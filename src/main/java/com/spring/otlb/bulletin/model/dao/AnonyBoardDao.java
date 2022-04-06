@@ -37,4 +37,6 @@ public interface AnonyBoardDao {
 
 
 	int updateAnonymousBoard(Board board);
+
+	List<Attachment> selectAttachments(int no);
 }
