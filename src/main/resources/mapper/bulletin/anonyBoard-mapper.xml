@@ -282,6 +282,10 @@
 	</select>
 
 	<update id="updateAnonymousBoard">
-		
+		update ANONYMOUS_BOARD set
+			title = #{title},
+		    content = #{content}
+		where no = #{no}
+
 	</update>
 </mapper>

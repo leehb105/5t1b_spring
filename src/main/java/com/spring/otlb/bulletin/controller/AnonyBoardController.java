@@ -254,8 +254,17 @@ public class AnonyBoardController {
 
             int result = anonyBoardService.updateAnonymousBoard(board);
 
+            String msg = "";
+            if(result > 0){
+               msg = "게시글을 수정하였습니다.";
+               attributes.addFlashAttribute("msg", msg);
+                return "redirect:/board/anonymousBoardList.do";
+            }else{
+                return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
+            }
 
-            return "redirect:/board/anonymousBoardList.do";
+
+
 //        try {
 //            // A. server computer에 사용자 업로드파일 저장
 //            String saveDirectory = getServletContext().getRealPath("/upload/board");
