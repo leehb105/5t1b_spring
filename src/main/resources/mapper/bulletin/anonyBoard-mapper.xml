@@ -280,4 +280,8 @@
 			and
 			delete_yn = 'N'
 	</select>
+
+	<update id="updateAnonymousBoard">
+		
+	</update>
 </mapper>

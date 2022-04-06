@@ -99,7 +99,10 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.insertAnonyBoardComment(boardComment);
 	}
 
-
+	@Override
+	public int updateAnonymousBoard(Board board) {
+		return anonyBoardDao.updateAnonymousBoard(board);
+	}
 
 
 }

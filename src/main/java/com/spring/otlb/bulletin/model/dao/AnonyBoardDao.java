@@ -36,4 +36,5 @@ public interface AnonyBoardDao {
 	int insertAnonyBoardComment(BoardComment boardComment);
 
 
+	int updateAnonymousBoard(Board board);
 }

@@ -82,5 +82,10 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 		return session.insert("anonyBoard.insertAnonyBoardComment", boardComment);
 	}
 
+	@Override
+	public int updateAnonymousBoard(Board board) {
+		return session.update("anonyBoard.updateAnonymousBoard", board);
+	}
+
 
 }
