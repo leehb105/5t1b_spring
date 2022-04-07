@@ -252,7 +252,6 @@ public class AnonyBoardController {
         log.debug("post board = {}", board);
         log.debug("upFiles.length = {}", upFiles.length);
 //        log.debug("upFiles[0] = {}", upFiles[0]);
-//        log.debug("upFiles[1] = {}", upFiles[1]);
 //        log.debug("board.getAttachments() = {}", board.getAttachments());
         //기존의 업로드 파일
         List<Attachment> oldAttach = anonyBoardService.selectAttachments(board.getNo());
