@@ -260,11 +260,24 @@ public class AnonyBoardController {
             String saveDirectory = application.getRealPath("/resources/upload");
 
             //파일 삭제
-//            for(int i = 0; i < board.getAttachments().size(); i++){
-//                File file = new File(saveDirectory + "/" + board.getAttachments().get(i));
-//                log.debug("file = {}", file);
-//                if(file.exists()){
-//                    file.delete();
+//            // 업무로직
+//            // a. 기존첨부파일 삭제
+//            if(delFiles != null) {
+//                for(String temp : delFiles) {
+//                    int delFileNo = Integer.parseInt(temp);
+//                    Attachment attach = bulletinService.selectOneAnonymousAttachment(delFileNo);
+//                    //가. 첨부파일 삭제
+//                    String renamedFilename = attach.getRenamedFilename();
+//                    File delFile = new File(saveDirectory, renamedFilename);
+//                    boolean removed = delFile.delete();
+//
+//                    //나. DB 첨부파일 레코드 삭제
+//                    int result = bulletinService.deleteAnonymousAttachment(delFileNo);
+//
+//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + " 삭제 : " + removed);
+//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + "  레코드 삭제 : " + result);
+//
+//
 //                }
 //            }
 
@@ -302,11 +315,11 @@ public class AnonyBoardController {
         String msg = "";
         if(result > 0){
            msg = "게시글을 수정하였습니다.";
-           attributes.addFlashAttribute("msg", msg);
-            return "redirect:/board/anonymousBoardList.do";
         }else{
-            return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
+            msg = "게시글 수정 오류";
         }
+            attributes.addFlashAttribute("msg", msg);
+            return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
 
 
 
@@ -351,26 +364,7 @@ public class AnonyBoardController {
 //
 //
 //
-//            // 업무로직
-//            // a. 기존첨부파일 삭제
-//            if(delFiles != null) {
-//                for(String temp : delFiles) {
-//                    int delFileNo = Integer.parseInt(temp);
-//                    Attachment attach = bulletinService.selectOneAnonymousAttachment(delFileNo);
-//                    //가. 첨부파일 삭제
-//                    String renamedFilename = attach.getRenamedFilename();
-//                    File delFile = new File(saveDirectory, renamedFilename);
-//                    boolean removed = delFile.delete();
-//
-//                    //나. DB 첨부파일 레코드 삭제
-//                    int result = bulletinService.deleteAnonymousAttachment(delFileNo);
-//
-//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + " 삭제 : " + removed);
-//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + "  레코드 삭제 : " + result);
-//
-//
-//                }
-//            }
+
 //
 //
 //            // b. db 레코드 수정 (update board + insert attachment)
