@@ -256,6 +256,7 @@ public class AnonyBoardController {
         //기존의 업로드 파일
         List<Attachment> oldAttach = anonyBoardService.selectAttachments(board.getNo());
         log.debug("oldAttach = {}", oldAttach.size());
+
         
         try{
             String saveDirectory = application.getRealPath("/resources/upload");
