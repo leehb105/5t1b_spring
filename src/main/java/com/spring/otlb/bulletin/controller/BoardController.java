@@ -48,6 +48,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardController {
 
+
 	@Autowired
 	private ServletContext application;
 	
