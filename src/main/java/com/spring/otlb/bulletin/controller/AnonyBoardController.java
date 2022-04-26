@@ -157,8 +157,6 @@ public class AnonyBoardController {
             RedirectAttributes attributes) throws IOException {
 
         try {
-            log.debug("board = {}", board);
-            log.debug("upFiles.length = {}", upFiles.length);
 
             String saveDirectory = application.getRealPath("/resources/upload");
 
