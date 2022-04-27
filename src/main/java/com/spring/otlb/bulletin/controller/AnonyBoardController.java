@@ -245,59 +245,55 @@ public class AnonyBoardController {
     public String anonymousBoardUpdate(
             RedirectAttributes attributes,
             Board board,
-            @RequestParam(required = false, value = "upFile") MultipartFile[] upFiles){
+            @RequestParam(required = false, value = "upFile") MultipartFile[] upFiles,
+            @RequestParam(required = false, value = "oldFileNo") int[] oldFileNo){
 
         log.debug("post board = {}", board);
-        log.debug("upFiles.length = {}", upFiles.length);
+
+        //기존 파일이 없는 경우
+        //기존 파일이 있는 경우
+        //추가 파일이 있는 경우
+        //추가 파일이 없는 경우
+
 //        log.debug("upFiles[0] = {}", upFiles[0]);
 //        log.debug("board.getAttachments() = {}", board.getAttachments());
         //기존의 업로드 파일
         List<Attachment> oldAttach = anonyBoardService.selectAttachments(board.getNo());
+
         log.debug("oldAttach = {}", oldAttach.size());
         try{
             String saveDirectory = application.getRealPath("/resources/upload");
 
-            //파일 삭제
-            for(int i = 0;  i < oldAttach.size(); i++){
-                if(!oldAttach.isEmpty()){
-                    File oldFile = new File(saveDirectory, oldAttach.get(i).getFileName());
-                    log.debug("oldFile = {}", oldFile.getName());
-                }
+            for(int i = 0; i < oldFileNo.length; i++){
+                log.debug("oldFiles size = {}", oldFileNo.length);
+                //파일 삭제
+                log.debug("oldFileNo = {}", oldFileNo[i]);
+                for(int j = 0; j < oldAttach.size(); j++){
+                    log.debug("oldAttachNo = {}", oldAttach.get(j).getNo());
+                    if(oldFileNo[i] == oldAttach.get(j).getNo()){ //삭제할 파일 no과 기존 저장 파일 no이 동일하면
+                        File oldFile = new File(saveDirectory + "/" + oldAttach.get(j).getFileName());
+                        log.debug("oldFileName = {}", oldFile.getName());
+                        log.debug("oldFile = {}", oldFile);
+                        log.debug("oldFile exist = {}", oldFile.exists());
 
+                        if(oldFile.exists()){ //파일 존재시
+                            log.debug("if문 진입");
+                            if(oldFile.delete()) { //삭제
+                                int result = anonyBoardService.deleteAnonymousAttachment(oldFileNo[i]);
+                            }
+                        }
+                    }
+                }
             }
 
-
-
-
-
-
-
-//            // a. 기존첨부파일 삭제
-//            if(delFiles != null) {
-//                for(String temp : delFiles) {
-//                    int delFileNo = Integer.parseInt(temp);
-//                    Attachment attach = bulletinService.selectOneAnonymousAttachment(delFileNo);
-//                    //가. 첨부파일 삭제
-//                    String renamedFilename = attach.getRenamedFilename();
-//                    File delFile = new File(saveDirectory, renamedFilename);
-//                    boolean removed = delFile.delete();
-//
-//                    //나. DB 첨부파일 레코드 삭제
-//                    int result = bulletinService.deleteAnonymousAttachment(delFileNo);
-//
-//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + " 삭제 : " + removed);
-//                    System.out.println("[BoardUpdateServlet] " + renamedFilename + "  레코드 삭제 : " + result);
-//
-//
-//                }
-//            }
-
             List<Attachment> attachments = new ArrayList<>();
-
+            log.debug("upFiles.length = {}", upFiles.length);
             //업로드한 파일갯수별 처리
             for(int i = 0; i < upFiles.length; i++) {
                 String fileName = null;
+                log.debug("upFiles[i] = {}", upFiles[i].getOriginalFilename());
                 MultipartFile uploadFile = upFiles[i];
+                log.debug("uploadFile = {}", uploadFile.getOriginalFilename());
                 if(!uploadFile.isEmpty()) {
                     String originalFileName = uploadFile.getOriginalFilename();
                     String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
@@ -313,8 +309,13 @@ public class AnonyBoardController {
                     attachments.add(attach);
                 }
             }
-            if(!attachments.isEmpty()) {
-                board.setAttachments(attachments);
+//            if(!attachments.isEmpty()) {
+//                board.setAttachments(attachments);
+//            }
+            for(Attachment attach : attachments) {
+                attach.setBoardNo(board.getNo());
+                log.debug("boardNo = {}", attach.getBoardNo());
+                int result = anonyBoardService.insertAnonyAttachment(attach);
             }
         } catch (IOException e) {
             e.printStackTrace();

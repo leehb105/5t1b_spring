@@ -92,5 +92,10 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 		return session.selectList("anonyBoard.selectAttachments", no);
 	}
 
+	@Override
+	public int deleteAnonymousAttachment(int no) {
+		return session.delete("anonyBoard.deleteAnonymousAttachment", no);
+	}
+
 
 }

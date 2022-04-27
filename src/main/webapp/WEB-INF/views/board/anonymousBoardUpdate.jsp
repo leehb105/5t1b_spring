@@ -62,7 +62,7 @@
 								value="${loginEmp.empNo}" />
 							<!-- 게시물 번호 -->
 							<input type="hidden" name="no" value="${board.no}" />
-
+							<input type="hidden" name="oldFileNo" value="0">
 							<c:if test="${board.attachments[0].fileName ne null}">
 								<hr />
 								<div class="row justify-content-between">
@@ -79,9 +79,10 @@
 													style="width: 50px;">-</button>
 												</div>	
 												<div class="custom-file">
-													<input type="file" name="upFile" class="w-70 custom-file-input" id="${attach.no}"
+													<input type="file" name="oldFile" class="w-70 custom-file-input" id="${attach.no}"
 														aria-describedby="button-addon1" style="cursor:pointer;"/>
 													<label class="custom-file-label" for="${attach.no}" >${attach.fileName}</label>
+													<input type="hidden" name="oldFileNo" value="${attach.no}" disabled>
 												</div>
 											</div>
 										</div>
@@ -285,21 +286,33 @@ function removeTag(){
 }
 
 function removeFile(e){
-	// console.log(e);
 	let $obj = $(e);
+	// let $fileNo = $('input[name=fileNo]');
+	// console.log($fileNo);
 
+	//파일 삭제 버튼
 	if($obj.text() == '-'){
 		//파일 disabled처리
-		$obj.parent().siblings().children().attr("disabled",true);
+		$obj.parent().siblings().children().attr("disabled",true); //파일 삭제
+		
 		//버튼 타입 변경
 		$obj.attr('class','btn btn-primary');
 		$obj.text('+');
+		
+		console.log($obj.parent().siblings().children().last().attr("disabled",false)); //삭제 파일 넘버
+		console.log($obj.parent().siblings().children().last().val()); //삭제 파일 넘버
+		// console.log($obj.parent().siblings().children().first());
+		// console.log($obj.parent().siblings().children().first().prop('type', 'hidden'));
+
 	}else if($obj.text() == '+'){
 		//파일 되살리기
 		$obj.parent().siblings().children().attr("disabled",false);
 		//버튼 타입 변경
 		$obj.attr('class','btn btn-danger');
 		$obj.text('-');
+		console.log($obj.parent().siblings().children().last().attr("disabled",true)); //삭제 파일 넘버(제출 안함)
+		// console.log($obj.parent().siblings().children().last().val());
+		// console.log($obj.parent().siblings().children().first().prop('type', 'file'));
 	}
 	
 }

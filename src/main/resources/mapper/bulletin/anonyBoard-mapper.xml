@@ -283,6 +283,7 @@
 
 	<select id="selectAttachments" resultType="attachment">
 		select
+		    no,
 			file_name
 		from
 			ANONYMOUS_ATTACHMENT
@@ -297,4 +298,8 @@
 		where no = #{no}
 
 	</update>
+
+	<delete id="deleteAnonymousAttachment">
+		delete from ANONYMOUS_ATTACHMENT where no = #{no}
+	</delete>
 </mapper>
