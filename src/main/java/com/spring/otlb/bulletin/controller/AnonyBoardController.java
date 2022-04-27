@@ -103,16 +103,17 @@ public class AnonyBoardController {
             RedirectAttributes attributes,
             Principal principal,
             @RequestParam int no,
-            BoardComment boardComment
+            BoardComment boardComment,
+            @RequestParam(required = false) int reCommentRef
       ){
 //            log.debug("no = {}", no);
 //            log.debug("id = {}", principal.getName());
-//            log.debug("boardComment = {}", boardComment);
-//            log.debug("reCommentRef = {}", reCommentRef);
-//
-//            if(boardComment.getCommentLevel() != 1){
-//                boardComment.setCommentRef(reCommentRef);
-//            }
+            log.debug("boardComment = {}", boardComment);
+            log.debug("reCommentRef = {}", reCommentRef);
+            //대댓글일 경우 참조 댓글 no 설정
+            if(boardComment.getCommentLevel() != 1){
+                boardComment.setCommentRef(reCommentRef);
+            }
             boardComment.setEmpNo(principal.getName());
             int result = anonyBoardService.insertAnonyBoardComment(boardComment);
 
@@ -272,12 +273,8 @@ public class AnonyBoardController {
                     log.debug("oldAttachNo = {}", oldAttach.get(j).getNo());
                     if(oldFileNo[i] == oldAttach.get(j).getNo()){ //삭제할 파일 no과 기존 저장 파일 no이 동일하면
                         File oldFile = new File(saveDirectory + "/" + oldAttach.get(j).getFileName());
-                        log.debug("oldFileName = {}", oldFile.getName());
-                        log.debug("oldFile = {}", oldFile);
-                        log.debug("oldFile exist = {}", oldFile.exists());
 
                         if(oldFile.exists()){ //파일 존재시
-                            log.debug("if문 진입");
                             if(oldFile.delete()) { //삭제
                                 int result = anonyBoardService.deleteAnonymousAttachment(oldFileNo[i]);
                             }
@@ -333,69 +330,6 @@ public class AnonyBoardController {
             attributes.addFlashAttribute("msg", msg);
             return "redirect:/board/anonymousBoardView.do?no=" + board.getNo();
 
-
-
-//        try {
-//            // A. server computer에 사용자 업로드파일 저장
-//            String saveDirectory = getServletContext().getRealPath("/upload/board");
-//            int maxPostSize = 1024 * 1024 * 10; // 10MB
-//            String encoding = "utf-8";
-//            FileRenamePolicy policy = new AttachFileRenamePolicy();
-//
-//            MultipartRequest multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
-//
-//            // 사용자입력값
-//            int no = Integer.parseInt(multipartRequest.getParameter("no"));
-//            String title = multipartRequest.getParameter("title");
-//            String content = multipartRequest.getParameter("content");
-//            int empNo = Integer.parseInt(multipartRequest.getParameter("empNo"));
-//            String[] delFiles = multipartRequest.getParameterValues("delFile");
-//            System.out.println(delFiles);
-//
-//            Board board = new Board();
-//            board.setNo(no);
-//            board.setTitle(title);
-//            board.setContent(content);
-//            board.setEmpNo(empNo);
-//
-//            // 저장된 파일정보 -> Attachment객체 생성 -> List<Attachment>객체에 추가 -> Board객체에 추가
-//            Enumeration fileNames = multipartRequest.getFileNames();
-//            List<Attachment> attachments = new ArrayList<>();
-//            while(fileNames.hasMoreElements()) {
-//                String fileName = (String) fileNames.nextElement();
-//                System.out.println("[BoardUpdateServlet] fileName = " + fileName);
-//                File upFile = multipartRequest.getFile(fileName);
-//                if(upFile != null) {
-//                    Attachment attach = EmpUtils.makeAttachment(multipartRequest, fileName);
-//                    attach.setBoardNo(no);
-//                    attachments.add(attach);
-//                }
-//            }
-//            if(!attachments.isEmpty())
-//                board.setAttachments(attachments);
-//
-//
-//
-
-//
-//
-//            // b. db 레코드 수정 (update board + insert attachment)
-//
-//
-//
-//            int result = bulletinService.updateAnonymousBoard(board);
-//
-//            String msg = result > 0 ? "게시물 수정 성공" : "게시물 수정 실패";
-//
-//            request.getSession().setAttribute("msg", msg);
-//            String location = request.getContextPath() + "/board/anonymousBoardView?no=" + board.getNo();
-//            response.sendRedirect(location);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//        return null;
     }
 
     @GetMapping("/anonymousBoardList.do")
@@ -492,6 +426,15 @@ public class AnonyBoardController {
 
 
     }
+
+    @PostMapping("/anonymousCommentDelete.do")
+    public String anonymousCommentDelete(RedirectAttributes attributes,
+         @RequestParam int commentNo){
+        log.debug("commentNo = {}", commentNo);
+
+        return null;
+    }
+
 
 
 }

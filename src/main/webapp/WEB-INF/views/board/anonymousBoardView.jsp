@@ -96,6 +96,12 @@
 									<td>
 										<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 									</td>
+									<c:if test="${board.empNo == loginEmp.empNo}">
+										<td>
+											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
+										</td>
+									</c:if>
+									
 								</tr>
 						</c:if>
 						<c:if test="${comment.commentLevel != 1}">
@@ -111,7 +117,7 @@
 										${comment.content}
 									</td>
 									<td>
-										<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
+										<!-- <button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button> -->
 									</td>
 								</tr>
 
@@ -151,6 +157,13 @@
 			name="boardDeleteFrm"
 			method="POST">
 			<input type="hidden" name="no" value="${board.no}"/>
+		</form:form>
+
+		<form:form
+			action="${pageContext.request.contextPath}/board/anonymousCommentDelete.do" 
+			name="commentDeleteFrm"
+			method="POST">
+			<input type="hidden" name="commentNo" value=""/>
 		</form:form>
 
 
@@ -233,6 +246,13 @@ function commentReply(e) {
 
 	//$(e.target).off("click");
 
+}
+
+function commentDelete(e){
+	if(confirm("댓글을 삭제하시겠습니까?")){
+		$('input[name=commentNo]').val(e.value);
+		$(document.commentDeleteFrm).submit();		
+	}
 }
 
 // $(reCommentBtn).on('click', function(){
