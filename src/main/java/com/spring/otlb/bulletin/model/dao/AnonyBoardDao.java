@@ -41,4 +41,6 @@ public interface AnonyBoardDao {
 	List<Attachment> selectAttachments(int no);
 
 	int deleteAnonymousAttachment(int no);
+
+	int deleteAnonymousBoardComment(int commentNo);
 }

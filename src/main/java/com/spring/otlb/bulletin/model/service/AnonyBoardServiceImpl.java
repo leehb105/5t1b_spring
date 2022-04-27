@@ -114,5 +114,10 @@ public class AnonyBoardServiceImpl implements AnonyBoardService{
 		return anonyBoardDao.deleteAnonymousAttachment(no);
 	}
 
+	@Override
+	public int deleteAnonymousBoardComment(int commentNo) {
+		return anonyBoardDao.deleteAnonymousBoardComment(commentNo);
+	}
+
 
 }

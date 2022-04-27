@@ -302,4 +302,11 @@
 	<delete id="deleteAnonymousAttachment">
 		delete from ANONYMOUS_ATTACHMENT where no = #{no}
 	</delete>
+
+	<update id="deleteAnonymousBoardComment">
+		update ANONYMOUS_BOARD_COMMENT set
+		   delete_yn = 'Y'
+		where
+			no = #{commentNo}
+	</update>
 </mapper>

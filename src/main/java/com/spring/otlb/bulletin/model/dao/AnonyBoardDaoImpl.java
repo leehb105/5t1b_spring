@@ -97,5 +97,10 @@ public class AnonyBoardDaoImpl implements AnonyBoardDao{
 		return session.delete("anonyBoard.deleteAnonymousAttachment", no);
 	}
 
+	@Override
+	public int deleteAnonymousBoardComment(int commentNo) {
+		return session.update("anonyBoard.deleteAnonymousBoardComment", commentNo);
+	}
+
 
 }

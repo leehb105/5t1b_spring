@@ -110,6 +110,14 @@ public class AnonyBoardController {
 //            log.debug("id = {}", principal.getName());
             log.debug("boardComment = {}", boardComment);
             log.debug("reCommentRef = {}", reCommentRef);
+
+            //해야할것! 댓글 익명 이름 출력 제대로 작동하나 확인할것
+            //본인 댓글 작성시 삭제 버튼 작동 안함
+            
+
+
+
+
             //대댓글일 경우 참조 댓글 no 설정
             if(boardComment.getCommentLevel() != 1){
                 boardComment.setCommentRef(reCommentRef);
@@ -429,10 +437,20 @@ public class AnonyBoardController {
 
     @PostMapping("/anonymousCommentDelete.do")
     public String anonymousCommentDelete(RedirectAttributes attributes,
-         @RequestParam int commentNo){
+         @RequestParam int commentNo,
+         @RequestParam int no){
         log.debug("commentNo = {}", commentNo);
+        log.debug("no = {}", no);
 
-        return null;
+        int result = anonyBoardService.deleteAnonymousBoardComment(commentNo);
+        String msg = "";
+        if(result > 0){
+            msg = "댓글을 삭제하였습니다.";
+        }else{
+            msg = "댓글 삭제 오류";
+        }
+        attributes.addFlashAttribute("msg", msg);
+        return "redirect:/board/anonymousBoardView.do?no=" + no;
     }
 
 

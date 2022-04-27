@@ -83,6 +83,7 @@
 
 					<c:forEach items="${boardCommentList}" var="comment" varStatus="status">	
 						<c:if test="${comment.commentLevel == 1}">			
+							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level1">
 									<td style="padding: 10px;" width="1000px;">
 										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
@@ -96,16 +97,30 @@
 									<td>
 										<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 									</td>
-									<c:if test="${board.empNo == loginEmp.empNo}">
+									<c:if test="${comment.empNo == loginEmp.empNo}">
 										<td>
 											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
 										</td>
 									</c:if>
 									
 								</tr>
+							</c:if>
+							<c:if test="${comment.deleteYn == 'Y'}">
+								<tr class="level1">
+									<td style="padding: 10px;" width="1000px;">
+										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-date">
+											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										</sub>
+										<br />
+										<!-- 댓글내용 -->
+										삭제된 댓글입니다.
+									</td>
+								</tr>
+							</c:if>
 						</c:if>
 						<c:if test="${comment.commentLevel != 1}">
-
+							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">
 										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
@@ -116,12 +131,26 @@
 										<!-- 대댓글내용 -->
 										${comment.content}
 									</td>
-									<td>
-										<!-- <button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button> -->
+									<c:if test="${comment.empNo == loginEmp.empNo}">
+										<td>
+											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
+										</td>
+									</c:if>
+								</tr>
+							</c:if>
+							<c:if test="${comment.deleteYn == 'Y'}">
+								<tr class="level2">
+									<td style="padding-left: 50px; padding-bottom: 15px;">
+										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-date">
+											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										</sub>
+										<br />
+										<!-- 대댓글내용 -->
+										삭제된 댓글입니다.
 									</td>
 								</tr>
-
-
+							</c:if>
 						</c:if>
 					</c:forEach>		
 
@@ -137,7 +166,7 @@
 				name="boardCommentFrm">
 				<input type="hidden" name="no" value="${board.no}" />
 				<input type="hidden" name="commentLevel" value="1" />
-				<!-- <input type="hidden" name="commentRef" value="0" />     -->
+				<input type="hidden" name="reCommentRef" value="0" />    
 				<div id="comment-input">
 					<textarea name="content" cols="100" rows="3" style="resize: none;" placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 글 작성 시 타인에 대한 배려와 책임을 담아주세요."></textarea>
 					<br />
@@ -164,6 +193,7 @@
 			name="commentDeleteFrm"
 			method="POST">
 			<input type="hidden" name="commentNo" value=""/>
+			<input type="hidden" name="no" value="${board.no}"/>
 		</form:form>
 
 
