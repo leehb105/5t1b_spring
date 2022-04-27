@@ -258,7 +258,20 @@ public class AnonyBoardController {
             String saveDirectory = application.getRealPath("/resources/upload");
 
             //파일 삭제
-//            // 업무로직
+            for(int i = 0;  i < oldAttach.size(); i++){
+                if(!oldAttach.isEmpty()){
+                    File oldFile = new File(saveDirectory, oldAttach.get(i).getFileName());
+                    log.debug("oldFile = {}", oldFile.getName());
+                }
+
+            }
+
+
+
+
+
+
+
 //            // a. 기존첨부파일 삭제
 //            if(delFiles != null) {
 //                for(String temp : delFiles) {
