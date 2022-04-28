@@ -113,8 +113,6 @@ public class AnonyBoardController {
 
             //해야할것! 댓글 익명 이름 출력 제대로 작동하나 확인할것
             //본인 댓글 작성시 삭제 버튼 작동 안함
-            
-
 
 
 
