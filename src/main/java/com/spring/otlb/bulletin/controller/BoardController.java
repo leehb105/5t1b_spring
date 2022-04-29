@@ -95,7 +95,6 @@ public class BoardController {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			log.debug("no = {}", no);
 			// 쿠키 생성
 			Cookie oldCookie = null;
 			Cookie[] cookies = request.getCookies();
@@ -282,7 +281,60 @@ public class BoardController {
 //		}
 //		return null;
 //	}
-//	
+//
+	@PostMapping("/boardLikeCount.do")
+	public String boardLikeCount(
+			RedirectAttributes attributes,
+			HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam int no){
+
+		log.debug("no = {}", no);
+		// 쿠키 생성
+		Cookie oldCookie = null;
+		Cookie[] cookies = request.getCookies();
+		log.debug("cookies = {}", cookies);
+		String msg = "";
+		int result = -1;
+
+		//쿠키값이 있다면
+		if(cookies != null) {
+			for(Cookie cookie : cookies) {
+				//boardView 쿠키 여부 확인
+				if(cookie.getName().equals("boardLikeCount")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+
+		if(oldCookie != null) {
+			//현재 게시글의 쿠키를 가지고 있지 않으면
+			if (!oldCookie.getValue().contains("[" + no + "]")) {
+				result = boardService.updateBoardLikeCount(no);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + no + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(60 * 60 * 24);
+				response.addCookie(oldCookie);
+			}else{
+				msg = "이미 추천하셨습니다.";
+				attributes.addFlashAttribute("msg", msg);
+			}
+		} else {
+			//oldCookie가 없으면 새로 생성해준다
+			result = boardService.updateBoardLikeCount(no);
+			Cookie newCookie = new Cookie("boardLikeCount","[" + no + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(newCookie);
+		}
+
+		if(result == 0){
+			msg = "추천 오류";
+			attributes.addFlashAttribute("msg", msg);
+		}
+
+		return "redirect:/board/boardView.do?no=" + no;
+	}
 //	@PostMapping("/boardLikeCount.do")
 //	public String boardLikeCount() {
 //		int no = Integer.valueOf(request.getParameter("no"));

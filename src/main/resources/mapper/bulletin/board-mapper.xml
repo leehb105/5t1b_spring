@@ -212,7 +212,11 @@
 		<id column="no" property="no"/>
 		<result column="file_name" property="fileName" />
 	</resultMap>
-	
+
+	<update id="updateBoardLikeCount">
+		update board set
+			like_count = like_count + 1 where no = #{no}
+	</update>
 	
 	
 	

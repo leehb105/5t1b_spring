@@ -114,7 +114,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public int updateBoardLikeCount(int no) {
-		return 0;
+		return session.update("board.updateBoardLikeCount", no);
 	}
 
 	@Override
