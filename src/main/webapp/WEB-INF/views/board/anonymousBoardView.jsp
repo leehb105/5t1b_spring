@@ -10,6 +10,11 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
 
+<style>
+	tr:hover{
+		color: #4e73df;
+	}
+</style>
 
 	<!-- Content Wrapper -->
 	<div id="content-wrapper" class="d-flex flex-column">
@@ -79,9 +84,10 @@
 
 			<c:if test="${boardCommentList ne null}">
 					
-				<table>
+				<table id="commentTbl">
 
 					<c:forEach items="${boardCommentList}" var="comment" varStatus="status">	
+						<!-- 부모 댓글 -->
 						<c:if test="${comment.commentLevel == 1}">			
 							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level1">
@@ -97,6 +103,7 @@
 									<td>
 										<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 									</td>
+									<!-- 수정버튼 -->
 									<c:if test="${comment.empNo == loginEmp.empNo}">
 										<td>
 											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
@@ -105,6 +112,7 @@
 									
 								</tr>
 							</c:if>
+							<!-- 삭제댓글 -->
 							<c:if test="${comment.deleteYn == 'Y'}">
 								<tr class="level1">
 									<td style="padding: 10px;" width="1000px;">
@@ -119,6 +127,7 @@
 								</tr>
 							</c:if>
 						</c:if>
+						<!-- 대댓글(자식 댓글) -->
 						<c:if test="${comment.commentLevel != 1}">
 							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level2">
@@ -131,13 +140,14 @@
 										<!-- 대댓글내용 -->
 										${comment.content}
 									</td>
-									<c:if test="${comment.empNo == loginEmp.empNo}">
+									<c:if test="${comment.empNo eq loginEmp.empNo}">
 										<td>
 											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
 										</td>
 									</c:if>
 								</tr>
 							</c:if>
+							<!-- 수정댓글 -->
 							<c:if test="${comment.deleteYn == 'Y'}">
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">

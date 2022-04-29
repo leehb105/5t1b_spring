@@ -412,21 +412,24 @@ public class AnonyBoardController {
 //        log.debug("boardCommentList = {}", boardCommentList);
 
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> commentMap = new HashMap<>();
         for(int i = 0; i < boardCommentList.size(); i++){
-            if(!map.containsKey(boardCommentList.get(i).getEmpNo())){
-                map.put(boardCommentList.get(i).getEmpNo(), "익명" + (i + 1));
+            if(!commentMap.containsKey(boardCommentList.get(i).getEmpNo())){
+                commentMap.put(boardCommentList.get(i).getEmpNo(), "익명" + (i + 1));
             }
         }
-        for(int i = 0;  i < boardCommentList.size(); i++){
-            if(map.containsKey(boardCommentList.get(i).getEmpNo())){
-                boardCommentList.get(i).setEmpNo(map.get(boardCommentList.get(i).getEmpNo()));
-            }
 
-        }
+//        empNo익명처리
+//        for(int i = 0;  i < boardCommentList.size(); i++){
+//            if(map.containsKey(boardCommentList.get(i).getEmpNo())){
+//                boardCommentList.get(i).setEmpNo(map.get(boardCommentList.get(i).getEmpNo()));
+//            }
+//
+//        }
 
         model.addAttribute("board", board);
         model.addAttribute("boardCommentList", boardCommentList);
+        model.addAttribute("commentMap", commentMap);
 
         return "/board/anonymousBoardView";
 
