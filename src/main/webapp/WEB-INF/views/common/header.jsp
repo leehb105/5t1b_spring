@@ -95,7 +95,7 @@
 					<i class="fas fa-envelope fa-fw"></i> 
 					<!-- Counter - Messages --> 
 					<!-- 안읽은 받은쪽지 카운터 -->
-					<span class="badge badge-danger badge-counter" id="counter">${sentCount}</span>
+					<span class="badge badge-danger badge-counter" id="counter">0</span>
 					<input type="hidden" id="hiddenCnt" value=""/>
 				</a> 
 			</li>
@@ -181,25 +181,25 @@
 <!-- End of Topbar -->
  <!-- if (loginEmp != null) {  -->
 <script>
-// $( document ).ready(function() {
+$( document ).ready(function() {
 
-// 	//console.log("test");
-// 	var counter = document.getElementById("counter");
-//     $.ajax({
-// 		url: "",
-// 		method: "GET",
-// 		success(data){
+	//console.log("test");
+	var counter = document.getElementById("counter");
+    $.ajax({
+		url: "${pageContext.request.contextPath}/message/receivedMessageCount",
+		method: "GET",
+		success(data){
+			console.log(data);
+			//span태그에 count데이터 삽입
+			counter.innerText = data;
 
-// 			//span태그에 count데이터 삽입
-// 			counter.innerText = data;
+		},
+		error: console.log
 
-// 		},
-// 		error: console.log
-
-// 	})
+	})
 		
 
-// });
+});
 </script>
 
 

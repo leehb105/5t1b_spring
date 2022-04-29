@@ -30,6 +30,7 @@ public interface MessageDao {
 //	public int selectTotalSentMessageount(int empNo);
 
 	public List<Message> selectAllReceivedMessage(String empNo);
+
 }
 
 

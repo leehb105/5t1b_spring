@@ -70,6 +70,7 @@ public class MessageDaoImpl implements MessageDao{
 	public List<Message> selectAllReceivedMessage(String empNo) {
 		return session.selectList("message.selectAllReceivedMessage", empNo);
 	}
-	
-	
+
+
+
 }

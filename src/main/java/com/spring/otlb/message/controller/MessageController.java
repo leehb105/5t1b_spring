@@ -81,7 +81,17 @@ public class MessageController {
 //		
 //		return null;
 //	}
-//	
+//
+	@GetMapping("/receivedMessageCount.do")
+	public void receivedMessageCount(Principal principal,
+		 Model model){
+//		log.debug("empNo = {}", principal.getName());
+		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
+
+		model.addAttribute("messageCount", messageCount);
+
+	}
+
 	@GetMapping("/sentMessageView.do")
 	public void sentMessageView(@RequestParam int no,
 			Model model) {

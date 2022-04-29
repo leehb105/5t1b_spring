@@ -29,13 +29,4 @@ public interface MessageService {
 
 	public List<Message> selectAllReceivedMessage(String empNo);
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
