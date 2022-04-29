@@ -103,8 +103,8 @@
 									<td>
 										<button class="btn btn-primary btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentReply(this);" style="padding: 5px; margin-top: 20px;">답글</button>
 									</td>
-									<!-- 수정버튼 -->
-									<c:if test="${comment.empNo == loginEmp.empNo}">
+									<!-- 삭제버튼 -->
+									<c:if test="${comment.empNo eq loginEmp.empNo}">
 										<td>
 											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
 										</td>
@@ -122,7 +122,7 @@
 										</sub>
 										<br />
 										<!-- 댓글내용 -->
-										삭제된 댓글입니다.
+										<del>삭제된 댓글입니다.</del>
 									</td>
 								</tr>
 							</c:if>
@@ -147,7 +147,7 @@
 									</c:if>
 								</tr>
 							</c:if>
-							<!-- 수정댓글 -->
+							<!-- 삭제댓글 -->
 							<c:if test="${comment.deleteYn == 'Y'}">
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">
@@ -157,7 +157,7 @@
 										</sub>
 										<br />
 										<!-- 대댓글내용 -->
-										삭제된 댓글입니다.
+										<del>삭제된 댓글입니다.</del>
 									</td>
 								</tr>
 							</c:if>

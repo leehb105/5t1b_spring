@@ -6,6 +6,7 @@ import com.spring.otlb.bulletin.model.vo.Board;
 import com.spring.otlb.bulletin.model.vo.BoardComment;
 import com.spring.otlb.common.Criteria;
 import com.spring.otlb.common.Paging;
+import com.spring.otlb.emp.model.vo.Emp;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -411,25 +412,27 @@ public class AnonyBoardController {
         List<BoardComment> boardCommentList = anonyBoardService.selectAnonyBoardCommentList(no);
 //        log.debug("boardCommentList = {}", boardCommentList);
 
-
-        Map<String, String> commentMap = new HashMap<>();
+//        empNo익명처리
+        Map<String, String> map = new HashMap<>();
         for(int i = 0; i < boardCommentList.size(); i++){
-            if(!commentMap.containsKey(boardCommentList.get(i).getEmpNo())){
-                commentMap.put(boardCommentList.get(i).getEmpNo(), "익명" + (i + 1));
+            if(!map.containsKey(boardCommentList.get(i).getEmpNo())){
+                map.put(boardCommentList.get(i).getEmpNo(), "익명" + (i + 1));
             }
         }
 
 //        empNo익명처리
-//        for(int i = 0;  i < boardCommentList.size(); i++){
-//            if(map.containsKey(boardCommentList.get(i).getEmpNo())){
+        for(int i = 0;  i < boardCommentList.size(); i++){
+            if(map.containsKey(boardCommentList.get(i).getEmpNo())){
 //                boardCommentList.get(i).setEmpNo(map.get(boardCommentList.get(i).getEmpNo()));
-//            }
-//
-//        }
+                Emp emp = new Emp();
+                emp.setEmpName(map.get(boardCommentList.get(i).getEmpNo()));
+                boardCommentList.get(i).setEmp(emp);
+            }
+
+        }
 
         model.addAttribute("board", board);
         model.addAttribute("boardCommentList", boardCommentList);
-        model.addAttribute("commentMap", commentMap);
 
         return "/board/anonymousBoardView";
 
