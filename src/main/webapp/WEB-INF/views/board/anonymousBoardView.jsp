@@ -23,7 +23,7 @@
 		
 			<c:if test="${board.empNo eq loginEmp.empNo}">
 				<button class="btn btn-primary btn-icon-split" onclick="updateBoard();" style="padding: 5px; margin-top: 20px;">수정</button>
-				<button class="btn btn-primary btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
+				<button class="btn btn-danger btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
 			</c:if>
 			
 			<!-- <c:if test="${board.empNo ne loginEmp.empNo}"> -->

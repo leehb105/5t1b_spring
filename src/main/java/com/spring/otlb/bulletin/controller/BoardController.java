@@ -3,6 +3,7 @@ package com.spring.otlb.bulletin.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -51,6 +53,9 @@ public class BoardController {
 
 	@Autowired
 	private ServletContext application;
+
+	@Autowired
+	private ResourceLoader resourceLoader;
 	
 	@Autowired
 	private BoardService boardService;
@@ -157,131 +162,132 @@ public class BoardController {
 		}
 		return "/board/boardView";
 	}
+
+	@GetMapping(
+			value = "/boardFileDownload",
+			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public Resource fileDownload(@RequestParam int no, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+		Attachment attach = boardService.selectOneAttachment(no);
+		log.debug("attach = {}", attach);
+
+		//다운로드받을 파일 경로
+		String saveDirectory = application.getRealPath("/resources/upload");
+		File downFile = new File(saveDirectory, attach.getFileName());
+		String location = "file:" + downFile; //file객체의 toString은 절대경로로 오버라이드되어있다.
+		log.debug("location = {}", location);
+		Resource resource = resourceLoader.getResource(location);
+
+		//헤더설정
+		String filename = new String(attach.getFileName().getBytes("utf-8"), "iso-8859-1");
+		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
+
+		return resource;
+	}
+
 	
-//	@GetMapping(
-//			value = "/fileDownload.do",
-//			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-//	@ResponseBody
-//	public Resource fileDownload(@RequestParam int no, HttpServletResponse response) 
-//		throws UnsupportedEncodingException{
-//		Attachment attach = boardService.selectOneAttachment(no);
-//		log.debug("attach = {}", attach);
-//		
-//		//다운로드받을 파일 경로
-//		String saveDirectory = application.getRealPath("/resources/upload/board");
-//		File downFile = new File(saveDirectory, attach.getRenamedFilename());
-//		String location = "file:" + downFile; //file객체의 toString은 절대경로로 오버라이드되어있다.
-//		log.debug("location = {}", location);
-//		Resource resource = resourceLoader.getResource(location);
-//		
-//		//헤더설정
-//		String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");
-//		response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename);
-//		
-//		return resource;
-//	}
 	
-	
-	
-//	@GetMapping("/boardUpdate.do")
-//	public void boardUpdate() {
-//		int no = Integer.parseInt(request.getParameter("no"));
-//		
-//		Board board = bulletinService.selectOneBoard(no);
-//		System.out.println(board);
-//		
-//		request.setAttribute("board", board);
-//		request
-//			.getRequestDispatcher("/WEB-INF/views/board/boardUpdate.jsp")
-//			.forward(request, response);
-//	}
-//	
-//	@PostMapping("/boardUpdate.do")
-//	public String boardUpdate() {
-//		try {
-//			// A. server computer에 사용자 업로드파일 저장
-//			String saveDirectory = getServletContext().getRealPath("/upload/board");
-//			int maxPostSize = 1024 * 1024 * 10; // 10MB
-//			String encoding = "utf-8";
-//			FileRenamePolicy policy = new AttachFileRenamePolicy();
-//			
-//			MultipartRequest multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
-//			
-//			// 사용자입력값
-//			int no = Integer.parseInt(multipartRequest.getParameter("no"));
-//			String category = multipartRequest.getParameter("category");
-//			String title = multipartRequest.getParameter("title");
-//			String content = multipartRequest.getParameter("content");
-//			int empNo = Integer.parseInt(multipartRequest.getParameter("empNo"));
-//			String[] delFiles = multipartRequest.getParameterValues("delFile");
-//			System.out.println(delFiles);
-//			
-//			Board board = new Board();
-//			board.setNo(no);
-//			board.setCategory(category);
-//			board.setTitle(title);
-//			board.setContent(content);
-//			board.setEmpNo(empNo);
-//		
-//			// 저장된 파일정보 -> Attachment객체 생성 -> List<Attachment>객체에 추가 -> Board객체에 추가
-//			Enumeration fileNames = multipartRequest.getFileNames();
-//			List<Attachment> attachments = new ArrayList<>();
-//			while(fileNames.hasMoreElements()) {
-//				String fileName = (String) fileNames.nextElement();
-//				System.out.println("[BoardUpdateServlet] fileName = " + fileName);
-//				File upFile = multipartRequest.getFile(fileName);
-//				if(upFile != null) {
-//					Attachment attach = EmpUtils.makeAttachment(multipartRequest, fileName);
-//					attach.setBoardNo(no);
-//					attachments.add(attach);					
-//				}
-//			}
-//			if(!attachments.isEmpty())
-//				board.setAttachments(attachments);
-//			
-//			
-//			
-//			// 업무로직
-//			// a. 기존첨부파일 삭제
-//			if(delFiles != null) {
-//				for(String temp : delFiles) {
-//					int delFileNo = Integer.parseInt(temp);
-//					Attachment attach = bulletinService.selectOneAttachment(delFileNo);
-//					//가. 첨부파일 삭제 
-//					String renamedFilename = attach.getRenamedFilename();
-//					File delFile = new File(saveDirectory, renamedFilename);
-//					boolean removed = delFile.delete();
-//					
-//					//나. DB 첨부파일 레코드 삭제
-//					int result = bulletinService.deleteAttachment(delFileNo);
-//					
-//					System.out.println("[BoardUpdateServlet] " + renamedFilename + " 삭제 : " + removed);
-//					System.out.println("[BoardUpdateServlet] " + renamedFilename + "  레코드 삭제 : " + result);
-//					
-//					
-//				}
-//			}
-//			
-//			
-//			// b. db 레코드 수정 (update board + insert attachment)
-//			
-//			
-//			
-//			int result = bulletinService.updateBoard(board);
-//			
-//			String msg = result > 0 ? "게시물 수정 성공" : "게시물 수정 실패";
-//			
-//			request.getSession().setAttribute("msg", msg);
-//			String location = request.getContextPath() + "/board/noticeView?no=" + board.getNo();
-//			response.sendRedirect(location);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			throw e;
-//		}
-//		return null;
-//	}
-//
+	@GetMapping("/boardUpdate.do")
+	public void boardUpdate(
+			Model model,
+			@RequestParam int no
+	) {
+		Board board = boardService.selectBoardAttachments(no);
+		log.debug("board = {}", board);
+
+		model.addAttribute("board", board);
+	}
+	@PostMapping("/boardUpdate.do")
+	public String boardUpdate(
+			RedirectAttributes attributes,
+			Board board,
+			@RequestParam(required = false, value = "upFile") MultipartFile[] upFiles,
+			@RequestParam(required = false, value = "oldFileNo") int[] oldFileNo){
+
+		log.debug("post board = {}", board);
+
+		//기존 파일이 없는 경우
+		//기존 파일이 있는 경우
+		//추가 파일이 있는 경우
+		//추가 파일이 없는 경우
+
+//        log.debug("upFiles[0] = {}", upFiles[0]);
+//        log.debug("board.getAttachments() = {}", board.getAttachments());
+		//기존의 업로드 파일
+		List<Attachment> oldAttach = boardService.selectAttachments(board.getNo());
+
+		log.debug("oldAttach = {}", oldAttach.size());
+		try{
+			String saveDirectory = application.getRealPath("/resources/upload");
+
+			for(int i = 0; i < oldFileNo.length; i++){
+				log.debug("oldFiles size = {}", oldFileNo.length);
+				//파일 삭제
+				log.debug("oldFileNo = {}", oldFileNo[i]);
+				for(int j = 0; j < oldAttach.size(); j++){
+					log.debug("oldAttachNo = {}", oldAttach.get(j).getNo());
+					if(oldFileNo[i] == oldAttach.get(j).getNo()){ //삭제할 파일 no과 기존 저장 파일 no이 동일하면
+						File oldFile = new File(saveDirectory + "/" + oldAttach.get(j).getFileName());
+
+						if(oldFile.exists()){ //파일 존재시
+							if(oldFile.delete()) { //삭제
+								int result = boardService.deleteAttachment(oldFileNo[i]);
+							}
+						}
+					}
+				}
+			}
+
+			List<Attachment> attachments = new ArrayList<>();
+			log.debug("upFiles.length = {}", upFiles.length);
+			//업로드한 파일갯수별 처리
+			for(int i = 0; i < upFiles.length; i++) {
+				String fileName = null;
+				log.debug("upFiles[i] = {}", upFiles[i].getOriginalFilename());
+				MultipartFile uploadFile = upFiles[i];
+				log.debug("uploadFile = {}", uploadFile.getOriginalFilename());
+				if(!uploadFile.isEmpty()) {
+					String originalFileName = uploadFile.getOriginalFilename();
+					String ext = FilenameUtils.getExtension(originalFileName);	//확장자 구하기
+					UUID uuid = UUID.randomUUID();	//UUID 구하기
+					fileName = uuid + "." + ext;
+
+					File dest = new File(saveDirectory, fileName);
+
+					uploadFile.transferTo(dest);
+
+					Attachment attach = new Attachment();
+					attach.setFileName(fileName);
+					attachments.add(attach);
+				}
+			}
+//            if(!attachments.isEmpty()) {
+//                board.setAttachments(attachments);
+//            }
+			for(Attachment attach : attachments) {
+				attach.setBoardNo(board.getNo());
+				log.debug("boardNo = {}", attach.getBoardNo());
+				int result = boardService.insertAttachment(attach);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		int result = boardService.updateBoard(board);
+
+		String msg = "";
+		if(result > 0){
+			msg = "게시글을 수정하였습니다.";
+		}else{
+			msg = "게시글 수정 오류";
+		}
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/board/boardView.do?no=" + board.getNo();
+
+	}
+
 	@PostMapping("/boardLikeCount.do")
 	public String boardLikeCount(
 			RedirectAttributes attributes,
@@ -335,50 +341,7 @@ public class BoardController {
 
 		return "redirect:/board/boardView.do?no=" + no;
 	}
-//	@PostMapping("/boardLikeCount.do")
-//	public String boardLikeCount() {
-//		int no = Integer.valueOf(request.getParameter("no"));
-//
-//		String msg = "";
-//		// 쿠키 생성 
-//		Cookie[] cookies = request.getCookies();
-//		boolean hasRead = false;
-//		String boardLikeCookieVal = "";
-//		if(cookies != null ) {
-//			for(Cookie cookie : cookies) {
-//				String name = cookie.getName();
-//				String value = cookie.getValue();
-//				if("boardLikeCookie".equals(name)) {
-//					boardLikeCookieVal = value;
-//					if(value.contains("[" + no + "]")) {
-//						hasRead = true;
-//						break;
-//					}
-//				}
-//			}
-//		}
-//		// 좋아요 증가 및 쿠키 생성 
-//		if(!hasRead) {
-//			int result = bulletinService.updateBoardLikeCount(no);
-//			
-//			Cookie cookie = new Cookie("boardLikeCookie",boardLikeCookieVal + "[" + no + "]");
-//			cookie.setPath(request.getContextPath());
-//			cookie.setMaxAge(365 * 24 * 60 * 60);
-//			response.addCookie(cookie);
-//			//System.out.println("조회수 증가 & 쿠키 생성 ");
-//			msg = result > 0 ? "추천하셨습니다!" : "추천에 오류가 있습니다...";
-//		}else {
-//			msg = "이미 추천하셨습니다.";
-//		}
-//
-//		
-//		request.getSession().setAttribute("msg", msg);
-//		
-//		String location = request.getContextPath() + "/board/boardView?no=" + no;
-//		response.sendRedirect(location);
-//		return null;
-//	}
-//	
+
 
 //	
 //	@GetMapping("/boardFinder.do")
@@ -404,20 +367,56 @@ public class BoardController {
 //			.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp")
 //			.forward(request, response);
 //	}
-//	
-//	@PostMapping("/boardDelete.do")
-//	public String boardDelete() {
-//		int no = Integer.parseInt( request.getParameter("no"));
-//		int result = bulletinService.deleteBoard(no);
-//		
-//		String msg = result > 0 ? "게시물 삭제 성공" : "게시물 삭제 실패";
-//		
-//		request.getSession().setAttribute("msg", msg);
-//		String location = request.getContextPath() + "/board/boardList";
-//		response.sendRedirect(location);
-//		return null;
-//	}
-//	
+//
+	@PostMapping("/boardDelete.do")
+	public String boardDelete(
+			RedirectAttributes attributes,
+			@RequestParam int no
+	){
+		log.debug("no = {}", no);
+		int result = boardService.deleteBoard(no);
+		String msg = "";
+		if(result > 0){
+			msg = "게시글을 삭제했습니다.";
+		}else{
+			msg = "게시글 삭제 오류";
+		}
+
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/board/boardList.do";
+	}
+
+	@PostMapping("/boardCommentEnroll.do")
+	public String boardCommentEnroll(
+			RedirectAttributes attributes,
+			Principal principal,
+			@RequestParam int no,
+			BoardComment boardComment,
+			@RequestParam(required = false) int reCommentRef
+	){
+//            log.debug("no = {}", no);
+//            log.debug("id = {}", principal.getName());
+		log.debug("boardComment = {}", boardComment);
+		log.debug("reCommentRef = {}", reCommentRef);
+
+		//대댓글일 경우 참조 댓글 no 설정
+		if(boardComment.getCommentLevel() != 1){
+			boardComment.setCommentRef(reCommentRef);
+		}
+		boardComment.setEmpNo(principal.getName());
+		int result = boardService.insertBoardComment(boardComment);
+
+		String msg = "";
+		if(result > 0){
+			msg = "댓글이 등록되었습니다!";
+		}else{
+			msg = "댓글 작성 오류";
+		}
+		attributes.addFlashAttribute("msg", msg);
+
+		return "redirect:/board/boardView.do?no=" + no;
+
+	}
 //	@PostMapping("/boardCommentEnroll.do")
 //	public String boardCommentEnroll() {
 //		HttpSession session = request.getSession();

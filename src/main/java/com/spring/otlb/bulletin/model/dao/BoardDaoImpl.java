@@ -29,7 +29,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public int deleteBoard(int no) {
-		return 0;
+		return session.update("board.deleteBoard", no);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public int updateBoard(Board board) {
-		return 0;
+		return session.update("board.updateBoard", board);
 	}
 
 	@Override
@@ -50,6 +50,11 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public List<Board> selectAllNotice(Map<String, Object> param) {
 		return null;
+	}
+
+	@Override
+	public List<Attachment> selectAttachments(int no) {
+		return session.selectList("board.selectAttachments", no);
 	}
 
 	@Override
@@ -64,12 +69,12 @@ public class BoardDaoImpl implements BoardDao{
 
 	@Override
 	public Attachment selectOneAttachment(int no) {
-		return null;
+		return session.selectOne("board.selectOneAttachment", no);
 	}
 
 	@Override
-	public int deleteAttachment(int delFileNo) {
-		return 0;
+	public int deleteAttachment(int no) {
+		return session.delete("board.deleteAttachment", no);
 	}
 
 	@Override
@@ -83,8 +88,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public int insertBoardComment(BoardComment bc) {
-		return 0;
+	public int insertBoardComment(BoardComment boardComment) {
+		return session.insert("board.insertBoardComment", boardComment);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Override
 	public int deleteBoard(int no) {
-		return 0;
+		return boardDao.deleteBoard(no);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int updateBoard(Board board) {
-		return 0;
+		return boardDao.updateBoard(board);
 	}
 
 	@Override
@@ -64,6 +64,10 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
+	@Override
+	public List<Attachment> selectAttachments(int no) {
+		return boardDao.selectAttachments(no);
+	}
 
 
 	@Override
@@ -73,12 +77,12 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public Attachment selectOneAttachment(int no) {
-		return null;
+		return boardDao.selectOneAttachment(no);
 	}
 
 	@Override
-	public int deleteAttachment(int delFileNo) {
-		return 0;
+	public int deleteAttachment(int no) {
+		return boardDao.deleteAttachment(no);
 	}
 
 	@Override
@@ -92,8 +96,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int insertBoardComment(BoardComment bc) {
-		return 0;
+	public int insertBoardComment(BoardComment boardComment) {
+		return boardDao.insertBoardComment(boardComment);
 	}
 
 	@Override

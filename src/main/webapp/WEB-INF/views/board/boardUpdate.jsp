@@ -1,14 +1,15 @@
-<%@page import="com.otlb.semi.bulletin.model.vo.Attachment"%>
-<%@page import="java.util.List"%>
-<%@page import="com.otlb.semi.bulletin.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
-<%
-	Board board = (Board) request.getAttribute("board");
-	System.out.println("board = " + board);
-%>
+
 <!-- Bootstrap core JavaScript-->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
@@ -35,18 +36,13 @@
 
 						<br />
 						<!-- boardEnrollForm -->
-						<form id="boardUpdateForm" class="user"
-							action="<%=request.getContextPath()%>/board/boardUpdate"
+						<form
+							id="boardUpdateForm" class="user"
+							action="${pageContext.request.contextPath}/board/boardUpdate.do?${_csrf.parameterName}=${_csrf.token}"
 							method="POST" enctype="multipart/form-data">
 							<div class="row">
-								<div class="col-2 form-group">
-									<select class="form-control" name="category">
-										<option value="사담" <%= "사담".equals(board.getCategory()) ? "selected" : "" %>>사담</option>
-										<option value="취미" <%= "취미".equals(board.getCategory()) ? "selected" : "" %>>취미</option>
-									</select>
-								</div>
-								<div class="col-10 form-group">
-									<input type="text" class="form-control" name="title" id="title" value="<%= board.getTitle() %>"
+								<div class="col form-group">
+									<input type="text" class="form-control" name="title" id="title" value="${board.title}"
 										placeholder="제목">
 								</div>
 							</div>
@@ -55,7 +51,7 @@
 									<label for="textContent">내용</label>
 									<textarea name="content" id="textContent" cols="30" rows="12"
 										placeholder="내용을 입력해주세요." class="form-control"
-										style="resize: none;"><%= board.getContent() %></textarea>
+										style="resize: none;">${board.content}</textarea>
 									<div class="counter" style="float: right;">
 										<span id="count">0</span><span>/1000</span>
 									</div>
@@ -63,48 +59,37 @@
 							</div>
 							<!-- 사원번호 -->
 							<input type="hidden" name="empNo"
-								value="<%=loginEmp.getEmpNo()%>" />
+								value="${loginEmp.empNo}" />
 							<!-- 게시물 번호 -->
-							<input type="hidden" name="no" value="<%= board.getNo() %>" />
-<%
-	List<Attachment> attachments = board.getAttachments();
-	if(attachments != null && !attachments.isEmpty()){
-%>
-<hr />
-							<div class="row justify-content-between">
-								<div class="col-10">기존 첨부파일</div>
-								<div class="col-1">삭제</div>
-							</div>
-							<br />
-<%
-		for(Attachment attach : attachments) {
-%>
-							<!-- 기존 첨부파일 -->
-							<span id="">
-								<div class="form-group">
-									<div class="row justify-content-between">
-										<div class="col-10">
-											<div class="custom-file">
-												<input type="text"
-													class="w-70 custom-file-input" id="inputGroupFile01"
-													aria-describedby="button-addon1" style="cursor: pointer;" />
-												<label class="custom-file-label" for="inputGroupFile01"><%= attach.getOriginalFilename() %></label>
-											</div>	
-										</div>
-										<div class="col-1">
-											<div class="custom-control custom-switch" style="margin-top: 5px;">
-												<input type="checkbox" value="<%= attach.getNo() %>" name="delFile" class="custom-control-input" id="<%= attach.getNo() %>" />
-												<label for="<%= attach.getNo() %>" class="custom-control-label"></label>
+							<input type="hidden" name="no" value="${board.no}" />
+							<input type="hidden" name="oldFileNo" value="0">
+							<c:if test="${board.attachments[0].fileName ne null}">
+								<hr />
+								<div class="row justify-content-between">
+									<div class="col-10">기존 첨부파일</div>
+								</div>
+								<br />
+								<c:forEach items="${board.attachments}" var="attach" varStatus="status">
+									<!-- 기존 첨부파일 -->
+									<span id="">
+										<div class="form-group">
+											<div class="input-group mb-3">
+												<div class="input-group-prepend">
+													<button class="btn btn-danger" type="button" onclick="removeFile(this);"
+													style="width: 50px;">-</button>
+												</div>	
+												<div class="custom-file">
+													<input type="file" name="oldFile" class="w-70 custom-file-input" id="${attach.no}"
+														aria-describedby="button-addon1" style="cursor:pointer;"/>
+													<label class="custom-file-label" for="${attach.no}" >${attach.fileName}</label>
+													<input type="hidden" name="oldFileNo" value="${attach.no}" disabled>
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							</span>
-<%
+									</span>
+								</c:forEach>
+							</c:if>
 
-		}
-	}
-%>
 <hr />			
 							<!-- 새 첨부파일 -->
 							<div>첨부파일 추가</div>
@@ -112,11 +97,11 @@
 								<div class="form-group">
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
-											<button class="btn btn-primary" type="button" onclick="createInputFile()"
+											<button class="btn btn-primary" type="button" onclick="createInputFile();"
 												style="width: 50px;" id="button-addon1">+</button>
 										</div>
 										<div class="custom-file">
-											<input type="file" name="upFile1" class="w-70 custom-file-input" id="inputGroupFile01"
+											<input type="file" name="upFile" class="w-70 custom-file-input" id="inputGroupFile01"
 												aria-describedby="button-addon1" style="cursor:pointer;"/>
 										    <label class="custom-file-label" for="inputGroupFile01" >클릭해서 파일 추가하기</label>
 										</div>
@@ -165,12 +150,6 @@ function boardValidate(){
 	const $title = $("[name=title]");
 	const $content = $("[name=content]");
 	
-	// 말머리를 작성하지 않은 경우 폼을 제출할 수 없음.
-	if($category.val() == null){
-		alert("말머리를 선택하세요.");
-		$category.focus();
-		return false;
-	}
 	
 	// 제목을 작성하지 않은 경우 폼을 제출할 수 없음.
 	if(!/^.+$/.test($title.val())){
@@ -232,7 +211,7 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="<%= request.getContextPath() %>/board/boardList";
+		location.href="${pageContext.request.contextPath}/board/boardList.do";
 	}
 };
 
@@ -302,6 +281,38 @@ function removeTag(){
 			$("#fileMessage").html("");		
 			$("#button-addon1").prop("disabled", false);
 			break;
+	}
+	
+}
+
+function removeFile(e){
+	let $obj = $(e);
+	// let $fileNo = $('input[name=fileNo]');
+	// console.log($fileNo);
+
+	//파일 삭제 버튼
+	if($obj.text() == '-'){
+		//파일 disabled처리
+		$obj.parent().siblings().children().attr("disabled",true); //파일 삭제
+		
+		//버튼 타입 변경
+		$obj.attr('class','btn btn-primary');
+		$obj.text('+');
+		
+		console.log($obj.parent().siblings().children().last().attr("disabled",false)); //삭제 파일 넘버
+		console.log($obj.parent().siblings().children().last().val()); //삭제 파일 넘버
+		// console.log($obj.parent().siblings().children().first());
+		// console.log($obj.parent().siblings().children().first().prop('type', 'hidden'));
+
+	}else if($obj.text() == '+'){
+		//파일 되살리기
+		$obj.parent().siblings().children().attr("disabled",false);
+		//버튼 타입 변경
+		$obj.attr('class','btn btn-danger');
+		$obj.text('-');
+		console.log($obj.parent().siblings().children().last().attr("disabled",true)); //삭제 파일 넘버(제출 안함)
+		// console.log($obj.parent().siblings().children().last().val());
+		// console.log($obj.parent().siblings().children().first().prop('type', 'file'));
 	}
 	
 }

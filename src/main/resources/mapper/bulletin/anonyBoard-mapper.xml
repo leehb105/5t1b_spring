@@ -296,7 +296,6 @@
 			title = #{title},
 		    content = #{content}
 		where no = #{no}
-
 	</update>
 
 	<delete id="deleteAnonymousAttachment">

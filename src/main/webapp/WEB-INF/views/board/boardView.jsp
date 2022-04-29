@@ -19,11 +19,11 @@
 	<!-- Content Wrapper -->
 	<div id="content-wrapper" class="d-flex flex-column">
 		<div class="container-fluid">
-			<button class="btn btn-primary btn-icon-split" onclick="moveAnonymousList();" style="padding: 5px; margin-top: 20px;">목록</button>
+			<button class="btn btn-primary btn-icon-split" onclick="moveBoardList();" style="padding: 5px; margin-top: 20px;">목록</button>
 		
 			<c:if test="${board.empNo eq loginEmp.empNo}">
 				<button class="btn btn-primary btn-icon-split" onclick="updateBoard();" style="padding: 5px; margin-top: 20px;">수정</button>
-				<button class="btn btn-primary btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
+				<button class="btn btn-danger btn-icon-split" onclick="deleteBoard();" style="padding: 5px; margin-top: 20px;">삭제</button>
 			</c:if>
 			
 			<!-- <c:if test="${board.empNo ne loginEmp.empNo}"> -->
@@ -49,7 +49,7 @@
 		</div>
 		<div class="container-fluid">
 			<form:form 
-				action="${pageContext.request.contextPath}/board/anonyLikeCount.do"
+				action="${pageContext.request.contextPath}/board/boardLikeCount.do"
 				method="post">
 				<input type="hidden" name="no" value="${board.no}" />
 				<button class="btn btn-primary btn-icon-split" id="recommend-btn" type="submit" style="padding: 5px; margin-top: 20px;">
@@ -67,7 +67,7 @@
 							<tr>
 								<td>
 									<i class="fa fa-paperclip" src="${pageContext.request.contextPath} width=16px alt='첨부파일'" ></i>
-									<a href="${pageContext.request.contextPath}/board/anonyFileDownload?no=${attach.no}">${attach.fileName}</a>
+									<a href="${pageContext.request.contextPath}/board/boardFileDownload?no=${attach.no}">${attach.fileName}</a>
 								</td>
 							</tr>
 							
@@ -171,7 +171,7 @@
 			<hr class="sidebar-divider my-3">
 			<!-- 댓글입력칸 -->
 			<form:form
-				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
+				action="${pageContext.request.contextPath}/board/boardCommentEnroll.do" 
 				method="post"
 				name="boardCommentFrm">
 				<input type="hidden" name="no" value="${board.no}" />
@@ -192,7 +192,7 @@
 			<input type="hidden" name="board" value="anonyBoard" />
 		</form>	 -->
 		<form:form
-			action="${pageContext.request.contextPath}/board/anonymousBoardDelete.do" 
+			action="${pageContext.request.contextPath}/board/boardDelete.do" 
 			name="boardDeleteFrm"
 			method="POST">
 			<input type="hidden" name="no" value="${board.no}"/>
@@ -216,7 +216,7 @@ function deleteBoard() {
 }
 //수정하기 버튼
 function updateBoard() {
-	location.href = "${pageContext.request.contextPath}/board/anonymousBoardUpdate.do?no=${board.no}";
+	location.href = "${pageContext.request.contextPath}/board/boardUpdate.do?no=${board.no}";
 }
 //추천하기 버튼
 // function recommend(){
@@ -256,7 +256,7 @@ function commentReply(e) {
 	const tr = `<tr>
 		<td colspan="2" style="text-align:left">
 			<form:form
-				action="${pageContext.request.contextPath}/board/anonymousBoardCommentEnroll.do" 
+				action="${pageContext.request.contextPath}/board/boardCommentEnroll.do" 
 				method="post"
 				name="reCommentFrm">
 			    <input type="hidden" name="no" value="${board.no}" />
@@ -318,8 +318,8 @@ function commentDelete(e){
 
 $(document.reCommentFrm)
 //게시판 리스트로 돌아가는 함수
-function moveAnonymousList() {
-	location.href = "${pageContext.request.contextPath}/board/anonymousBoardList.do";
+function moveBoardList() {
+	location.href = "${pageContext.request.contextPath}/board/boardList.do";
 }
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

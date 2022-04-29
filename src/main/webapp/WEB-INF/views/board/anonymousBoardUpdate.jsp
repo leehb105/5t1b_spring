@@ -211,7 +211,7 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="${pageContext.request.contextPath}/board/boardList.do";
+		location.href="${pageContext.request.contextPath}/board/anonymousBoardList.do";
 	}
 };
 

@@ -186,14 +186,16 @@
 	<select id="selectBoardAttachments" resultMap="boardAttachMap">
 		SELECT
 			b.*,
-			a.file_name
+			a.no attach_no,
+			a.file_name,
+			(select count(*) from BOARD_COMMENT where board_no = b.no) comment_count
 		FROM
 			board b LEFT JOIN ATTACHMENT a ON
 			b.NO = a.BOARD_NO
 		WHERE
 			b.no = #{no}
 	</select>
-	
+
 	<resultMap type="board" id="boardAttachMap">
 		<id column="no" property="no"/>
 		<result column="title" property="title"/>
@@ -205,11 +207,12 @@
 		<result column="emp_no" property="empNo"/>
 		<result column="category" property="category"/>
 		<result column="delete_yn" property="deleteYn"/>
+		<result column="comment_count" property="commentCount"/>
 		<collection property="attachments" resultMap="attachmentMap"/>
 	</resultMap>
-	
+
 	<resultMap type="attachment" id="attachmentMap">
-		<id column="no" property="no"/>
+		<id column="attach_no" property="no"/>
 		<result column="file_name" property="fileName" />
 	</resultMap>
 
@@ -217,10 +220,58 @@
 		update board set
 			like_count = like_count + 1 where no = #{no}
 	</update>
-	
-	
-	
-	
+
+	<select id="selectOneAttachment" resultType="attachment">
+		select
+			file_name
+		from
+			ATTACHMENT
+		where
+			no = #{no}
+	</select>
+
+	<update id="deleteBoard">
+		update BOARD set delete_yn = 'Y' where no = #{no}
+	</update>
+
+	<select id="selectAttachments" resultType="attachment">
+		select
+			no,
+			file_name
+		from
+			ATTACHMENT
+		where
+			board_no = #{no}
+	</select>
+
+	<delete id="deleteAttachment">
+		delete from ATTACHMENT where no = #{no}
+	</delete>
+
+	<update id="updateBoard">
+		update BOARD set
+		   title = #{title},
+		   content = #{content}
+		where no = #{no}
+	</update>
+
+	<insert id="insertBoardComment">
+		INSERT INTO
+			BOARD_COMMENT(NO, COMMENT_LEVEL, CONTENT, COMMENT_REF, BOARD_NO, EMP_NO)
+		values(
+			seq_board_comment_no.nextval,
+			#{commentLevel},
+			#{content},
+			<if test="commentRef == 0">
+				null,
+			</if>
+			<if test="commentRef != 0">
+				#{commentRef},
+			</if>
+			#{no},
+			#{empNo}
+		)
+	</insert>
 	
 	
 	

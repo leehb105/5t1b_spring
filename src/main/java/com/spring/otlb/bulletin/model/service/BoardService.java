@@ -23,20 +23,20 @@ public interface BoardService {
 	public List<Board> selectAllBoard(Map<String, Object> param);
 	
 	public List<Board> selectAllNotice(Map<String, Object> param);
-	
 
+	List<Attachment> selectAttachments(int no);
 
 	public int selectTotalBoardCount();
 
 	public Attachment selectOneAttachment(int no);
 
-	public int deleteAttachment(int delFileNo);
+	public int deleteAttachment(int no);
 
 	public List<BoardComment> selectBoardCommentList(int no);
 	
 	public int updateReadCount(int no);
 
-	public int insertBoardComment(BoardComment bc);
+	public int insertBoardComment(BoardComment boardComment);
 	
 	public List<Board> searchBoard(Map<String, Object> param);
 
@@ -89,5 +89,5 @@ public interface BoardService {
 	public Board selectBoardAttachments(int no);
 
 
-	
+
 }
