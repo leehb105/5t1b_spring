@@ -88,6 +88,7 @@ public class MessageController {
 //		log.debug("empNo = {}", principal.getName());
 		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
 //		ajax로 받은 쪽지 갯수 출력이 안됨, 해결할 것
+		
 		model.addAttribute("messageCount", messageCount);
 
 	}
