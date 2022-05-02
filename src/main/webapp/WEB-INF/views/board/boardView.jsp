@@ -199,7 +199,7 @@
 		</form:form>
 
 		<form:form
-			action="${pageContext.request.contextPath}/board/anonymousCommentDelete.do" 
+			action="${pageContext.request.contextPath}/board/boardCommentDelete.do" 
 			name="commentDeleteFrm"
 			method="POST">
 			<input type="hidden" name="commentNo" value=""/>

@@ -24,6 +24,8 @@
 						board b
 					WHERE
 						b.delete_yn = 'N'
+					  and
+						 b.title like '%' ||  #{cri.keyword} || '%'
 					ORDER BY 
 						reg_date DESC
 					) tb1

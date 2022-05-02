@@ -62,14 +62,15 @@ public class BoardController {
 	
 	@GetMapping("/boardList.do")
 	public void boardList(
-			@RequestParam(defaultValue = "1", required = false) int pageNum, 
-    		Model model, 
-    		HttpServletRequest request ) {
+			@RequestParam(defaultValue = "1", required = false) int pageNum,
+			@RequestParam(required = false) String searchKeyword,
+    		Model model) {
 		
 		int amount = 5;
         Criteria cri = new Criteria();
         cri.setPageNum(pageNum);
         cri.setAmount(amount);
+		cri.setKeyword(searchKeyword);
 			
 		Map<String, Object> param = new HashMap<>();
 		param.put("pageNum", pageNum);
@@ -77,11 +78,7 @@ public class BoardController {
 
 		List<Board> list = boardService.selectAllBoard(param);
 //		List<String> regDate = new ArrayList<>();
-		log.debug("list = {}", list);
-		
-//		for(Board board : list) {
-//			regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-//		}
+
 		
 		int total = boardService.selectTotalBoardCount();
 		Paging page = new Paging(cri, total);
@@ -343,31 +340,9 @@ public class BoardController {
 	}
 
 
-//	
-//	@GetMapping("/boardFinder.do")
-//	public void boardFinder() {
-//		String searchType = request.getParameter("searchType");
-//		String searchKeyword = request.getParameter("searchKeyword");
-//		Map<String, Object> param = new HashMap<>();
-//		param.put("searchType", searchType);
-//		param.put("searchKeyword", searchKeyword);
-//		System.out.println("param@servlet = " + param);
-//		
-//		List<Board> list = bulletinService.searchBoard(param);
-//		List<String> regDate = new ArrayList<>();
-//		System.out.println("list : " + list);
-//		
-//		for(Board board : list) {
-//			regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-//		}
-//		
-//		request.setAttribute("list", list);
-//		request.setAttribute("regDate", regDate);
-//		request
-//			.getRequestDispatcher("/WEB-INF/views/board/boardList.jsp")
-//			.forward(request, response);
-//	}
-//
+
+
+
 	@PostMapping("/boardDelete.do")
 	public String boardDelete(
 			RedirectAttributes attributes,
