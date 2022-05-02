@@ -121,45 +121,47 @@ public class MessageController {
 		}
 		model.addAttribute("list", list);
 	}
-	
-//	@PostMapping("/sentMessageDelete.do")
-//	public String sentMessageDelete() {
-//		//넘어온 글 번호
-//		String no = request.getParameter("no");
-//		
-//		List<Integer> list = new ArrayList<>();
-//		
-//		//,가 넘어온 경우만 split처리
-//		if(no.contains(",")) {
-//			//,기준으로 문자열 split
-//			String[] noArr = no.split(",");
-//			
-//			//문자열 숫자를 정수형으로 형변환
-//			for(String str : noArr) {
-//				list.add(Integer.parseInt(str));
-//			}
-//			
-//		}else {
-//			//no가 단일값일경우
-//			list.add(Integer.parseInt(no));
-//		}
-//		String msg = "";
-//		for(int i = 0; i < list.size(); i++) {
-//			int result = messageService.updateSenderDelYn(list.get(i));
-//			if(result > 0) {
-//				msg = (i+1) + "개의 쪽지 삭제에 성공하였습니다.";
-//			}else {
-//				msg = "일부 쪽지 삭제에 실패 하였습니다.";
-//				break;
-//			}
-//			
-//		}
-//		
-//		request.getSession().setAttribute("msg", msg);
-//		response.sendRedirect(request.getContextPath() + "/message/sentMessageList");
-//		return null;
-//	}
-//	
+
+	@PostMapping("/receivedMessageDelete.do")
+	public String receivedMessageDelete(@RequestParam int[] no,
+		RedirectAttributes attributes){
+//		받은 메세지 삭제
+		int result = 0;
+		String msg = "";
+		for(int i = 0; i < no.length; i++){
+			log.debug("no = {}", no[i]);
+			result = messageService.deleteReceivedMessage(no[i]);
+			if(result < 0){
+				msg = "쪽지 삭제 오류";
+				attributes.addFlashAttribute("msg", msg);
+				return "redirect:/message/receivedMessageList.do";
+			}
+		}
+		msg = "쪽지를 삭제했습니다.";
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/message/receivedMessageList.do";
+	}
+
+	@PostMapping("/sentMessageDelete.do")
+	public String sentMessageDelete(@RequestParam int[] no,
+		RedirectAttributes attributes) {
+//		보낸 메세지 삭제
+		int result = 0;
+		String msg = "";
+		for(int i = 0; i < no.length; i++){
+			log.debug("no = {}", no[i]);
+			result = messageService.deleteSentMessage(no[i]);
+			if(result < 0){
+				msg = "쪽지 삭제 오류";
+				attributes.addFlashAttribute("msg", msg);
+				return "redirect:/message/sentMessageList.do";
+			}
+		}
+		msg = "쪽지를 삭제했습니다.";
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/message/sentMessageList.do";
+	}
+
 	@GetMapping("/receivedMessageView.do")
 	public void messageView(@RequestParam int no,
 			Model model) {

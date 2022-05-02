@@ -101,5 +101,17 @@
 	<update id="updateReadDate">
 		UPDATE message SET read_date = current_date WHERE NO = #{no}
 	</update>
-	
+
+	<update id="deleteReceivedMessage">
+		UPDATE message SET RECEIVER_DEL_YN = 'Y' WHERE NO = #{no}
+	</update>
+
+	<update id="deleteSentMessage">
+		UPDATE message SET SENDER_DEL_YN = 'Y' WHERE NO = #{no}
+	</update>
+
+
+
+
+
 </mapper>

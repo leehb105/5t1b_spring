@@ -31,6 +31,10 @@ public interface MessageDao {
 
 	public List<Message> selectAllReceivedMessage(String empNo);
 
+    public int deleteReceivedMessage(int no);
+
+	public int deleteSentMessage(int no);
+
 }
 
 

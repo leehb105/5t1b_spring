@@ -2,6 +2,7 @@ package com.spring.otlb.message.model.service;
 
 import java.util.List;
 
+import com.spring.otlb.bulletin.model.vo.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,15 @@ public class MessageServiceImpl implements MessageService{
 		return messageDao.selectAllReceivedMessage(empNo);
 	}
 
+	@Override
+	public int deleteReceivedMessage(int no) {
+		return messageDao.deleteReceivedMessage(no);
+	}
 
+	@Override
+	public int deleteSentMessage(int no) {
+		return messageDao.deleteSentMessage(no);
+	}
 
 
 }

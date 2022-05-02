@@ -71,6 +71,15 @@ public class MessageDaoImpl implements MessageDao{
 		return session.selectList("message.selectAllReceivedMessage", empNo);
 	}
 
+	@Override
+	public int deleteReceivedMessage(int no) {
+		return session.update("message.deleteReceivedMessage", no);
+	}
+
+	@Override
+	public int deleteSentMessage(int no) {
+		return session.update("message.deleteSentMessage", no);
+	}
 
 
 }

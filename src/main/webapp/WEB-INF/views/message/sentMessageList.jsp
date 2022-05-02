@@ -38,44 +38,44 @@
                          </thead>
                          <tbody>
 							<c:forEach items="${list}" var="message" varStatus="status">
-								<tr onclick="location.href='${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}'" style="cursor:pointer;">
+								<!-- <tr onclick="location.href='${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}'" style="cursor:pointer;"> -->
+								<tr>
 									<td width="50px;" style="text-align: center;"><input type="checkbox" name="check" value="${message.no}"/></td>
 									<td width="180px" style="font-weight: bold;">
-										<a class="empPopover" data-toggle="popover" 
-											data-emp-no="${message.receiverEmpNo}"
-											data-emp-name="${message.emp.empName}"
+										<a class="empPopover" 
 											style="color: #858796;">
 											${message.emp.empName}(${message.emp.deptName})
 										</a>
 									</td>
 									
 									<td>
-										<a href="${pageContext.request.contextPath}/message/sentMessageView?no=${message.no}"
+										<a href="${pageContext.request.contextPath}/message/sentMessageView.do?no=${message.no}"
 										style="color: #858796;" >
 											${message.content}
 										</a>
 									</td>
-									<%-- <td><%= message.getSentDate() %></td> --%>
-									<%-- <td><%= message.getReadDate() != null ? message.getReadDate() : "읽지 않음" %></td> --%>
 									<td width="200px">
 										<fmt:formatDate value="${message.sentDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</td>
 									<td width="200px">
-										<fmt:formatDate value="${message.readDate}" pattern="yy-MM-dd [HH:mm]"/>
+										<c:if test="${message.readDate eq null}">
+											읽지 않음
+										</c:if>
+										<c:if test="${message.readDate ne null}">
+											<fmt:formatDate value="${message.readDate}" pattern="yy-MM-dd [HH:mm]"/>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
                          </tbody>
  					</table>
 	 			</div>
-	 		<form
-	 		
+	 		<form:form
 	 			id = "delFrm"
 				name="messageDelFrm"
 				method="POST" 
-				action="${pageContext.request.contextPath}/message/sentMessageDelete" >
-				<input type="hidden" id="no" name="no" value="" />
-			</form>	
+				action="${pageContext.request.contextPath}/message/sentMessageDelete.do" >
+			</form:form>	
 	 		</div>
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -88,14 +88,14 @@
             </div>
             <!-- End of Main Content -->
 
-<script src="${pageContext.request.contextPath}/js/empPopup.js"></script>
+<!-- <script src="${pageContext.request.contextPath}/js/empPopup.js"></script>
 <script>
     const empPopovers = document.getElementsByClassName("empPopover");
     for (let empPopover of empPopovers) {
         console.log(empPopover.dataset.empName);
         setPopover("${pageContext.request.contextPath}", empPopover.dataset.empNo, empPopover, empPopover.dataset.empName, "${loginEmp.empNo}", "${loginEmp.empName}");
  }
-</script>  
+</script>   -->
 <script>
 //메세지 삭제 제어
 function delMessage(){
@@ -108,20 +108,30 @@ function delMessage(){
 			
 			//check박스 요소들 변수 저장
 			var check = document.getElementsByName("check");
+			//form
+			var checkBox = document.getElementById("delFrm");
+
 			//글번호 저장
 			var no = "";
 			//check박스 전체순회
 			for(let i = 0; i < check.length; i++){
 				//해당순번의 체크박스가 체크되어 있으면
 				if(check[i].checked){
-					//,를 구분자로 값을 연결
-					no += check[i].value + ",";
+					no = check[i].value;
+					// create element (input) 
+					var input = document.createElement('input'); 
+					// set attribute (input) 
+					input.setAttribute("type", "hidden"); 
+					input.setAttribute("name", "no"); 
+					input.setAttribute("value", no); 
+					// append input (to form) 
+					checkBox.appendChild(input); 
 				}
 			}
-			var inputNo = document.getElementById("no");
+			// var inputNo = document.getElementById("no");
 			//input value에 글번호 대입
-			inputNo.value = no;
-			console.log("input value: " + inputNo.value);
+			// inputNo.value = no;
+			// console.log("input value: " + inputNo.value);
 			$("form[name=messageDelFrm]").submit();	
 			//$(document.messageDelFrm).submit();
 			
