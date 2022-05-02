@@ -29,7 +29,7 @@
                 <a class="nav-link" id="hover1" href="${pageContext.request.contextPath}/message/receivedMessageList.do" >
                     <i class="fa fa-envelope-open"></i>
                     <span>받은쪽지함</span>
-                    <strong><span id="receivedCount">[${messageCount > 0 ? messageCount : 0}]</span></strong>
+                    <strong><span id="receivedCount">[]</span></strong>
                     
                 </a>
             </li>
@@ -65,6 +65,10 @@
 //});
 $( document ).ready(function(){
 	//console.log(document.location.href);
+	let receivedCount = document.getElementById('receivedCount');
+	// receivedCount.innerHTML = '[' + countMessage + ']';
+	// console.log(countMessage);
+
 	//현재 페이지 url
 	let url = document.location.href;
 	if(url.includes("messageList")){
@@ -75,7 +79,22 @@ $( document ).ready(function(){
 		//$('span').css('font-size', '30px'); 
 		$(hover2).css('background-color', '#ABC9E3');
 	}
+
+	$.ajax({
+			url: "${pageContext.request.contextPath}/message/receivedMessageCount.do",
+			method: "GET",
+			success(data){
+				// console.log(data);
+				//span태그에 count데이터 삽입
+				receivedCount.innerText = '[' + data + ']';
+			},
+			error:function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+
+		})
 });
+
 
 
 //마우스 오버 이벤트

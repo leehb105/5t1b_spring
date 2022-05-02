@@ -74,7 +74,7 @@
 	 			id = "delFrm"
 				name="messageDelFrm"
 				method="POST" 
-				action="${pageContext.request.contextPath}/message/sentMessageDelete.do" >
+				action="${pageContext.request.contextPath}/message/sentMessageDelete.do">
 			</form:form>	
 	 		</div>
                 <!-- Begin Page Content -->

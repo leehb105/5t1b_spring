@@ -181,24 +181,25 @@
 <!-- End of Topbar -->
  <!-- if (loginEmp != null) {  -->
 <script>
-$( document ).ready(function() {
+	$( document ).ready(function() {
+		//console.log("test");
+		let countMessage;
+		var counter = document.getElementById("counter");
+		$.ajax({
+			url: "${pageContext.request.contextPath}/message/receivedMessageCount.do",
+			method: "GET",
+			success(data){
+				// console.log(data);
+				//span태그에 count데이터 삽입
+				countMessage = data;
+				counter.innerText = countMessage;
 
-	//console.log("test");
-	var counter = document.getElementById("counter");
-    $.ajax({
-		url: "${pageContext.request.contextPath}/message/receivedMessageCount.do",
-		method: "GET",
-		success(data){
-			// console.log(data);
-			//span태그에 count데이터 삽입
-			counter.innerText = data;
+			},
+			error:function(request,status,error){
+			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
 
-		},
-		error:function(request,status,error){
-        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-       }
-
-	})
+		})
 		
 
 });
