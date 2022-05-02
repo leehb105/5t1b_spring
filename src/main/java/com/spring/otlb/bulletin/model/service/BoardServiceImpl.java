@@ -159,8 +159,8 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public int deleteBoardComment(int no) {
-		return 0;
+	public int deleteBoardComment(int commentNo) {
+		return boardDao.deleteBoardComment(commentNo);
 	}
 
 	@Override

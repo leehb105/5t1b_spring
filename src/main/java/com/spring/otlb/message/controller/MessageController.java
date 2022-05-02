@@ -81,13 +81,14 @@ public class MessageController {
 //
 	@GetMapping("/receivedMessageCount.do")
 	@ResponseBody
-	public void receivedMessageCount(Principal principal,
+	public String receivedMessageCount(Principal principal,
 		 Model model){
 //		log.debug("empNo = {}", principal.getName());
 		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
 //		ajax로 받은 쪽지 갯수 출력이 안됨, 해결할 것
 
-		model.addAttribute("messageCount", messageCount);
+//		model.addAttribute("messageCount", messageCount);
+		return String.valueOf(messageCount);
 
 	}
 

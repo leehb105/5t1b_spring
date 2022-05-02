@@ -272,6 +272,14 @@
 			#{empNo}
 		)
 	</insert>
+
+	<update id="deleteBoardComment">
+		update BOARD_COMMENT set
+			delete_yn = 'Y'
+		where
+			no = #{commentNo}
+	</update>
+
 	
 	
 	

@@ -87,17 +87,17 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 				</table>
 			</div>
 			<div id="search-container">
-				<select id="searchType">
+				<!-- <select id="searchType">
 					<option value="title">제목</option>		
 					<option value="empName" >작성자</option>
-				</select>
+				</select> -->
 				<div id="search-input" class="search-type" style="display: inline-block;">
-					<!-- <form action="${pageContext.request.contextPath}/board/searchBoard.do" id="searchFrm">
-						<input type="hidden" name="searchType" value=""/>
+					<form action="${pageContext.request.contextPath}/board/searchBoard.do" id="searchFrm">
+						<!-- <input type="hidden" name="searchType" value=""/> -->
 						<input type="text" name="searchKeyword" value="" size="25" placeholder="검색어를 입력하세요."/>
 						<button type="button" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
 						<i class="fa fa-search" aria-hidden="true"></i></button>			
-					</form>	 -->
+					</form>	
 				</div>
 				
 				<!-- Pagination -->

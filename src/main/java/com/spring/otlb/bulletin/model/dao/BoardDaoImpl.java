@@ -158,8 +158,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public int deleteBoardComment(int no) {
-		return 0;
+	public int deleteBoardComment(int commentNo) {
+		return session.update("board.deleteBoardComment", commentNo);
 	}
 
 	@Override

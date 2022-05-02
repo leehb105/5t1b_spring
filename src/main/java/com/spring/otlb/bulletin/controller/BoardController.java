@@ -417,28 +417,7 @@ public class BoardController {
 		return "redirect:/board/boardView.do?no=" + no;
 
 	}
-//	@PostMapping("/boardCommentEnroll.do")
-//	public String boardCommentEnroll() {
-//		HttpSession session = request.getSession();
-//		Emp emp = (Emp) session.getAttribute("loginEmp");
-//
-//		int no = Integer.valueOf(request.getParameter("no"));
-//		int empNo = emp.getEmpNo();
-//		int commentLevel = Integer.valueOf(request.getParameter("commentLevel"));
-//		int commentRef = Integer.valueOf(request.getParameter("commentRef"));
-//		String content = request.getParameter("content");
-//		BoardComment bc = new BoardComment(0, commentLevel, content, null, commentRef, null, no, empNo, null);
-//		//System.out.println(content);
-//		
-//		int result = bulletinService.insertBoardComment(bc);
-//		String msg = result > 0 ? "댓글을 등록했습니다!" : "댓글 등록에 실패했습니다...";
-//		session.setAttribute("msg", msg);
-//		
-//		//댓글작성한 해당 글로 리다이렉트
-//		String location = request.getContextPath() + "/board/boardView?no=" + bc.getBoardNo();
-//		response.sendRedirect(location);
-//		return null;
-//	}
+
 	
 	@GetMapping("/boardEnroll.do")
 	public void boardEnroll() { }
@@ -500,21 +479,21 @@ public class BoardController {
 		
 	}
 	
-//	@PostMapping("/boardCommentDelete.do")
-//	public String boardCommentDelete() {
-//		int boardNo = Integer.valueOf(request.getParameter("boardNo"));
-//		int no = Integer.parseInt(request.getParameter("no"));
-//		
-//		int result = bulletinService.deleteBoardComment(no);
-//		
-//		String msg = (result > 0) ? "댓글을 삭제했습니다." : "댓글이 안지워져요...";	
-//		
-//		request.getSession().setAttribute("msg", msg);
-//		String location = request.getContextPath() + "/board/boardView?no=" + boardNo;
-//		response.sendRedirect(location);
-//		return null;
-//	}
-	
+	@PostMapping("/boardCommentDelete.do")
+	public String boardCommentDelete(RedirectAttributes attributes,
+		 @RequestParam int commentNo,
+		 @RequestParam int no) {
+
+		int result = boardService.deleteBoardComment(commentNo);
+		String msg = "";
+		if (result > 0) {
+			msg = "댓글을 삭제하였습니다.";
+		} else {
+			msg = "댓글 삭제 오류";
+		}
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/board/boardView.do?no=" + no;
+	}
 	
 	
 }
