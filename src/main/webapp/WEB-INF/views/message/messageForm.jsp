@@ -14,9 +14,10 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-	        <form 
+	        <form:form
 	        	action="${pageContext.request.contextPath}/message/messageEnroll.do"
-	        	method="POST">
+	        	method="POST"
+				id="messageEnrollFrm">
 	        	<div class="container">
 					<input type="submit" value="보내기" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;"/>
 				</div>
@@ -38,7 +39,7 @@
 							name="receiverList"
 							id="receiverList"
 							readonly="readonly" 
-							value="${receiver != null ? receiver : ''}"
+							value="${emp ne null ? emp.empNo += '-' += emp.empName : ''}"
 							style="margin-top: 10px"/>
 	                    <textarea 
 	                    	name="content" id="textContent" cols="30" rows="10"
@@ -51,8 +52,12 @@
 	                <!-- /.container-fluid -->
 					
 	            </div>
-	            
-			</form>
+	            <!-- 답장버튼으로 사번을 넘겨받은 경우 input사용, 아닐 시 disabled -->
+				<input 
+					type="hidden" 
+					name="${emp ne null ? 'empNo' : ''}"
+					value="${emp ne null ? emp.empNo : ''}">
+			</form:form>
             <!-- End of Main Content -->
 <script>
 /* $(receiver).change(function() {
@@ -82,21 +87,24 @@
 // 	}
 // });
         
+let selected2;
 /* 받는사람 검색기능 */
-$(receiver).autocomplete({ //autocomplete오류남
+$(receiver).autocomplete({ 
 	source: function(request, response) {
-		//console.log(request);
-		//console.log(response);
-		
+		console.log(request);
+		// console.log(response);
 		$.ajax({
 			url: "<%= request.getContextPath() %>/message/empList.do",
-			data: request,
+			data: {
+				searchKeyword : request.term
+			},
 			method: "GET",
+			contentType : "application/text; charset:UTF-8",
 			success(data){
-				//console.log(data);
+				console.log('data' + data);
 				if(data == '') return;
 
-				const emp = data.split(",");
+				const emp = data.split(" ");
 				//console.log(emp);
 				const arr = $.map(emp, (elem, i) =>{
 					const arr2 = elem.split("-");
@@ -108,7 +116,7 @@ $(receiver).autocomplete({ //autocomplete오류남
 					};
 					
 				});
-				//console.log(arr);
+				// console.log(arr);
 				
 				response(arr);
 			},
@@ -116,94 +124,34 @@ $(receiver).autocomplete({ //autocomplete오류남
 		})
 	},
     focus: function(event, selected) {
-        const selected2 = document.getElementsByClassName("ui-state-active")[0];
+        selected2 = document.getElementsByClassName("ui-state-active")[0];
         receiver.value =  selected2.innerText;
+
         return false;
     } 
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// $("#receiver").autocomplete({
-// 	source: function(request, response) { //source 는 자동완성의 대상
-// 		console.log(request);
-// 		console.log(response);
-// 		let empList = [];
-// 		$.ajax({
-// 			data: request,
-// 			method: "GET",
-// 			success(data){
-// 				//console.log(data);
-// 				if(data == '') return;
-
-// 				const emp = data.split(",");
-// 				//console.log(emp);
-// 				const arr = $.map(emp, (elem, i) =>{
-// 					const arr2 = elem.split("-");
-// 					//console.log(arr2);
-					
-// 					return{
-// 						lable: elem,
-// 						value: elem
-// 					};
-					
-// 				});
-// 				console.log(arr);
-				
-// 				response(arr);
-// 			},
-// 			error: console.log
-// 		})
-// 	},
-//     focus: function(event, selected) { // 포커스 시 이벤트
-//         const selected2 = document.getElementsByClassName("ui-state-active")[0];
-//         receiver.value =  selected2.innerText;
-//         return false;
-//     } 
-// });
+//넘어온 사번-이름 결과값 선택(클릭)시 하단 input란에 추가해줌
 $("#ui-id-1").click(() => {
      if(receiverList.value)
-        receiverList.value += ', ' + receiver.value;
+        receiverList.value += ' ' + receiver.value;
      else receiverList.value = receiver.value;
     receiver.value = '';    
+	console.log(receiverList.value);
+
+	let messageEnrollFrm = document.getElementById('messageEnrollFrm');
+
+	let input = document.createElement('input');
+	input.setAttribute("type", "hidden"); 
+	input.setAttribute("name", "empNo"); 
+	console.log(selected2);
+
+	input.setAttribute("value", selected2.innerText.split('-')[0]); 
+
+	messageEnrollFrm.appendChild(input);
+
 });
-// <%-- //답장기능 적용
-// window.onload = function(){
-// 	console.log(123);
-// 	const $receiver = $(receiver);
-// 	$receiver.val(<%= senderNo %>);
-// }; --%>
+
 
 /* 쪽지 쓰기 500자 제한 코드 */
 $(document).ready(function() {

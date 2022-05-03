@@ -31,10 +31,19 @@ public class MessageController {
 	@Autowired
 	private EmpService empService;
 	
-//	@PostMapping("/messageEnroll.do")
-//	public String messageEnroll(Model model,
-//			@AuthenticationPrincipal Emp loginEmp,
-//			RedirectAttributes redirectAttr) {
+	@PostMapping("/messageEnroll.do")
+	public String messageEnroll(@RequestParam String[] empNo,
+			Principal principal,
+			Message message,
+			RedirectAttributes redirectAttr) {
+
+		log.debug("message = {}", message.getContent());
+		for(String str: empNo){
+			log.debug("empNo = {}", str);
+
+		}
+
+		return null;
 //		//보내는사람
 ////		HttpSession session = request.getSession();
 ////		Emp emp = (Emp) session.getAttribute("loginEmp");
@@ -77,8 +86,8 @@ public class MessageController {
 //		response.sendRedirect(location);
 //		
 //		return null;
-//	}
-//
+	}
+
 	@GetMapping("/receivedMessageCount.do")
 	@ResponseBody
 	public String receivedMessageCount(Principal principal,
@@ -215,7 +224,34 @@ public class MessageController {
 
 		
 	}
-	
+
+	//한글???깨짐 현상으로 produces지정해줌
+	@GetMapping(value = "/empList.do", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String empList(Model model,
+		@RequestParam(required = false) String searchKeyword){
+		log.debug("searchKeyword = {}", searchKeyword);
+		List<Emp> empList = empService.selectAllMember();
+		List<Emp> resultList = new ArrayList<>();
+
+		//검색 키워드 결과값찾기
+		for(Emp emp : empList){
+			if(emp.getEmpNo().contains(searchKeyword) || emp.getEmpName().contains(searchKeyword)){
+				resultList.add(emp);
+			}
+		}
+		//걸러진 결과값 202101-홍길동 의 형태로 StringBuilder생성
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < resultList.size(); i++) {
+			sb.append(resultList.get(i).getEmpNo());
+			sb.append("-");
+			sb.append(resultList.get(i).getEmpName());
+			sb.append(" ");
+		}
+
+		log.debug(sb.toString());
+		return sb.toString();
+	}
 
 //	
 	
