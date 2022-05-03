@@ -76,4 +76,19 @@
 		WHERE
 			delete_yn = 'N'
 	</select>
+
+	<update id="updateReadCount">
+		update notice set read_count = read_count + 1 where no = #{no}
+	</update>
+
+	<select id="selectOneNotice" resultMap="boardMap">
+		SELECT
+			n.*,
+			e.EMP_NAME,
+			(SELECT dept_name FROM DEPARTMENT d WHERE d.DEPT_CODE = e.DEPT_CODE) dept_name
+		FROM
+			notice n JOIN emp e ON
+				n.EMP_NO = e.EMP_NO
+		WHERE n.NO = #{no}
+	</select>
 </mapper>

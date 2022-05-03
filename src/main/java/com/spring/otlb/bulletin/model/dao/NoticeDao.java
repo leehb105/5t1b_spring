@@ -13,4 +13,8 @@ public interface NoticeDao {
     List<Board> selectAllNotice(Map<String, Object> param);
 
     int selectTotalNoticeCount();
+
+    int updateReadCount(int no);
+
+    Board selectOneNotice(int no);
 }

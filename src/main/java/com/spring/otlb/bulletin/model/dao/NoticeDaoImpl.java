@@ -31,4 +31,14 @@ public class NoticeDaoImpl implements NoticeDao{
 		return session.selectOne("notice.selectTotalNoticeCount");
 	}
 
+	@Override
+	public int updateReadCount(int no) {
+		return session.update("notice.updateReadCount", no);
+	}
+
+	@Override
+	public Board selectOneNotice(int no) {
+		return session.selectOne("notice.selectOneNotice", no);
+	}
+
 }

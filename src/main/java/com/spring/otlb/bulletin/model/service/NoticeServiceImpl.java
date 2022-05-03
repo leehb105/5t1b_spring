@@ -30,4 +30,14 @@ public class NoticeServiceImpl implements NoticeService{
 	public int selectTotalNoticeCount() {
 		return noticeDao.selectTotalNoticeCount();
 	}
+
+	@Override
+	public int updateReadCount(int no) {
+		return noticeDao.updateReadCount(no);
+	}
+
+	@Override
+	public Board selectOneNotice(int no) {
+		return noticeDao.selectOneNotice(no);
+	}
 }

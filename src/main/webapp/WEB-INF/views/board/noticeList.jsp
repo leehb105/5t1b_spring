@@ -88,7 +88,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 		        <div id="search-title" class="search-type">
 		            <form action="${pageContext.request.contextPath}/board/noticeList.do">
 		                <!-- <input type="hidden" name="searchType" value="title"/> -->
-		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색할 제목을 입력하세요."/>
+		                <input type="text" name="searchKeyword" value="" size="25" placeholder="검색할 제목을 입력하세요." autocomplete="off"/>
 		                <button type="button" id="searchBtn" class="btn btn-primary btn-icon-split" style="padding: 2px">검색
 		                <i class="fa fa-search" aria-hidden="true"></i></button>			
 		            </form>	

@@ -2,6 +2,7 @@ package com.spring.otlb.bulletin.controller;
 
 import com.spring.otlb.bulletin.model.service.NoticeService;
 import com.spring.otlb.bulletin.model.vo.Board;
+import com.spring.otlb.bulletin.model.vo.BoardComment;
 import com.spring.otlb.common.Criteria;
 import com.spring.otlb.common.Paging;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,8 +65,63 @@ public class NoticeController {
     }
 
     @GetMapping("/noticeView.do")
-    public void noticeView(){
+    public String noticeView(
+            @RequestParam int no,
+            Model model,
+            HttpServletRequest request,
+            HttpServletResponse response) {
+        try {
+            // 쿠키 생성
+            Cookie oldCookie = null;
+            Cookie[] cookies = request.getCookies();
+            log.debug("cookies = {}", cookies);
+            //쿠키값이 있다면
+            if(cookies != null) {
+                for(Cookie cookie : cookies) {
+                    //boardView 쿠키 여부 확인
+                    if(cookie.getName().equals("noticeView")) {
+                        oldCookie = cookie;
+                    }
+                }
+            }
 
+            if(oldCookie != null) {
+                if (!oldCookie.getValue().contains("[" + no + "]")) {
+                    noticeService.updateReadCount(no);
+                    oldCookie.setValue(oldCookie.getValue() + "_[" + no + "]");
+                    oldCookie.setPath("/");
+                    oldCookie.setMaxAge(60 * 60 * 24);
+                    response.addCookie(oldCookie);
+                }
+            } else {
+                noticeService.updateReadCount(no);
+                Cookie newCookie = new Cookie("noticeView","[" + no + "]");
+                newCookie.setPath("/");
+                newCookie.setMaxAge(60 * 60 * 24);
+                response.addCookie(newCookie);
+            }
+
+
+            //게시판 데이터 가져오기
+            Board board = noticeService.selectOneNotice(no);
+            log.debug("board and attach= {}", board);
+
+
+//			String filepath = BoardViewServlet.class.getResource("/../../img/profile").getPath();
+//			File writerProfileImage = new File(filepath + board.getEmpNo() + ".png");
+//			if(writerProfileImage.exists()) request.setAttribute("writerProfileImageExists", true);
+//			else request.setAttribute("writerProfileImageExists", false);
+
+
+
+            model.addAttribute("board", board);
+//			model.addAttribute("commenterImageList", commenterImageList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return "/board/noticeView";
     }
 
     @GetMapping("/noticeUpdate.do")
@@ -111,46 +170,8 @@ public class NoticeController {
 //        }
 //    }
 //
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        request
-//                .getRequestDispatcher("/WEB-INF/views/notice/noticeForm.jsp")
-//                .forward(request, response);
-//    }
-//
-//    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//        final int numPerPage = 10;
-//        int cPage = 1;
-//        try {
-//            cPage = Integer.parseInt(request.getParameter("cPage"));
-//        } catch (NumberFormatException e) {}
-//        int start = (cPage - 1) * numPerPage + 1;
-//        int end = cPage * numPerPage;
-//        Map<String, Integer> param = new HashMap<>();
-//        param.put("start", start);
-//        param.put("end", end);
-//
-//        List<Board> list = bulletinService.selectAllNotice(param);
-//        List<String> regDate = new ArrayList<>();
-//        System.out.println("list@servlet = " + list);
-//        for(Board board : list) {
-//            regDate.add(DateFormatUtils.formatDateBoard(board.getRegDate()));
-//        }
-//
-//
-//        int totalContent = bulletinService.selectTotalBoardCount();
-//        String url = request.getRequestURI();
-//        String pagebar = EmpUtils.getPagebar(cPage, numPerPage, totalContent, url);
-//        System.out.println("pagebar@servlet = " + pagebar);
-//
-//        request.setAttribute("list", list);
-//        request.setAttribute("pagebar", pagebar);
-//        request.setAttribute("regDate", regDate);
-//
-//        request
-//                .getRequestDispatcher("/WEB-INF/views/notice/noticeList.jsp")
-//                .forward(request, response);
-//    }
+
+
 //
 //    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        int no = Integer.valueOf(request.getParameter("no"));
