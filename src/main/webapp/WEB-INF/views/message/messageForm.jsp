@@ -19,7 +19,7 @@
 	        	method="POST"
 				id="messageEnrollFrm">
 	        	<div class="container">
-					<input type="submit" value="보내기" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;"/>
+					<input type="submit" value="보내기" id="enrollBtn" class="btn btn-primary btn-icon-split" style="padding: 5px; margin-top: 20px;"/>
 				</div>
 			 	<hr class="sidebar-divider my-3">
 	            <!-- Main Content -->
@@ -60,32 +60,7 @@
 			</form:form>
             <!-- End of Main Content -->
 <script>
-/* $(receiver).change(function() {
-	console.log("함수작동");
-}); */
 
-// /* 받는사람 검색기능 */
-// var searchSource = ["김치 볶음밥", "신라면", "진라면", "라볶이", "팥빙수","너구리","삼양라면","안성탕면","불닭볶음면","짜왕","라면사리" ]; // 배열 형태로
-// $("#receiver").autocomplete({  //오토 컴플릿트 시작
-// 	source : searchSource,    // source 는 자동 완성 대상
-// 	select : function(event, ui) {    //아이템 선택시
-// 		console.log(ui.item);
-// 	},
-// 	focus : function(event, ui) {    //포커스 가면
-// 		return false;//한글 에러 잡기용도로 사용됨
-// 	},
-// 	minLength: 1,// 최소 글자수
-// 	autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-// 	classes: {    //잘 모르겠음
-// 		"ui-autocomplete": "highlight"
-// 	},
-// 	delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-// //            disabled: true, //자동완성 기능 끄기
-// 	position: { my : "right top", at: "right bottom" },    //잘 모르겠음
-// 	close : function(event){    //자동완성창 닫아질때 호출
-// 		console.log(event);
-// 	}
-// });
         
 let selected2;
 /* 받는사람 검색기능 */
@@ -131,6 +106,9 @@ $(receiver).autocomplete({
     } 
 });
 
+let enrollBtn = $('#enrollBtn');
+let receiverBox = $('#receiverList');
+
 //넘어온 사번-이름 결과값 선택(클릭)시 하단 input란에 추가해줌
 $("#ui-id-1").click(() => {
      if(receiverList.value)
@@ -150,13 +128,22 @@ $("#ui-id-1").click(() => {
 
 	messageEnrollFrm.appendChild(input);
 
+	//수신자 입력 시 보내기 버튼 활성화 검사
+	if(receiverBox.val() != '' && $('#textContent').val().length > 0){
+		enrollBtn.prop("disabled", false);
+	}
+
 });
 
 
 /* 쪽지 쓰기 500자 제한 코드 */
 $(document).ready(function() {
+	// let textContent = document.getElementById('textContent');
+	
+	enrollBtn.prop("disabled", true);	//초기화
+
 	$('#textContent').on('keyup', function() {
-		console.log($(this).val().length);
+		// console.log($(this).val().length);
 		
 		$('#count').html($(this).val().length);
 		
@@ -165,7 +152,19 @@ $(document).ready(function() {
             $(this).val($(this).val().substring(0, 500));
             $('#count').html("500");
         }
+		//메시지 내용이 없으면 보내기 버튼 비활성화
+		if($(this).val().length == 0 || receiverBox.val() == ''){
+			enrollBtn.prop("disabled", true);	
+		}else{
+			enrollBtn.prop("disabled", false);
+		}
+
 	});
+
+	
+
+	
+
 });
 
 </script>
