@@ -20,7 +20,7 @@ public class Message extends MessageEntity implements Serializable{
 	private Emp emp;
 
 
-	public Message(int no, String content, int senderEmpNo, int receiverEmpNo, Timestamp sentDate, Timestamp readDate,
+	public Message(int no, String content, String senderEmpNo, String receiverEmpNo, Timestamp sentDate, Timestamp readDate,
 			String senderDelYn, String receiverDelYn, Emp emp) {
 		super(no, content, senderEmpNo, receiverEmpNo, sentDate, readDate, senderDelYn, receiverDelYn);
 		this.emp = emp;

@@ -110,6 +110,18 @@
 		UPDATE message SET SENDER_DEL_YN = 'Y' WHERE NO = #{no}
 	</update>
 
+	<insert id="insertMessage">
+		INSERT INTO message values(
+			seq_message_no.nextval,
+			#{content},
+			#{senderEmpNo},
+			#{receiverEmpNo},
+			current_date,
+			default,
+			'N',
+			'N'
+	  )
+	</insert>
 
 
 

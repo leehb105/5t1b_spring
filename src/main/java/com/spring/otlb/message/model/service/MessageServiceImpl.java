@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public int insertMessage(Message message) {
-		return 0;
+		return messageDao.insertMessage(message);
 	}
 
 

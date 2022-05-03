@@ -37,55 +37,23 @@ public class MessageController {
 			Message message,
 			RedirectAttributes redirectAttr) {
 
-		log.debug("message = {}", message.getContent());
-		for(String str: empNo){
-			log.debug("empNo = {}", str);
+		String msg = "";
+		message.setSenderEmpNo(principal.getName()); //전송인 설정
+		for(String receiverEmpNo: empNo){
+			message.setReceiverEmpNo(receiverEmpNo);
+			int result = messageService.insertMessage(message);
 
+
+			if(result < 0){
+				msg = receiverEmpNo + " 쪽지 발송에 실패했습니다.";
+				redirectAttr.addFlashAttribute("msg", msg);
+				return "redirect:/message/sentMessageList.do";
+			}
 		}
+		msg = "총 " + empNo.length + "명에게 쪽지를 발송했습니다.";
+		redirectAttr.addFlashAttribute("msg", msg);
 
-		return null;
-//		//보내는사람
-////		HttpSession session = request.getSession();
-////		Emp emp = (Emp) session.getAttribute("loginEmp");
-////		int sender = emp.getEmpNo();
-//		
-//		//받는사람
-//		String _receiverList = request.getParameter("receiverList");
-//		System.out.println("_receiverList" + _receiverList);
-//		String[] receiverList = _receiverList.split(", ");
-//		System.out.println("receiverList" + receiverList);
-//		
-//		String content = request.getParameter("content");
-//		
-//		List<Integer> receiverNo = new ArrayList<>();
-//		List<String> receiverName = new ArrayList<>();
-//		for(String str : receiverList) {
-//			String[] temp = str.split("-");
-//			//앞부분 사번만 가져옴
-//			receiverNo.add(Integer.valueOf(temp[0]));
-//			receiverName.add(temp[1]);
-//		}
-//		
-//		int count = 0;
-//		String msg = null;
-//		//보낸사람 만큼 요청 보냄
-//		for(int i = 0; i < receiverNo.size(); i++) {
-//			Message message = new Message(0, content, sender, receiverNo.get(i), null, null, null, null);
-//			int result = messageService.insertMessage(message);
-//			if(result > 0) {
-//				count++;
-//				msg = count + "명에게 쪽지를 성공적으로 발송했습니다!";
-//			}else {
-//				msg = receiverName.get(i) + "의 쪽지 발송에 실패했습니다...";
-//				break;
-//			}
-//		}
-//		
-//		session.setAttribute("msg", msg);
-//		String location = request.getContextPath() + "/message/messageForm";
-//		response.sendRedirect(location);
-//		
-//		return null;
+		return "redirect:/message/sentMessageList.do";
 	}
 
 	@GetMapping("/receivedMessageCount.do")

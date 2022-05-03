@@ -18,8 +18,8 @@ public class MessageEntity implements Serializable{
 	
 	private int no;
 	private String content;
-	private int senderEmpNo;
-	private int receiverEmpNo;
+	private String senderEmpNo;
+	private String receiverEmpNo;
 	private Timestamp sentDate;
 	private Timestamp readDate;
 	private String senderDelYn;

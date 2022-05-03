@@ -37,7 +37,7 @@ public class MessageDaoImpl implements MessageDao{
 
 	@Override
 	public int insertMessage(Message message) {
-		return 0;
+		return session.insert("message.insertMessage", message);
 	}
 
 	@Override
