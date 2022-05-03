@@ -23,7 +23,7 @@
 		from 
 			emp
 		where
-			e.emp_no = #{empNo}
+			emp_no = #{empNo}
 	</select>
 	
 	<resultMap type="emp" id="empMap">

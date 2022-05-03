@@ -201,11 +201,18 @@ public class MessageController {
 	}
 //	
 	@GetMapping("/messageForm.do")
-	public void messageForm(@RequestParam(required = false) String receiverNo) {
+	public void messageForm(@RequestParam(required = false) String receiverNo,
+		Model model) {
 		
 		if(receiverNo != null) {
 			Emp emp = empService.selectOneEmp(receiverNo);
+			log.debug("empNo = {}", emp.getEmpNo());
+			model.addAttribute("emp", emp);
+			//해야할것: 답장버튼 눌렀을때 해당 아이디가 입력칸에 들어가야함
 		}
+
+
+
 		
 	}
 	

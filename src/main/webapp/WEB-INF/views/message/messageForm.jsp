@@ -32,7 +32,6 @@
 							name="receiver" 
 							id="receiver"
 							placeholder="받는 사람을 검색하세요(사번/이름)" />
-							
 							<!-- 실제 받는사람 전송 입력부 -->
 						<input 
 							type="text" class="form-control form-control-sm"
@@ -60,30 +59,68 @@
 	console.log("함수작동");
 }); */
 
-/* 받는사람 검색기능 */
-var searchSource = ["김치 볶음밥", "신라면", "진라면", "라볶이", "팥빙수","너구리","삼양라면","안성탕면","불닭볶음면","짜왕","라면사리" ]; // 배열 형태로
-$("#receiver").autocomplete({  //오토 컴플릿트 시작
-	source : searchSource,    // source 는 자동 완성 대상
-	select : function(event, ui) {    //아이템 선택시
-		console.log(ui.item);
-	},
-	focus : function(event, ui) {    //포커스 가면
-		return false;//한글 에러 잡기용도로 사용됨
-	},
-	minLength: 1,// 최소 글자수
-	autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
-	classes: {    //잘 모르겠음
-		"ui-autocomplete": "highlight"
-	},
-	delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
-//            disabled: true, //자동완성 기능 끄기
-	position: { my : "right top", at: "right bottom" },    //잘 모르겠음
-	close : function(event){    //자동완성창 닫아질때 호출
-		console.log(event);
-	}
-});
+// /* 받는사람 검색기능 */
+// var searchSource = ["김치 볶음밥", "신라면", "진라면", "라볶이", "팥빙수","너구리","삼양라면","안성탕면","불닭볶음면","짜왕","라면사리" ]; // 배열 형태로
+// $("#receiver").autocomplete({  //오토 컴플릿트 시작
+// 	source : searchSource,    // source 는 자동 완성 대상
+// 	select : function(event, ui) {    //아이템 선택시
+// 		console.log(ui.item);
+// 	},
+// 	focus : function(event, ui) {    //포커스 가면
+// 		return false;//한글 에러 잡기용도로 사용됨
+// 	},
+// 	minLength: 1,// 최소 글자수
+// 	autoFocus: true, //첫번째 항목 자동 포커스 기본값 false
+// 	classes: {    //잘 모르겠음
+// 		"ui-autocomplete": "highlight"
+// 	},
+// 	delay: 500,    //검색창에 글자 써지고 나서 autocomplete 창 뜰 때 까지 딜레이 시간(ms)
+// //            disabled: true, //자동완성 기능 끄기
+// 	position: { my : "right top", at: "right bottom" },    //잘 모르겠음
+// 	close : function(event){    //자동완성창 닫아질때 호출
+// 		console.log(event);
+// 	}
+// });
         
+/* 받는사람 검색기능 */
+$(receiver).autocomplete({ //autocomplete오류남
+	source: function(request, response) {
+		//console.log(request);
+		//console.log(response);
+		
+		$.ajax({
+			url: "<%= request.getContextPath() %>/message/empList.do",
+			data: request,
+			method: "GET",
+			success(data){
+				//console.log(data);
+				if(data == '') return;
 
+				const emp = data.split(",");
+				//console.log(emp);
+				const arr = $.map(emp, (elem, i) =>{
+					const arr2 = elem.split("-");
+					//console.log(arr2);
+					
+					return{
+						lable: elem,
+						value: elem
+					};
+					
+				});
+				//console.log(arr);
+				
+				response(arr);
+			},
+			error: console.log
+		})
+	},
+    focus: function(event, selected) {
+        const selected2 = document.getElementsByClassName("ui-state-active")[0];
+        receiver.value =  selected2.innerText;
+        return false;
+    } 
+});
 
 
 
