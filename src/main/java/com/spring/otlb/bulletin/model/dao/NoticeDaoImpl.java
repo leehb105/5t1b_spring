@@ -1,7 +1,9 @@
 package com.spring.otlb.bulletin.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.spring.otlb.bulletin.model.vo.Board;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,6 +19,16 @@ public class NoticeDaoImpl implements NoticeDao{
 	@Override
 	public List<Notice> selectNoticeMain() {
 		return session.selectList("notice.selectNoticeMain");
+	}
+
+    @Override
+    public List<Board> selectAllNotice(Map<String, Object> param) {
+        return session.selectList("notice.selectAllNotice", param);
+    }
+
+	@Override
+	public int selectTotalNoticeCount() {
+		return session.selectOne("notice.selectTotalNoticeCount");
 	}
 
 }

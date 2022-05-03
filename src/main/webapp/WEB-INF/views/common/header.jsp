@@ -8,7 +8,6 @@
 
 <!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
 <sec:authentication property="principal" var="loginEmp"/>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,27 +84,16 @@
 	
 
 		<!-- Nav Item - Messages -->
-		<c:if test="${loginEmp ne null}">
-			<li class="nav-item dropdown no-arrow mx-1">
-				<a
-					class="nav-link dropdown-toggle"
-					href="${pageContext.request.contextPath}/message/receivedMessageList.do"
-					id="messagesDropdown" role="button"
-					aria-haspopup="true" aria-expanded="false"> 
-					<i class="fas fa-envelope fa-fw"></i> 
-					<!-- Counter - Messages --> 
-					<!-- 안읽은 받은쪽지 카운터 -->
-					<span class="badge badge-danger badge-counter" id="counter">0</span>
-					<input type="hidden" id="hiddenCnt" value=""/>
-				</a> 
-			</li>
+		<!-- <c:if test="${loginEmp ne null}">
+			
 
-		</c:if>
-
+		</c:if> -->
+		
 		
 
 		<!-- Login -->
 		<sec:authorize access="isAnonymous()">
+
 			<div class="book-now-btn ml-3 ml-lg-5">
 				<button onclick="location.href='${pageContext.request.contextPath}/emp/empEnoll.do'" class="btn btn-sm btn-primary shadow-sm" style="margin:3px; height:2rem;">회원가입 <i class="fas fa-unlock-alt"></i></button>
 				<button onclick="location.href='${pageContext.request.contextPath}/emp/empLogin.do'" class="btn btn-sm btn-primary shadow-sm" style= "margin :3px; height:2rem;">로그인 <i class="fas fa-user-plus"></i></button>
@@ -113,6 +101,45 @@
 		</sec:authorize>
 		
 		<sec:authorize access="isAuthenticated()">
+			
+		<li class="nav-item dropdown no-arrow mx-1">
+			<a
+				class="nav-link dropdown-toggle"
+				href="${pageContext.request.contextPath}/message/receivedMessageList.do"
+				id="messagesDropdown" role="button"
+				aria-haspopup="true" aria-expanded="false"> 
+				<i class="fas fa-envelope fa-fw"></i> 
+				<!-- Counter - Messages --> 
+				<!-- 안읽은 받은쪽지 카운터 -->
+				<span class="badge badge-danger badge-counter" id="counter">0</span>
+				<input type="hidden" id="hiddenCnt" value=""/>
+			</a> 
+		</li>
+
+		<!-- 로그인 시 받은쪽지 갯수 조회 -->
+		<script>
+			(function getMessageCount(){
+				let countMessage;
+					var counter = document.getElementById("counter");
+			
+					$.ajax({
+						url: "${pageContext.request.contextPath}/message/receivedMessageCount.do",
+						method: "GET",
+						success(data){
+							// console.log(data);
+							//span태그에 count데이터 삽입
+							countMessage = data;
+							counter.innerText = countMessage;
+			
+						},
+						error:function(request,status,error){
+						console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+			
+					})
+			})();
+		</script>
+
 		<div style="padding-right:20px">
 			<c:choose>
 				<c:when test="${loginEmp eq 'admin'}">
@@ -127,7 +154,8 @@
 					<!-- <a href="${pageContext.request.contextPath}/emp/mypageMain.do">
 					<sec:authentication property="principal.username"/>
 					</a>님 &nbsp -->
-
+					
+					
 					<li class="nav-item dropdown no-arrow">
 						<a
 							class="nav-link dropdown-toggle" href="#" id="userDropdown"
@@ -179,31 +207,5 @@
 
 </nav>
 <!-- End of Topbar -->
- <!-- if (loginEmp != null) {  -->
-<script>
-	$( document ).ready(function() {
-		//console.log("test");
-		let countMessage;
-		var counter = document.getElementById("counter");
-		$.ajax({
-			url: "${pageContext.request.contextPath}/message/receivedMessageCount.do",
-			method: "GET",
-			success(data){
-				// console.log(data);
-				//span태그에 count데이터 삽입
-				countMessage = data;
-				counter.innerText = countMessage;
-
-			},
-			error:function(request,status,error){
-			console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		}
-
-		})
-		
-
-});
-</script>
-
 
 

@@ -1,7 +1,9 @@
 package com.spring.otlb.bulletin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.spring.otlb.bulletin.model.vo.Board;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,15 @@ public class NoticeServiceImpl implements NoticeService{
 	@Override
 	public List<Notice> selectNoticeMain() {
 		return noticeDao.selectNoticeMain();
+	}
+
+	@Override
+	public List<Board> selectAllNotice(Map<String, Object> param) {
+		return noticeDao.selectAllNotice(param);
+	}
+
+	@Override
+	public int selectTotalNoticeCount() {
+		return noticeDao.selectTotalNoticeCount();
 	}
 }

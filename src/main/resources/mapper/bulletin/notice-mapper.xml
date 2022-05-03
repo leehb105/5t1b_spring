@@ -20,6 +20,60 @@
 		where rownum <= 5
 	]]>
 	</select>
-	
-	
+
+	<select id="selectAllNotice" resultMap="boardMap">
+		<![CDATA[
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					rownum rn,
+					tb1.*
+				FROM
+					(SELECT
+						 n.*,
+						 (SELECT EMP_NAME FROM emp e WHERE n.EMP_NO = e.EMP_NO) emp_name
+					 FROM
+						 notice n
+					 WHERE
+						 n.delete_yn = 'N'
+					   and
+						 n.title like '%' ||  #{cri.keyword} || '%'
+					 ORDER BY
+						 reg_date DESC
+					) tb1
+				WHERE
+					rownum <= #{cri.pageNum} * #{cri.amount}
+			)
+		WHERE
+			rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
+	</select>
+
+	<resultMap type="board" id="boardMap">
+		<id column="no" property="no"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="reg_date" property="regDate"/>
+		<result column="read_count" property="readCount"/>
+		<result column="emp_no" property="empNo"/>
+		<result column="delete_yn" property="deleteYn"/>
+		<association property="emp" resultMap="empMap"/>
+	</resultMap>
+
+	<resultMap type="emp" id="empMap">
+		<id column="emp_no" property="empNo"/>
+		<result column="emp_name" property="empName" />
+		<result column="dept_name" property="deptName" />
+	</resultMap>
+
+	<select id="selectTotalNoticeCount" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			notice
+		WHERE
+			delete_yn = 'N'
+	</select>
 </mapper>

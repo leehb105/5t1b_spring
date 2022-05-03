@@ -88,7 +88,9 @@
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${board.no}"
 										style="color: black;">
-									[${board.category}]${board.title} [${board.commentCount}] ${board.regDate}</a>
+									[${board.category}]${board.title} [${board.commentCount}] 
+									<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</a>
 								</p>
 								<hr>
 							</div>
@@ -110,7 +112,8 @@
 									<a
 										href="${pageContext.request.contextPath}/board/anonymousBoardView.do?no=${anonyBoard.no}"
 										style="color: black;">
-										[익명]${anonyBoard.title} [${anonyBoard.commentCount}] ${anonyBoard.regDate}
+										[익명]${anonyBoard.title} [${anonyBoard.commentCount}] 
+										<fmt:formatDate value="${anonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
 								<hr>
@@ -139,7 +142,8 @@
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
 										style="color: black;">
-										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] ${topBoard.regDate}
+										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] 
+										<fmt:formatDate value="${topBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
 								<hr>
@@ -155,7 +159,8 @@
 									<a
 										href="${pageContext.request.contextPath}/board/boardView?no="
 										style="color: black;">
-										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] ${topAnonyBoard.regDate}
+										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
+										<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
 								<hr>

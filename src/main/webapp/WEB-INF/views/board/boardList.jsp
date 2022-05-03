@@ -70,11 +70,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 									(${board.commentCount})
 								</c:if>
 							 </td>
-							<td id="writer" class="empPopover" data-toggle="popover" 
-								data-snd-emp-no="${loginEmp}"
-		                        data-snd-emp-nm="${loginEmp}"
-		                        data-rcv-emp-no="${board.emp.empNo}"
-		                        data-rcv-emp-nm="${board.emp.empName}" >${board.emp.empName}</td>
+							<td id="writer">${board.emp.empName}</td>
 							<td id="like">${board.likeCount}</td>
 							<td id="date">
 								<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
