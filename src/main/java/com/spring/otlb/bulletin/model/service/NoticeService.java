@@ -19,4 +19,7 @@ public interface NoticeService {
 
 	Board selectOneNotice(int no);
 
+	int deleteNotice(int no);
+
+	int updateNotice(Board board);
 }

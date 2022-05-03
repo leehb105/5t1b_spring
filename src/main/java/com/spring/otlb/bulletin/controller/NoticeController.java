@@ -125,20 +125,45 @@ public class NoticeController {
     }
 
     @GetMapping("/noticeUpdate.do")
-    public void noticeUpdate(){
+    public void noticeUpdate(Model model,
+        @RequestParam int no){
+        Board board = noticeService.selectOneNotice(no);
 
+        model.addAttribute("board", board);
 
     }
 
     @PostMapping("/noticeUpdate.do")
-    public String noticeUpdate(RedirectAttributes attributes){
+    public String noticeUpdate(RedirectAttributes attributes,
+       Board board){
 
-        return null;
+        int result = noticeService.updateNotice(board);
+
+        String msg = "";
+        if(result > 0){
+            msg = "게시글을 수정하였습니다.";
+        }else{
+            msg = "게시글 수정 오류";
+        }
+        attributes.addFlashAttribute("msg", msg);
+
+        return "redirect:/board/noticeView.do?no=" + board.getNo();
     }
 
     @PostMapping("/noticeDelete.do")
-     public String noticeDelete(RedirectAttributes attributes){
-        return null;
+     public String noticeDelete(RedirectAttributes attributes,
+        @RequestParam int no){
+
+        int result = noticeService.deleteNotice(no);
+        String msg = "";
+        if(result > 0){
+            msg = "게시글을 삭제했습니다.";
+        }else{
+            msg = "게시글 삭제 오류";
+        }
+
+        attributes.addFlashAttribute("msg", msg);
+        return "redirect:/board/noticeList.do";
     }
 //    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        try {

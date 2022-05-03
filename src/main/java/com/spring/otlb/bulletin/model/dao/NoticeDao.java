@@ -17,4 +17,8 @@ public interface NoticeDao {
     int updateReadCount(int no);
 
     Board selectOneNotice(int no);
+
+    int deleteNotice(int no);
+
+    int updateNotice(Board board);
 }

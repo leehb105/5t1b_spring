@@ -1,14 +1,15 @@
-<%@page import="com.otlb.semi.bulletin.model.vo.Attachment"%>
-<%@page import="java.util.List"%>
-<%@page import="com.otlb.semi.bulletin.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
-<%
-	Board board = (Board) request.getAttribute("board");
-	System.out.println("board = " + board);
-%>
+
 <!-- Bootstrap core JavaScript-->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
@@ -35,12 +36,12 @@
 
 						<br />
 						<!-- boardEnrollForm -->
-						<form id="boardUpdateForm" class="user"
-							action="<%=request.getContextPath()%>/board/noticeUpdate"
+						<form:form id="boardUpdateForm" class="user"
+							action="${pageContext.request.contextPath}/board/noticeUpdate.do"
 							method="POST">
 							<div class="row">
 								<div class="col form-group">
-									<input type="text" class="form-control" name="title" id="title" value="<%= board.getTitle() %>"
+									<input type="text" class="form-control" name="title" id="title" value="${board.title}"
 										placeholder="제목">
 								</div>
 							</div>
@@ -49,7 +50,7 @@
 									<label for="textContent">내용</label>
 									<textarea name="content" id="textContent" cols="30" rows="12"
 										placeholder="내용을 입력해주세요." class="form-control"
-										style="resize: none;"><%= board.getContent() %></textarea>
+										style="resize: none;">${board.content}</textarea>
 									<div class="counter" style="float: right;">
 										<span id="count">0</span><span>/1000</span>
 									</div>
@@ -57,9 +58,9 @@
 							</div>
 							<!-- 사원번호 -->
 							<input type="hidden" name="empNo"
-								value="<%=loginEmp.getEmpNo()%>" />
+								value="${loginEmp.empNo}" />
 							<!-- 게시물 번호 -->
-							<input type="hidden" name="no" value="<%= board.getNo() %>" />
+							<input type="hidden" name="no" value="${board.no}" />
 
 							<br /> <br />
 							<div class="form-group">
@@ -75,7 +76,7 @@
 								</div>
 							</div>
 
-						</form>
+						</form:form>
 						<br /> <br />
 					</div>
 				</div>
@@ -96,7 +97,7 @@ window.onload = () => {
  * boardEnrollForm 유효성 검사
  */
 function boardValidate(){
-	const $category = $("[name=category]");
+	// const $category = $("[name=category]");
 	const $title = $("[name=title]");
 	const $content = $("[name=content]");
 	
@@ -160,79 +161,79 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="<%= request.getContextPath() %>/board/boardList";
+	location.href="${pageContext.request.contextPath}/board/noticeList.do";
 	}
 };
 
 // 파일 등록했을 때 input:file에 파일명이 바뀌지 않는 문제 해결
-$('input:file').change(function(e){
-	console.log(e.target.files[0].name);
-	const fileName = e.target.files[0].name;
-	$(e.target).next().html(fileName);	
-	console.log($(e.target).next());
+// $('input:file').change(function(e){
+// 	console.log(e.target.files[0].name);
+// 	const fileName = e.target.files[0].name;
+// 	$(e.target).next().html(fileName);	
+// 	console.log($(e.target).next());
 	
-});
+// });
 
 // 동적으로 input:file 태그 생성
-let count = 2;
-function createInputFile(){
+// let count = 2;
+// function createInputFile(){
 	
-	if(count <= 5){
-		//console.log(count);
-		const idValue = "inputGroupFile0" + count;
-		const buttonAddon = "button-addon" + count;
-		const inputFile = `
-		<div class="form-group" id="createdTag">
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<button class="btn btn-danger" type="button" onclick="removeTag();"
-						style="width: 50px;" id=\${buttonAddon}>-</button>
-				</div>
-				<div class="custom-file">
-					<input type="file" class="w-70 custom-file-input" id=\${idValue} name="upFile"
-						aria-describedby=\${buttonAddon} style="cursor:pointer;"/>
-						 <label class="custom-file-label" for=\${idValue} >클릭해서 파일 추가하기</label>
-				</div>
-			</div>
-		</div>
-		`;
-		$("#createInputFileByButton").append(inputFile);		
-		count++;
+// 	if(count <= 5){
+// 		//console.log(count);
+// 		const idValue = "inputGroupFile0" + count;
+// 		const buttonAddon = "button-addon" + count;
+// 		const inputFile = `
+// 		<div class="form-group" id="createdTag">
+// 			<div class="input-group mb-3">
+// 				<div class="input-group-prepend">
+// 					<button class="btn btn-danger" type="button" onclick="removeTag();"
+// 						style="width: 50px;" id=\${buttonAddon}>-</button>
+// 				</div>
+// 				<div class="custom-file">
+// 					<input type="file" class="w-70 custom-file-input" id=\${idValue} name="upFile"
+// 						aria-describedby=\${buttonAddon} style="cursor:pointer;"/>
+// 						 <label class="custom-file-label" for=\${idValue} >클릭해서 파일 추가하기</label>
+// 				</div>
+// 			</div>
+// 		</div>
+// 		`;
+// 		$("#createInputFileByButton").append(inputFile);		
+// 		count++;
 		
-		// 동적으로 생성된 input:file에는 기존의 이벤트가 적용되지 않아서 한번 더 적용
-		$('input:file').change(function(e){
-			console.log(e.target.files[0].name);
-			const fileName = e.target.files[0].name;
-			$(e.target).next().html(fileName);	
-			console.log($(e.target).next());
-		});
+// 		// 동적으로 생성된 input:file에는 기존의 이벤트가 적용되지 않아서 한번 더 적용
+// 		$('input:file').change(function(e){
+// 			console.log(e.target.files[0].name);
+// 			const fileName = e.target.files[0].name;
+// 			$(e.target).next().html(fileName);	
+// 			console.log($(e.target).next());
+// 		});
 	
-		switch(count){
-		case 4: $("#button-addon2").prop("disabled", true); break;
-		case 5: $("#button-addon3").prop("disabled", true); break;
-		case 6: $("#button-addon4").prop("disabled", true); 
-				$("#fileMessage").html("파일은 최대 5개까지 첨부 가능합니다.");		
-				$("#button-addon1").prop("disabled", true);
-				break;		
-		}
+// 		switch(count){
+// 		case 4: $("#button-addon2").prop("disabled", true); break;
+// 		case 5: $("#button-addon3").prop("disabled", true); break;
+// 		case 6: $("#button-addon4").prop("disabled", true); 
+// 				$("#fileMessage").html("파일은 최대 5개까지 첨부 가능합니다.");		
+// 				$("#button-addon1").prop("disabled", true);
+// 				break;		
+// 		}
 		
-	}	
+// 	}	
 	
-};
+// };
 
-function removeTag(){
-	count--;
-	$('#createInputFileByButton').children().last().remove(); 
-	switch(count){
-	case 3: $("#button-addon2").prop("disabled", false); break;
-	case 4: $("#button-addon3").prop("disabled", false); break;
-	case 5: $("#button-addon4").prop("disabled", false); 
-			$("#fileMessage").html("");		
-			$("#button-addon1").prop("disabled", false);
-			break;
-	}
+// function removeTag(){
+// 	count--;
+// 	$('#createInputFileByButton').children().last().remove(); 
+// 	switch(count){
+// 	case 3: $("#button-addon2").prop("disabled", false); break;
+// 	case 4: $("#button-addon3").prop("disabled", false); break;
+// 	case 5: $("#button-addon4").prop("disabled", false); 
+// 			$("#fileMessage").html("");		
+// 			$("#button-addon1").prop("disabled", false);
+// 			break;
+// 	}
 	
-}
+// }
 
 </script>
 

@@ -91,4 +91,15 @@
 				n.EMP_NO = e.EMP_NO
 		WHERE n.NO = #{no}
 	</select>
+
+	<update id="deleteNotice">
+		update notice set delete_yn = 'Y' where no = #{no}
+	</update>
+
+	<update id="updateNotice">
+		update notice set
+			 title = #{title},
+			 content = #{content}
+		where no = #{no}
+	</update>
 </mapper>
