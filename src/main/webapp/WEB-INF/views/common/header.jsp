@@ -172,7 +172,8 @@
 								<img class="img-profile rounded-circle"
 									src="${pageContext.request.contextPath}/resources/img/profile/${loginEmp.profileImage}">
 							</c:if>
-						</a> <!-- Dropdown - User Information -->
+						</a> 
+						<!-- Dropdown - User Information -->
 						<div
 							class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
 							aria-labelledby="userDropdown">

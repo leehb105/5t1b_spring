@@ -21,33 +21,39 @@
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="p-5">
-							<a href="${pageContext.request.contextPath}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
-							<div class="text-center">
-								<br /> <br />
-								<h1 class="h4 text-gray-900 mb-4">회원정보</h1>
-							</div>
-							<div class="row">
-								<div class="col-lg-6 d-none d-lg-block bg-mypage-image">
-									<div class="form-group container row">
-										<c:if test="${emp.profileImage eq null}">
-											<img class="img-profile rounded-circle"
-											width="250px"
-											src="${pageContext.request.contextPath}/resources/img/profile/default_profile.png">
-										</c:if>
-										<c:if test="${emp.profileImage ne null}"> 
-											<img class="img-profile rounded-circle"
-											width="250px"
-											src="${pageContext.request.contextPath}/resources/img/profile/${loginEmp.profileImage}">
-										</c:if>
-									</div>
-									<input type="button" class="btn btn-primary btn-user btn-block"
-										onclick="updateProfileImg();" value="사진변경" />
+							<form 
+								id="empUpdateFrm" 
+								action="${pageContext.request.contextPath}/emp/empUpdate.do?${_csrf.parameterName}=${_csrf.token}" 
+								method="POST"
+								enctype="multipart/form-data">
+								<a href="${pageContext.request.contextPath}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+								<div class="text-center">
+									<br /> <br />
+									<h1 class="h4 text-gray-900 mb-4">회원정보</h1>
 								</div>
-								<div class="col-lg-6">
-									<form:form 
-										id="empUpdateFrm"
-										atcion="${pageContext.request.contextPath}/emp/empView"
-										method="POST">
+								<div class="row">
+									<div class="col-lg-6 d-none d-lg-block bg-mypage-image">
+										<div class="form-group container row">
+											<c:if test="${emp.profileImage eq null}">
+												<img class="img-profile rounded-circle"
+												width="250px"
+												src="${pageContext.request.contextPath}/resources/img/profile/default_profile.png">
+											</c:if>
+											<c:if test="${emp.profileImage ne null}"> 
+												<img class="img-profile rounded-circle"
+												width="250px"
+												src="${pageContext.request.contextPath}/resources/img/profile/${emp.profileImage}">
+											</c:if>
+										</div>
+										<div class="custom-file mb-2">
+											<input type="file" accept="image/*" name="imageFile" class="w-70 custom-file-input" id="imageFile"
+												aria-describedby="button-addon1" style="cursor:pointer;"/>
+											<label class="custom-file-label" for="imageFile" >클릭해서 프로필 이미지 추가하기</label>
+										</div>
+										<!-- <input type="button" class="btn btn-primary btn-user btn-block"
+											onclick="updateProfileImg();" value="사진변경" /> -->
+									</div>
+									<div class="col-lg-6">
 										<div class="form-group">
 											<p>
 												사원명 :
@@ -113,15 +119,15 @@
 												직급 : ${emp.jobName}
 											</p>
 										</div>
-										<input type="button" 
-											class="btn btn-primary btn-user btn-block"
-											onclick="updateEmp();" value="정보수정" />
-										<input type="button"
-											class="btn btn-primary btn-user btn-block"
-											onclick="updatePassword();" value="비밀번호변경" /> 
-									</form:form>
-								<!-- </div>
-							</div> -->
+									</div>
+									<input type="button" 
+										class="btn btn-primary btn-user btn-block"
+										onclick="updateEmp();" value="정보수정" />
+									<input type="button"
+										class="btn btn-primary btn-user btn-block"
+										onclick="updatePassword();" value="비밀번호변경" /> 
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
@@ -133,12 +139,12 @@
 	</div>
 
 <script>
-const updateProfileImg = () => location.href = "${pageContext.request.contextPath}/emp/updateProfileImg";
-const updatePassword = () => location.href = "${pageContext.request.contextPath}/emp/updatePassword";
+// const updateProfileImg = () => location.href = "${pageContext.request.contextPath}/emp/updateProfileImg";
+const updatePassword = () => location.href = "${pageContext.request.contextPath}/emp/updatePassword.do";
 
 const updateEmp = () => {
 	$(empUpdateFrm)
-		.attr("action", "${pageContext.request.contextPath}/emp/empUpdate.do")
+		// .attr("action", "${pageContext.request.contextPath}/emp/empUpdate.do")
 		.submit();
 };
 
@@ -164,5 +170,12 @@ $(empUpdateFrm).submit((e) => {
 	return true;
 });
 
+// 파일 등록했을 때 input:file에 파일명이 바뀌지 않는 문제 해결
+$('input:file').change(function(e){
+	console.log(e.target.files[0].name);
+	const fileName = e.target.files[0].name;
+	$(e.target).next().html(fileName);	
+	console.log($(e.target).next());
+});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

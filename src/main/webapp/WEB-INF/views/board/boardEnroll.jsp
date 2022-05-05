@@ -216,7 +216,6 @@ $('input:file').change(function(e){
 	const fileName = e.target.files[0].name;
 	$(e.target).next().html(fileName);	
 	console.log($(e.target).next());
-	
 });
 
 // 동적으로 input:file 태그 생성
