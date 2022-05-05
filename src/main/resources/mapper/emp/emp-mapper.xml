@@ -40,6 +40,8 @@
 		<result column="quit_yn" property="quitYn"/>
 		<result column="ban_yn" property="banYn"/>
 		<result column="profile_image" property="profileImage"/>
+		<result column="dept_name" property="deptName" />
+		<result column="job_name" property="jobName" />
 		<collection property="authorities" resultMap="authorityMap">
 		</collection>
 	</resultMap>
@@ -52,5 +54,30 @@
 	<select id="selectAllMember" resultType="emp">
 		SELECT emp_no, emp_name FROM emp
 	</select>
-	
+
+	<select id="selectOneEmpInfo" resultMap="empMap">
+		select
+			e.*,
+			(select dept_name from DEPARTMENT d where e.dept_code = d.dept_code) dept_name,
+			(select job_name from job j where e.job_code = j.job_code) job_name
+		from
+			emp e
+		where
+			e.emp_no = #{empNo}
+	</select>
+
+	<update id="updateEmp">
+		update emp set
+			phone = #{phone},
+		    email = #{email},
+		    gender = #{gender}
+		<if test="deptCode != null">
+			,dept_code = #{deptCode}
+		</if>
+		<if test="jobCode != null">
+			,job_code = #{jobCode}
+		</if>
+		where
+		      emp_no = #{empNo}
+	</update>
 </mapper>

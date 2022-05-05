@@ -24,10 +24,11 @@ public interface EmpService {
 
 	public int updatePassword(Emp emp);
 
-	public int countEmpNo(int empNo);
+	public int countEmpNo(String empNo);
 
-	public int checkEmpInfo(int empNo, String empName, String email);
+	public int checkEmpInfo(String empNo, String empName, String email);
 
 	public List<Emp> selectAllMember();
 
+    Emp selectOneEmpInfo(String empNo);
 }

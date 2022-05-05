@@ -24,5 +24,5 @@ public interface EmpDao {
 	public List<Emp> selectAllMember();
 
 
-
+    Emp selectOneEmpInfo(String empNo);
 }

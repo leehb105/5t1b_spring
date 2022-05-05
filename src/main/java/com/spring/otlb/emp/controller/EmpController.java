@@ -1,11 +1,14 @@
 package com.spring.otlb.emp.controller;
 
+import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -135,8 +138,6 @@ public class EmpController {
 	@GetMapping("/empList.do")
 	public void empList() {
 		//업무로직: celeb목록조회
-//	String input = request.getParameter("input");
-//	System.out.println("[AutoCompleteServlet] term = " + input);
 	
 	List<Emp> list = empService.selectAllMember();
 //	
@@ -183,6 +184,39 @@ public class EmpController {
 //	}
 //	response.setContentType("text/csv; charset=utf-8");
 //	response.getWriter().append(sb);
+	}
+
+	@GetMapping("/empView.do")
+	public void empView(Model model,
+						Principal principal){
+		Emp emp = empService.selectOneEmpInfo(principal.getName());
+
+		model.addAttribute("emp", emp);
+
+	}
+
+	@PostMapping("/empUpdate.do")
+	public String empUpdate(RedirectAttributes attributes,
+							Principal principal,
+							Emp emp){
+		log.debug("emp = {}", emp);
+		String msg = "";
+		try {
+			emp.setEmpNo(principal.getName());
+			int result = empService.updateEmp(emp);
+			if(result > 0){
+				msg = "정보를 수정했습니다.";
+			}else{
+				msg = "정보수정 오류";
+			}
+		}catch (DataIntegrityViolationException e){
+//			log.debug("e= {}", e);
+			msg = "중복된 전화번호 또는 이메일 주소 입니다.";
+			e.printStackTrace();
+		}
+
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/emp/empView.do";
 	}
 	
 	

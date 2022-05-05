@@ -21,7 +21,7 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int updateEmp(Emp emp) {
-		return 0;
+		return empDao.updateEmp(emp);
 	}
 
 	@Override
@@ -40,12 +40,12 @@ public class EmpServiceImpl implements EmpService{
 	}
 
 	@Override
-	public int countEmpNo(int empNo) {
+	public int countEmpNo(String empNo) {
 		return 0;
 	}
 
 	@Override
-	public int checkEmpInfo(int empNo, String empName, String email) {
+	public int checkEmpInfo(String empNo, String empName, String email) {
 		return 0;
 	}
 
@@ -54,6 +54,10 @@ public class EmpServiceImpl implements EmpService{
 		return empDao.selectAllMember();
 	}
 
+	@Override
+	public Emp selectOneEmpInfo(String empNo) {
+		return empDao.selectOneEmpInfo(empNo);
+	}
 
 
 }

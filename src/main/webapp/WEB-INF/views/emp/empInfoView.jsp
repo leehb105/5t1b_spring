@@ -60,3 +60,32 @@
 	<!-- End of Main Content -->
 
 	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
+	<!-- <div class="form-group">
+		<p>
+			부서 : 
+			<select name="deptCode" id="deptCode">
+				<option value="FM" ${emp.deptCode eq 'FM' ? 'selected' : ''}>관리부</option>
+				<option value="SL" ${emp.deptCode eq 'SL' ? 'selected' : ''}>영업부</option>
+				<option value="DV" ${emp.deptCode eq 'DV' ? 'selected' : ''}>개발부</option>
+				<option value="HR" ${emp.deptCode eq 'HR' ? 'selected' : ''}>인사부</option>
+				<option value="GA" ${emp.deptCode eq 'GA' ? 'selected' : ''}>총무부</option>
+			</select>
+		</p>
+	</div>
+	<div class="form-group">
+		<p>
+			직급 : 
+			${loginEmp.}
+			<select name="jobCode" id="jobCode">
+				<option value="J1" ${emp.jobCode eq 'J1' ? 'selected' : ''}>사장</option>
+				<option value="J2" ${emp.jobCode eq 'J2' ? 'selected' : ''}>부사장</option>
+				<option value="J3" ${emp.jobCode eq 'J3' ? 'selected' : ''}>부장</option>
+				<option value="J4" ${emp.jobCode eq 'J4' ? 'selected' : ''}>차장</option>
+				<option value="J5" ${emp.jobCode eq 'J5' ? 'selected' : ''}>과장</option>
+				<option value="J6" ${emp.jobCode eq 'J6' ? 'selected' : ''}>대리</option>
+				<option value="J7" ${emp.jobCode eq 'J7' ? 'selected' : ''}>사원</option>
+				<option value="J8" ${emp.jobCode eq 'J8' ? 'selected' : ''}>인턴</option>
+			</select>
+		</p>
+	</div> -->

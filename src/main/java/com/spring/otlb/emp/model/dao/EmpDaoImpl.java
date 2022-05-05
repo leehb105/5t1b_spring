@@ -21,7 +21,7 @@ public class EmpDaoImpl implements EmpDao{
 
 	@Override
 	public int updateEmp(Emp emp) {
-		return 0;
+		return session.update("emp.updateEmp", emp);
 	}
 
 	@Override
@@ -54,6 +54,10 @@ public class EmpDaoImpl implements EmpDao{
 		return session.selectList("emp.selectAllMember");
 	}
 
-	
+    @Override
+    public Emp selectOneEmpInfo(String empNo) {
+        return session.selectOne("emp.selectOneEmpInfo", empNo);
+    }
+
 
 }
