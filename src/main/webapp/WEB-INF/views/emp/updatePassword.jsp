@@ -9,7 +9,14 @@
 <sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
-
+<style>
+	.form-group{
+		text-align: left;
+	}
+	.form-control{
+		width: 500px;
+	}
+</style>
 	<div class="container">
 
 		<!-- Outer Row -->
@@ -21,44 +28,38 @@
 					<div class="card-body p-0">
 						<!-- Nested Row within Card Body -->
 						<div class="p-5">
-							<a href="<%= request.getContextPath() %>/emp/empView"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+							<a href="${pageContext.request.contextPath}/emp/empView.do"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 							<div class="text-center">
 								<br /> <br />
 								<h1 class="h4 text-gray-900 mb-4">비밀번호 변경</h1>
-								<div class="row">
-								<div class="col-lg-6">
-									<div class="form-group">
-										<p style="height: 44px;">현재 비밀번호 :</p>
-									</div>
-									<div class="form-group">
-										<p style="height: 44px;">새로운 비밀번호 :</p>
-									</div>
-									<div class="form-group">
-										<p>새로운 비밀번호 확인:</p>
+								<div class="row" style="display: inline-block;text-align: center;">
+									<div class="col-lg-12">
+										<form name="updatePwdFrm"
+											atcion="${pageContext.request.contextPath}/emp/updatePassword"
+											method="post">
+											<div class="form-group">
+												<label for="oldPassword">현재 비밀번호</label>
+												<input type="password" name="oldPassword" id="oldPassword"
+														class="form-control form-control-user" required>
+											</div>
+											<div class="form-group">
+												<label for="newPassword">새로운 비밀번호</label>
+												<input type="password" name="newPassword" id="newPassword"
+														class="form-control form-control-user" required>
+											</div>
+											<div class="form-group">
+												<label for="newPasswordCheck" id="checkLabel">새로운 비밀번호 확인</label>
+												<input type="password" id="newPasswordCheck"
+														class="form-control form-control-user" required>
+												<br />
+											</div>
+											<input type="submit" value = "변경하기"
+												id="updateBtn"
+												class="btn btn-primary btn-user btn-block mb-4" />
+										</form>
 									</div>
 								</div>
-								<div class="col-lg-6">
-									<form name="updatePwdFrm"
-										atcion="<%=request.getContextPath()%>/emp/updatePassword"
-										method="post">
-										<div class="form-group">
-											<input type="password" name="oldPassword" id="oldPassword"
-													class="form-control form-control-user" required>
-										</div>
-										<div class="form-group">
-											<input type="password" name="newPassword" id="newPassword"
-													class="form-control form-control-user" required>
-										</div>
-										<div class="form-group">
-											<input type="password" id="newPasswordCheck"
-													class="form-control form-control-user" width="100px" required>
-											<br />
-										</div>
-										<input type="submit" value = "변경하기"
-											class="btn btn-primary btn-user btn-block" />
-									</form>
-								<!-- </div>
-							</div> -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -93,7 +94,8 @@ $("[name=updatePwdFrm]").submit(function(){
 });
 
 $("#newPasswordCheck").blur(passwordValidate);
-
+let checkPassword = false;
+let checkLabel = document.getElementById('checkLabel');
 /**
  * 신규비밀번호 일치 검사 
  */ 
@@ -101,12 +103,50 @@ function passwordValidate(){
 	var $newPassword = $("#newPassword");
 	var $newPasswordCheck = $("#newPasswordCheck");
 	if($newPassword.val() != $newPasswordCheck.val()){
-		alert("입력한 비밀번호가 일치하지 않습니다.");
-		$newPassword.select();
+		checkLabel.style.color = 'red';
+		checkPassword = false;
+		// $newPassword.select();
 		return false;
+	}else{
+		checkPassword = true;
 	}
 	return true;	
 }
 
+window.onload = function(){
+	let updateBtn = document.getElementById('updateBtn');
+	updateBtn.disabled = true;
+	checkLabel.style.color = 'red';
+
+	let $oldPassword = $('#oldPassword');
+	let $newPassword = $('#newPassword');
+	let $newPasswordCheck = $('#newPasswordCheck');
+
+
+	//해야할 것: 비밀번호 입력 조건 재정비 하기
+	//input전체 입력 시 변경버튼 활성화
+	$( '#oldPassword, #newPassword, #newPasswordCheck' ).keyup( function() {
+		if($oldPassword.val().length > 0 && $newPassword.val().length > 0 && $newPasswordCheck.val().length > 0){
+			if($newPassword.val() == $newPasswordCheck.val()){
+				checkPassword = true;
+				updateBtn.disabled = false;
+			
+			}
+			
+		}else{
+			updateBtn.disabled = true;
+
+		}
+
+		//새 비번 둘이 일치하지 않으면 붉은 글씨
+		if(!checkPassword){
+			checkLabel.style.color = 'red';
+		}else{
+			checkLabel.style.color = '#6e707e';
+		}
+
+
+	});
+};
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
