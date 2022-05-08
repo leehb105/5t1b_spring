@@ -250,7 +250,6 @@ public class EmpController {
 
 	@GetMapping("/updatePassword.do")
 	public void updatePassword(){
-
 		
 	}
 	
