@@ -123,13 +123,12 @@ window.onload = function(){
 	let $newPasswordCheck = $('#newPasswordCheck');
 
 
-	//해야할 것: 비밀번호 입력 조건 재정비 하기
 	//input전체 입력 시 변경버튼 활성화
 	$( '#oldPassword, #newPassword, #newPasswordCheck' ).keyup( function() {
 		if($oldPassword.val().length > 0 && $newPassword.val().length > 0 && $newPasswordCheck.val().length > 0){
+			updateBtn.disabled = false;
 			if($newPassword.val() == $newPasswordCheck.val()){
 				checkPassword = true;
-				updateBtn.disabled = false;
 			
 			}
 			
