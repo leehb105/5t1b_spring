@@ -36,7 +36,7 @@ public class EmpDaoImpl implements EmpDao{
 
 	@Override
 	public int updatePassword(Emp emp) {
-		return 0;
+		return session.update("emp.updatePassword", emp);
 	}
 
 	@Override

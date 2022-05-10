@@ -36,7 +36,7 @@ public class EmpServiceImpl implements EmpService{
 
 	@Override
 	public int updatePassword(Emp emp) {
-		return 0;
+		return empDao.updatePassword(emp);
 	}
 
 	@Override

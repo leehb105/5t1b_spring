@@ -83,4 +83,11 @@
 		where
 		      emp_no = #{empNo}
 	</update>
+
+	<update id="updatePassword">
+		update emp set
+		   password = #{password}
+		where
+			emp_no = #{empNo}
+	</update>
 </mapper>

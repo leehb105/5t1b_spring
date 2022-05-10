@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import oracle.jdbc.proxy.annotation.Post;
 import org.apache.commons.io.FilenameUtils;
@@ -256,10 +253,24 @@ public class EmpController {
 	@PostMapping("/updatePassword.do")
 	public String updatePassword(RedirectAttributes attributes,
 								 String oldPassword,
-								 String newPassword){
+								 String newPassword,
+								 Principal principal){
 		log.debug("oldPassword = {}", oldPassword);
 		log.debug("newPassword = {}", newPassword);
-		return null;
+
+		Emp emp = new Emp();
+		emp.setEmpNo(principal.getName());
+		emp.setPassword(newPassword);
+
+		int result = empService.updatePassword(emp);
+		String msg = "";
+		if(result > 0){
+			msg = "비밀번호를 수정했습니다.";
+		}else{
+			msg = "비밀번호 변경 오류";
+		}
+		attributes.addFlashAttribute("msg", msg);
+		return "redirect:/emp/empView.do";
 	}
 	
 	
