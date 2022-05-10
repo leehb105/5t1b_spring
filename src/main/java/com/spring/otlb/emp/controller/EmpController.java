@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import oracle.jdbc.proxy.annotation.Post;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -250,7 +251,15 @@ public class EmpController {
 
 	@GetMapping("/updatePassword.do")
 	public void updatePassword(){
-		
+	}
+
+	@PostMapping("/updatePassword.do")
+	public String updatePassword(RedirectAttributes attributes,
+								 String oldPassword,
+								 String newPassword){
+		log.debug("oldPassword = {}", oldPassword);
+		log.debug("newPassword = {}", newPassword);
+		return null;
 	}
 	
 	

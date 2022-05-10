@@ -34,8 +34,9 @@
 								<h1 class="h4 text-gray-900 mb-4">비밀번호 변경</h1>
 								<div class="row" style="display: inline-block;text-align: center;">
 									<div class="col-lg-12">
-										<form name="updatePwdFrm"
-											atcion="${pageContext.request.contextPath}/emp/updatePassword"
+										<form:form name="updatePwdFrm"
+											id = "updatePwdFrm"
+											atcion="${pageContext.request.contextPath}/emp/updatePassword.do"
 											method="post">
 											<div class="form-group">
 												<label for="oldPassword">현재 비밀번호</label>
@@ -49,14 +50,14 @@
 											</div>
 											<div class="form-group">
 												<label for="newPasswordCheck" id="checkLabel">새로운 비밀번호 확인</label>
-												<input type="password" id="newPasswordCheck"
+												<input type="password" name="newPasswordCheck" id="newPasswordCheck"
 														class="form-control form-control-user" required>
 												<br />
 											</div>
 											<input type="submit" value = "변경하기"
 												id="updateBtn"
 												class="btn btn-primary btn-user btn-block mb-4" />
-										</form>
+										</form:form>
 									</div>
 								</div>
 							</div>
@@ -79,9 +80,9 @@ $("[name=updatePwdFrm]").submit(function(){
 	var $oldPassword = $("#oldPassword");
 	var $newPassword = $("#newPassword");
 	
-	if(!passwordValidate()){
-		return false;
-	}
+	// if(!passwordValidate()){
+	// 	return false;
+	// }
 	
 	if($oldPassword.val() == $newPassword.val()){
 		alert("기존비밀번호와 신규비밀번호는 같을 수 없습니다.");
@@ -93,25 +94,25 @@ $("[name=updatePwdFrm]").submit(function(){
 
 });
 
-$("#newPasswordCheck").blur(passwordValidate);
+// $("#newPasswordCheck").blur(passwordValidate);
 let checkPassword = false;
 let checkLabel = document.getElementById('checkLabel');
 /**
  * 신규비밀번호 일치 검사 
  */ 
-function passwordValidate(){
-	var $newPassword = $("#newPassword");
-	var $newPasswordCheck = $("#newPasswordCheck");
-	if($newPassword.val() != $newPasswordCheck.val()){
-		checkLabel.style.color = 'red';
-		checkPassword = false;
-		// $newPassword.select();
-		return false;
-	}else{
-		checkPassword = true;
-	}
-	return true;	
-}
+// function passwordValidate(){
+// 	var $newPassword = $("#newPassword");
+// 	var $newPasswordCheck = $("#newPasswordCheck");
+// 	if($newPassword.val() != $newPasswordCheck.val()){
+// 		checkLabel.style.color = 'red';
+// 		checkPassword = false;
+// 		// $newPassword.select();
+// 		return false;
+// 	}else{
+// 		checkPassword = true;
+// 	}
+// 	return true;	
+// }
 
 window.onload = function(){
 	let updateBtn = document.getElementById('updateBtn');
@@ -130,6 +131,9 @@ window.onload = function(){
 			if($newPassword.val() == $newPasswordCheck.val()){
 				checkPassword = true;
 			
+			}else{
+				checkPassword = false;
+				updateBtn.disabled = true;
 			}
 			
 		}else{
