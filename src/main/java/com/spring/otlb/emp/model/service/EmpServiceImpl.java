@@ -59,5 +59,10 @@ public class EmpServiceImpl implements EmpService{
 		return empDao.selectOneEmpInfo(empNo);
 	}
 
+	@Override
+	public int updateEmpCode(Emp emp) {
+		return empDao.updateEmpCode(emp);
+	}
+
 
 }

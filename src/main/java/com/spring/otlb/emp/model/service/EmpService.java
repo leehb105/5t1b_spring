@@ -31,4 +31,6 @@ public interface EmpService {
 	public List<Emp> selectAllMember();
 
     Emp selectOneEmpInfo(String empNo);
+
+	int updateEmpCode(Emp emp);
 }

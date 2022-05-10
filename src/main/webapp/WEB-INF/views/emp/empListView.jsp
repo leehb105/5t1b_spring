@@ -38,6 +38,7 @@
                                             <th>생년월일</th>
                                             <th>이메일</th>
                                             <th>핸드폰</th>
+                                            <th>수정</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -48,11 +49,33 @@
 												<!-- <a href="${pageContext.request.contextPath}/emp/empInfoView?empNo=${empNo}"> -->
 													${emp.empName}</td>
 												</a>
-												<td>${emp.deptName}</td>
-												<td>${emp.jobName}</td>
+												<td>
+                                                    <select name="deptCode" id="deptCode">
+                                                        <option value="FM" ${emp.deptName eq '관리부' ? 'selected' : ''}>관리부</option>
+                                                        <option value="SL" ${emp.deptName eq '영업부' ? 'selected' : ''}>영업부</option>
+                                                        <option value="DV" ${emp.deptName eq '개발부' ? 'selected' : ''}>개발부</option>
+                                                        <option value="HR" ${emp.deptName eq '인사부' ? 'selected' : ''}>인사부</option>
+                                                        <option value="GA" ${emp.deptName eq '총무부' ? 'selected' : ''}>총무부</option>
+                                                    </select>
+                                                </td>
+												<td>
+                                                    <select name="jobCode" id="jobCode">
+                                                        <option value="J1" ${emp.jobName eq '사장' ? 'selected' : ''}>사장</option>
+                                                        <option value="J2" ${emp.jobName eq '부사장' ? 'selected' : ''}>부사장</option>
+                                                        <option value="J3" ${emp.jobName eq '부장' ? 'selected' : ''}>부장</option>
+                                                        <option value="J4" ${emp.jobName eq '차장' ? 'selected' : ''}>차장</option>
+                                                        <option value="J5" ${emp.jobName eq '과장' ? 'selected' : ''}>과장</option>
+                                                        <option value="J6" ${emp.jobName eq '대리' ? 'selected' : ''}>대리</option>
+                                                        <option value="J7" ${emp.jobName eq '사원' ? 'selected' : ''}>사원</option>
+                                                        <option value="J8" ${emp.jobName eq '인턴' ? 'selected' : ''}>인턴</option>
+                                                    </select>
+                                                </td>
 												<td><fmt:formatDate value="${emp.birthdate}" pattern="yyyy-MM-dd"/></td>
 												<td>${emp.email}</td>
 												<td>${emp.phone}</td>
+                                                <td style="text-align: center;">
+                                                    <button type="button" id="${emp.empNo}" class="btn btn-primary" onclick="updateInform(this);">수정</button>
+                                                </td>
 											</tr>
                                         </c:forEach>
                                     </tbody>
@@ -73,7 +96,14 @@
 
     </div>
     <!-- End of Page Wrapper -->
-
+    <form:form 
+        id="updateFrm"
+        action="${pageContext.request.contextPath}/emp/empCodeUpdate.do" 
+        method="post">
+        <input type="hidden" id="empNo" name="empNo" value="">
+        <input type="hidden" id="updateDeptCode" name="updateDeptCode" value="">
+        <input type="hidden" id="updateJobCode" name="updateJobCode" value="">
+    </form:form>
 
 
     <!-- Bootstrap core JavaScript-->
@@ -93,4 +123,29 @@
     <!-- Page level custom scripts -->
     <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
+<script>
+
+// $('.updateBtn').click( function() {
+//     console.log('press');
+
+
+// });
+function updateInform(e){
+    let $jobCode = $(e).parent().siblings().find('#deptCode'); //부서코드
+    let $deptCode = $(e).parent().siblings().find('#jobCode'); //직급코드
+
+    console.log($jobCode.val());
+    console.log($deptCode.val());
+
+    let empNo = document.getElementById('empNo');
+    let updateDeptCode = document.getElementById('updateDeptCode');
+    let updateJobCode = document.getElementById('updateJobCode');
+    empNo.value = e.id;
+    updateDeptCode.value = $jobCode.val();
+    updateJobCode.value = $deptCode.val();
+
+    $('#updateFrm').submit();
+}
+
+</script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

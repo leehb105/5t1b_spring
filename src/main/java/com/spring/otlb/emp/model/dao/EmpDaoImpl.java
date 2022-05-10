@@ -59,5 +59,10 @@ public class EmpDaoImpl implements EmpDao{
         return session.selectOne("emp.selectOneEmpInfo", empNo);
     }
 
+	@Override
+	public int updateEmpCode(Emp emp) {
+		return session.update("emp.updateEmpCode", emp);
+	}
+
 
 }

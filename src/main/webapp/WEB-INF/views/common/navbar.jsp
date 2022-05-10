@@ -52,15 +52,15 @@
 			<hr class="sidebar-divider">
 
 			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/foodMenu/calendar.do">
+			<!-- <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/foodMenu/calendar.do">
 					<span>사내식당메뉴</span>
-			</a></li>
+			</a></li> -->
 
 			<!-- Divider -->
-			<hr class="sidebar-divider">
+			<!-- <hr class="sidebar-divider"> -->
 
 			<!-- Nav Item - Tables -->
-			<sec:authorize access="hasRole('admin')">
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li class="nav-item">
 					<a class="nav-link" href="${pageContext.request.contextPath}/emp/empListView.do">
 						<span>사원목록</span>
