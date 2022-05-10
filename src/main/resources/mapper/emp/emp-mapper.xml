@@ -51,8 +51,18 @@
 		<result column="authority" property="authority"/>
 	</resultMap>
 	
-	<select id="selectAllMember" resultType="emp">
-		SELECT emp_no, emp_name FROM emp
+	<select id="selectAllMember" resultMap="empMap">
+		SELECT
+			e.emp_no,
+			e.emp_name,
+			e.birthdate,
+			e.email,
+			e.phone,
+			e.profile_image,
+			(select dept_name from DEPARTMENT d where e.dept_code = d.dept_code) dept_name,
+			(select job_name from job j where e.job_code = j.job_code) job_name
+		FROM
+			emp e
 	</select>
 
 	<select id="selectOneEmpInfo" resultMap="empMap">
@@ -75,6 +85,7 @@
 			,dept_code = #{deptCode}
 		</if>
 		<if test="jobCode != null">
+			,job_code = #{jobCode}
 			,job_code = #{jobCode}
 		</if>
 		<if test="profileImage != null">

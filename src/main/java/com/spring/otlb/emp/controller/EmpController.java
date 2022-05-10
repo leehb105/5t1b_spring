@@ -142,55 +142,13 @@ public class EmpController {
 		return "redirect:";
 	}
 	
-	@GetMapping("/empList.do")
-	public void empList() {
+	@GetMapping("/empListView.do")
+	public void empListView(Model model) {
 		//업무로직: celeb목록조회
 	
-	List<Emp> list = empService.selectAllMember();
-//	
-//	Gson gson = new Gson();
-//	String jsonStr = null;
-//	for(Emp emp : list) {
-//		if(emp.getEmpName().contains(input) || String.valueOf(emp.getEmpNo()).contains(input)) {
-//			jsonStr = gson.toJson(emp);
-//		}
-//	}
-//	
-//	System.out.println("[JsonCelebListServlet] jsonStr = " + jsonStr);
-//	
-//	//응답메세지에 직접 출력: json형식
-//	//null | {} | [] 
-//	//{}
-//	//	- {}의 속성은 항상 쌍따옴표로 감싸야 하고, {}의 속성값중 문자열은 쌍따옴표로 감싸야 한다.
-//	//	- 숫자, boolean, {}, []이 올 수 있다.
-//	response.setContentType("application/json; charset=utf-8");
-//	response.getWriter().append(jsonStr);
-//	
-//	//csv형식		
-//	System.out.println("/message/empList.do 호출");
-//	//사용자입력값 확인
-//	String term = request.getParameter("term");
-//	//System.out.println("[AutoCompleteServlet] term = " + term);
-//	
-//	List<Emp> list = messageService.selectAllMember();
-//	
-//	List<Emp> resultList = new ArrayList<Emp>();
-//	for(Emp emp : list) {
-//		if(emp.getEmpName().contains(term) || String.valueOf(emp.getEmpNo()).contains(term)) {
-//			resultList.add(emp);
-//			
-//		}
-//		
-//	}
-//	StringBuilder sb = new StringBuilder();
-//	for(int i = 0; i < resultList.size(); i++) {
-//		sb.append(resultList.get(i).getEmpNo());
-//		sb.append("-");
-//		sb.append(resultList.get(i).getEmpName());
-//		sb.append(",");
-//	}
-//	response.setContentType("text/csv; charset=utf-8");
-//	response.getWriter().append(sb);
+		List<Emp> list = empService.selectAllMember();
+		model.addAttribute("list", list);
+
 	}
 
 	@GetMapping("/empView.do")
@@ -258,12 +216,23 @@ public class EmpController {
 		log.debug("oldPassword = {}", oldPassword);
 		log.debug("newPassword = {}", newPassword);
 
-		Emp emp = new Emp();
-		emp.setEmpNo(principal.getName());
-		emp.setPassword(newPassword);
+//		Emp emp = new Emp();
+//		emp.setEmpNo(principal.getName());
+//		emp.setPassword(bCryptPasswordEncoder.encode(newPassword));
+
+		String msg = "";
+		Emp emp = empService.selectOneEmp(principal.getName());
+		log.debug("emp = {}", emp);
+		if(!bCryptPasswordEncoder.matches(oldPassword, emp.getPassword())){
+			msg = "비밀번호가 일치하지 않습니다.";
+			attributes.addFlashAttribute("msg", msg);
+			return "redirect:/emp/updatePassword.do";
+		}
+
+		emp.setPassword(bCryptPasswordEncoder.encode(newPassword));
+		log.debug("bcryptNewPassword = {}", emp.getPassword());
 
 		int result = empService.updatePassword(emp);
-		String msg = "";
 		if(result > 0){
 			msg = "비밀번호를 수정했습니다.";
 		}else{

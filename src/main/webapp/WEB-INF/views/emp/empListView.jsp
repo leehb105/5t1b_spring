@@ -1,15 +1,20 @@
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
 
     <!-- Custom styles for this template -->
-    <link href="<%= request.getContextPath() %>/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="<%= request.getContextPath() %>/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -35,36 +40,21 @@
                                             <th>핸드폰</th>
                                         </tr>
                                     </thead>
-                                    <!--  
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
-                                    </tfoot>
-                                    -->
                                     <tbody>
-                                    <%
-                                    List<Emp> list = (List<Emp>) request.getAttribute("list");
-                                    for(Emp emp : list) {
-                                    %>
+                                        <c:forEach items="${list}" var="emp" varStatus="status">
 											<tr>
-												<td><%= emp.getEmpNo() %></td>
+												<td>${emp.empNo}</td>
 												<td>
-												<a href="<%= request.getContextPath() %>/emp/empInfoView?empNo=<%= emp.getEmpNo() %>">
-													<%= emp.getEmpName() %></td>
+												<!-- <a href="${pageContext.request.contextPath}/emp/empInfoView?empNo=${empNo}"> -->
+													${emp.empName}</td>
 												</a>
-												<td><%= emp.getDeptCode() %></td>
-												<td><%= emp.getJobCode() %></td>
-												<td><%= emp.getBirthdate() %></td>
-												<td><%= emp.getEmail() %></td>
-												<td><%= emp.getPhone() %></td>
+												<td>${emp.deptName}</td>
+												<td>${emp.jobName}</td>
+												<td><fmt:formatDate value="${emp.birthdate}" pattern="yyyy-MM-dd"/></td>
+												<td>${emp.email}</td>
+												<td>${emp.phone}</td>
 											</tr>
-                                    <% } %>
+                                        </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -76,15 +66,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
             <!-- End of Footer -->
 
         </div>
@@ -93,48 +74,23 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="<%= request.getContextPath() %>/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="<%= request.getContextPath() %>/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="<%= request.getContextPath() %>/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<%= request.getContextPath() %>/resources/js/sb-admin-2.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="<%= request.getContextPath() %>/resources/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="<%= request.getContextPath() %>/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="<%= request.getContextPath() %>/resources/js/demo/datatables-demo.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/demo/datatables-demo.js"></script>
 
-</body>
-
-</html>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

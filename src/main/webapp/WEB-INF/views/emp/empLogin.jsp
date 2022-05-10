@@ -67,7 +67,8 @@
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"
-                                                id="password" placeholder="Password" tabindex="0" value="qwerty1234!" required>
+                                                id="password" placeholder="Password" tabindex="0" value="test1234" required>
+                                                <!-- 전 비번: qwerty1234! -->
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">

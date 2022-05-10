@@ -60,12 +60,16 @@
 			<hr class="sidebar-divider">
 
 			<!-- Nav Item - Tables -->
-			<li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/emp/empListView.do">
-					<span>사원목록</span>
-			</a></li>
+			<sec:authorize access="hasRole('admin')">
+				<li class="nav-item">
+					<a class="nav-link" href="${pageContext.request.contextPath}/emp/empListView.do">
+						<span>사원목록</span>
+					</a>
+				</li>
+				<!-- Divider -->
+				<hr class="sidebar-divider d-none d-md-block">
+			</sec:authorize>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider d-none d-md-block">
 
 			<!-- Sidebar Toggler (Sidebar) -->
 			<div class="text-center d-none d-md-inline">
