@@ -35,15 +35,15 @@
 							<div class="row ">
 								<div class="col-7">자유 게시판 글쓰기</div>
 
-								<div class="col-2">
+								<!-- <div class="col-2">
 									<input type="button" value="임시 저장"
 										class="btn btn-primary btn-user btn-block"
 										style="font-size: .8rem;" />
-								</div>
-								<div class="col-3">
+								</div> -->
+								<!-- <div class="col-3">
 									<button class="btn btn-primary btn-user btn-block"
 										style="font-size: .8rem;">임시 저장 글 블러오기</button>
-								</div>
+								</div> -->
 							</div>
 							<br />
 							<!-- boardEnrollForm -->
@@ -206,7 +206,7 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="<%= request.getContextPath() %>/board/boardList";
+		location.href="<%= request.getContextPath() %>/board/boardList.do";
 	}
 };
 
@@ -281,6 +281,7 @@ function removeTag(){
 }
 
 </script>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
 
 
