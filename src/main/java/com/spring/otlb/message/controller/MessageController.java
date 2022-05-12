@@ -2,10 +2,14 @@ package com.spring.otlb.message.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.spring.otlb.common.Criteria;
+import com.spring.otlb.common.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -82,10 +86,24 @@ public class MessageController {
 	
 	@GetMapping("/sentMessageList.do")
 	public void sentMessageList(Model model,
-			Principal principal) {
-		
-		List<Message> list = messageService.selectAllSentMessage(principal.getName());
-		
+								Principal principal,
+								@RequestParam(defaultValue  = "1", required = false) int pageNum) {
+		int amount = 5;
+		Criteria cri = new Criteria();
+
+		cri.setPageNum(pageNum);
+		cri.setAmount(amount);
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("cri", cri);
+		param.put("empNo", principal.getName());
+
+		List<Message> list = messageService.selectAllSentMessage(param);
+
+		int total = messageService.selectSentMesssageCount(principal.getName());
+		Paging page = new Paging(cri, total);
+
+
 		for(int i = 0; i < list.size(); i++) {
 			if(list.get(i).getContent().length() > 50) {
 				//n자가 넘는 쪽지의 경우 n자만출력해줌
@@ -94,6 +112,7 @@ public class MessageController {
 
 		}
 		model.addAttribute("list", list);
+		model.addAttribute("page", page);
 	}
 
 	@PostMapping("/receivedMessageDelete.do")
@@ -153,11 +172,20 @@ public class MessageController {
 //	
 	@GetMapping("/receivedMessageList.do")
 	public void messageList(Model model,
-			Principal principal) {
+							Principal principal,
+							@RequestParam(defaultValue  = "1", required = false) int pageNum) {
 		//받은 메세지함
-//		log.debug("loginEmp = {}", loginEmp);
-		log.debug("principal = {}", principal);
-		List<Message> list = messageService.selectAllReceivedMessage(principal.getName());
+		int amount = 5;
+		Criteria cri = new Criteria();
+
+		cri.setPageNum(pageNum);
+		cri.setAmount(amount);
+
+		Map<String, Object> param = new HashMap<>();
+		param.put("cri", cri);
+		param.put("empNo", principal.getName());
+
+		List<Message> list = messageService.selectAllReceivedMessage(param);
 
 		for(int i = 0; i < list.size(); i++) {
 			
@@ -168,9 +196,12 @@ public class MessageController {
 
 		}
 		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
+
+		Paging page = new Paging(cri, messageCount);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("messageCount", messageCount);
+		model.addAttribute("page", page);
 
 	}
 //	

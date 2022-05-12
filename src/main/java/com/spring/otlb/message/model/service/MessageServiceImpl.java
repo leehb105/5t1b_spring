@@ -1,12 +1,11 @@
 package com.spring.otlb.message.model.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.spring.otlb.bulletin.model.vo.Attachment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.otlb.emp.model.vo.Emp;
 import com.spring.otlb.message.model.dao.MessageDao;
 import com.spring.otlb.message.model.vo.Message;
 
@@ -17,8 +16,8 @@ public class MessageServiceImpl implements MessageService{
 	private MessageDao messageDao;
 	
 	@Override
-	public List<Message> selectAllSentMessage(String empNo) {
-		return messageDao.selectAllSentMessage(empNo);
+	public List<Message> selectAllSentMessage(Map<String, Object> param) {
+		return messageDao.selectAllSentMessage(param);
 	}
 
 	@Override
@@ -63,8 +62,8 @@ public class MessageServiceImpl implements MessageService{
 //	}
 
 	@Override
-	public List<Message> selectAllReceivedMessage(String empNo) {
-		return messageDao.selectAllReceivedMessage(empNo);
+	public List<Message> selectAllReceivedMessage(Map<String, Object> param) {
+		return messageDao.selectAllReceivedMessage(param);
 	}
 
 	@Override
@@ -75,6 +74,11 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public int deleteSentMessage(int no) {
 		return messageDao.deleteSentMessage(no);
+	}
+
+	@Override
+	public int selectSentMesssageCount(String empNo) {
+		return messageDao.selectSentMesssageCount(empNo);
 	}
 
 

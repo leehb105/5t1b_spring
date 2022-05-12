@@ -1,12 +1,12 @@
 package com.spring.otlb.message.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.otlb.emp.model.vo.Emp;
 import com.spring.otlb.message.model.vo.Message;
 
 @Repository
@@ -16,13 +16,8 @@ public class MessageDaoImpl implements MessageDao{
 	private SqlSessionTemplate session;
 
 	@Override
-	public List<Message> selectAllReceivedMessage(int empNo) {
-		return null;
-	}
-
-	@Override
-	public List<Message> selectAllSentMessage(String empNo) {
-		return session.selectList("message.selectAllSentMessage", empNo);
+	public List<Message> selectAllSentMessage(Map<String, Object> param) {
+		return session.selectList("message.selectAllSentMessage", param);
 	}
 
 	@Override
@@ -67,8 +62,8 @@ public class MessageDaoImpl implements MessageDao{
 //	}
 
 	@Override
-	public List<Message> selectAllReceivedMessage(String empNo) {
-		return session.selectList("message.selectAllReceivedMessage", empNo);
+	public List<Message> selectAllReceivedMessage(Map<String, Object> param) {
+		return session.selectList("message.selectAllReceivedMessage", param);
 	}
 
 	@Override
@@ -79,6 +74,11 @@ public class MessageDaoImpl implements MessageDao{
 	@Override
 	public int deleteSentMessage(int no) {
 		return session.update("message.deleteSentMessage", no);
+	}
+
+	@Override
+	public int selectSentMesssageCount(String empNo) {
+		return session.selectOne("message.selectSentMesssageCount", empNo);
 	}
 
 

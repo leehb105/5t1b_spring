@@ -70,6 +70,35 @@
                          </tbody>
  					</table>
 	 			</div>
+
+				<!-- Pagination -->
+				<div class="container">
+					<div style="display: inline-block;">
+						<nav class="roberto-pagination">
+							<ul class="pagination">
+								<c:if test="${page.prev}"> 
+									<li class="page-item"><a class="page-link" href="${page.startPage - 1}"> 이전 <i class="fa fa-angle-left"></i></a></li>
+								</c:if>
+								<c:forEach var="num" begin="${page.startPage }" end="${page.endPage }">
+									<li class="page-item ${page.cri.pageNum == num ? 'active' : ''}"><a class="page-link" href="${num}">${num}</a></li>
+								</c:forEach>
+								<c:if test="${page.next}">
+									<li class="page-item"><a class="page-link" href="${page.endPage + 1}"> 다음 <i class="fa fa-angle-right"></i></a></li>
+								</c:if>
+							</ul>
+						</nav>
+						<form id='actionForm' action="${pageContext.request.contextPath}/message/sentMessageList.do" method="get"> 
+							<input type="hidden" name="pageNum" value="${page.cri.pageNum}"> 
+							<!-- <input type="hidden" name="amount" value="${page.cri.amount}">  -->
+						</form>
+					</div>
+				</div>
+
+
+
+
+
+
 	 		<form:form
 	 			id = "delFrm"
 				name="messageDelFrm"
@@ -154,6 +183,13 @@ $("input[name=check]").click(function() {
 	
 	if(total != checked) $(".checkAll").prop("checked", false);
 	else $(".checkAll").prop("checked", true); 
+});
+
+let actionForm = $('#actionForm'); 
+$('.page-item a').on('click', function(e) { e.preventDefault(); 
+	//걸어둔 링크로 이동하는 것을 일단 막음 
+	actionForm.find('input[name="pageNum"]').val($(this).attr('href')); 
+	actionForm.submit(); 
 });
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

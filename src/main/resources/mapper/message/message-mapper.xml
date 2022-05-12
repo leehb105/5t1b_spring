@@ -16,33 +16,65 @@
 	
 	</select>
 	<select id="selectAllReceivedMessage" resultMap="messageMap">
-		select 
-			m.*, 
-			(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) emp_name, 
-			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) dept_name 
-		from 
-			message m 
-		WHERE 
-			m.receiver_emp_no = #{empNo}
-			and 
-			receiver_del_yn = 'N'
-		ORDER BY 
-			m.sent_date DESC
+		<![CDATA[
+			select
+			   *
+			from
+				(
+				select
+					rownum rn,
+					tb1.*
+				from
+					(select
+						m.*,
+						(SELECT emp_name FROM emp WHERE emp_no = m.sender_emp_no) emp_name,
+						(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.SENDER_EMP_NO) dept_name
+					from
+						message m
+					WHERE
+						m.receiver_emp_no = #{empNo}
+						and
+						receiver_del_yn = 'N'
+					ORDER BY
+						m.sent_date DESC
+					) tb1
+				where
+					rownum <= #{cri.pageNum} * #{cri.amount}
+				)
+			where
+				rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
 	</select>
 	
 	<select id="selectAllSentMessage" resultMap="messageMap">
-		select 
-			m.*, 
-			(SELECT emp_name FROM emp WHERE emp_no = m.receiver_emp_no) emp_name, 
-			(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.receiver_emp_no) dept_name 
-		from 
-			message m 
-		WHERE 
-			m.sender_emp_no = #{empNo}
-			AND 
-			sender_del_yn = 'N' 
-		ORDER BY 
-			m.sent_date DESC
+		<![CDATA[
+			select
+				*
+			from
+			 	(
+				select
+					rownum rn,
+					   tb1.*
+				from
+					(select
+						m.*,
+						(SELECT emp_name FROM emp WHERE emp_no = m.receiver_emp_no) emp_name,
+						(SELECT dept_name FROM DEPARTMENT d JOIN emp e ON d.DEPT_CODE = e.DEPT_CODE WHERE e.EMP_NO = m.receiver_emp_no) dept_name
+					from
+						message m
+					WHERE
+						m.sender_emp_no = #{empNo}
+						AND
+						sender_del_yn = 'N'
+					ORDER BY
+						m.sent_date DESC
+					) tb1
+				where
+					rownum <= #{cri.pageNum} * #{cri.amount}
+				)
+			where
+				rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]>
 	</select>
 	
 	<resultMap type="message" id="messageMap">
@@ -123,7 +155,16 @@
 	  )
 	</insert>
 
-
+	<select id="selectSentMesssageCount" resultType="int">
+		SELECT
+			COUNT(*) count
+		FROM
+			message
+		WHERE
+			sender_emp_no = #{empNo}
+		  AND
+			sender_del_yn = 'N'
+	</select>
 
 
 </mapper>

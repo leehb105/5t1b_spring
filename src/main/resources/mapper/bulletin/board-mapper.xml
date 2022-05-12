@@ -31,7 +31,7 @@
 					) tb1
 				WHERE
 					rownum <= #{cri.pageNum} * #{cri.amount}
-			)
+				)
 			WHERE
 				rn > (#{cri.pageNum} - 1) * #{cri.amount}
 		]]>

@@ -1,15 +1,13 @@
 package com.spring.otlb.message.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import com.spring.otlb.emp.model.vo.Emp;
 import com.spring.otlb.message.model.vo.Message;
 
 public interface MessageDao {
-	
-	public List<Message> selectAllReceivedMessage(int empNo);
 
-	public List<Message> selectAllSentMessage(String empNo);
+	public List<Message> selectAllSentMessage(Map<String, Object> param);
 
 	public Message selectOneReceivedMessage(int no);
 
@@ -29,12 +27,13 @@ public interface MessageDao {
 
 //	public int selectTotalSentMessageount(int empNo);
 
-	public List<Message> selectAllReceivedMessage(String empNo);
+	public List<Message> selectAllReceivedMessage(Map<String, Object> param);
 
     public int deleteReceivedMessage(int no);
 
 	public int deleteSentMessage(int no);
 
+	int selectSentMesssageCount(String empNo);
 }
 
 
