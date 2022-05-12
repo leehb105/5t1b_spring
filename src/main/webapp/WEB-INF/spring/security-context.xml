@@ -17,6 +17,12 @@
 	<bean 
 		id = "customUserDetailsService" 
 		class = "com.spring.otlb.security.model.CustomUserDetailsService"/>
+	<bean
+		id = "customFailureHandler"
+		class = "com.spring.otlb.security.model.CustomFailureHandler">
+		<property name="errorMsg" value="errorMsg" />
+		<property name="defaultFailureUrl" value="defaultFailureUrl" />
+	</bean>
 
 	<security:http>
 		<security:intercept-url pattern="/" access="permitAll"/>
@@ -27,8 +33,9 @@
 			login-processing-url="/emp/empLogin.do"
 			username-parameter="empNo"
 			password-parameter="password"
-			authentication-success-handler-ref="customSuccessHandler"/>
-		
+			authentication-success-handler-ref="customSuccessHandler"
+			authentication-failure-handler-ref="customFailureHandler"/>
+
 		<security:logout logout-url="/emp/empLogout.do"
 			logout-success-url="/" 
 			invalidate-session="true"/>

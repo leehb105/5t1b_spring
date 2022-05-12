@@ -33,7 +33,11 @@
 </head>
 
 <body class="bg-gradient-primary">
-
+    <c:if test="${errorMsg != null}">
+        <script>
+            alert("${errorMsg}");
+        </script>
+    </c:if>
     <div class="container">
 
         <!-- Outer Row -->
