@@ -51,4 +51,9 @@ public class NoticeDaoImpl implements NoticeDao{
 		return session.update("notice.updateNotice", board);
 	}
 
+	@Override
+	public int insertNotice(Board board) {
+		return session.insert("notice.insertNotice", board);
+	}
+
 }

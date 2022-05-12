@@ -40,11 +40,14 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 
 	<div>
 		<h1 style=" color: black; font-weight:bolder; text-shadow: 1px 1px skyblue; margin-left:20px; margin-top:30px">공지사항</h1>
-		<a class="btn btn-primary btn-icon-split"
-			href="${pageContext.request.contextPath}/board/noticeEnroll.do" style="margin-left:90%; width: 100px; height:35px; border-radius:10px; padding-top:5px;;">
-		<span>
-		<i class="fas fa-envelope fa-fw"></i>글쓰기</span>
-	</a>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<a class="btn btn-primary btn-icon-split"
+				href="${pageContext.request.contextPath}/board/noticeEnroll.do" style="margin-left:90%; width: 100px; height:35px; border-radius:10px; padding-top:5px;;">
+				<span>
+					<i class="fas fa-envelope fa-fw"></i>글쓰기
+				</span>
+			</a>
+		</sec:authorize>
 	</div>
 		<div class="card-body">
 			<div class="table-responsive">

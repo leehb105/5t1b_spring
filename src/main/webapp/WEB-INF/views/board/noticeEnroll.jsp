@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!-- 인증객체의 principal속성을 pageContext 속성으로 저장 -->
+<sec:authentication property="principal" var="loginEmp"/>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ include file="/WEB-INF/views/common/navbar.jsp"%>
 
@@ -28,22 +35,22 @@
 							<div class="row ">
 								<div class="col-7">공지사항 글쓰기</div>
 
-								<div class="col-2">
+								<!-- <div class="col-2">
 									<input type="button" value="임시 저장"
 										class="btn btn-primary btn-user btn-block"
 										style="font-size: .8rem;" />
-								</div>
-								<div class="col-3">
+								</div> -->
+								<!-- <div class="col-3">
 									<button class="btn btn-primary btn-user btn-block"
 										style="font-size: .8rem;">임시 저장 글 블러오기</button>
-								</div>
+								</div> -->
 							</div>
 							<br />
 							<!-- boardEnrollForm -->
-							<form 
+							<form:form
 								id="boardEnrollForm" 
 								class="user" 
-								action="<%= request.getContextPath() %>/board/noticeEnroll" 
+								action="${pageContext.request.contextPath}/board/noticeEnroll.do" 
 								method="POST">
 								<div class="row">
 									<div class="col form-group">
@@ -62,7 +69,7 @@
 									</div>
 								</div>
 								<!-- 사원번호 -->
-								<input type="hidden" name="empNo" value="<%= loginEmp.getEmpNo() %>"/>
+								<input type="hidden" name="empNo" value="${loginEmp.empNo}"/>
 
 								<br /> <br />
 								<div class="form-group">
@@ -77,8 +84,7 @@
 										</div>
 									</div>
 								</div>
-
-							</form>
+							</form:form>
 							<br /> <br />
 						</div>
 					</div>
@@ -162,67 +168,14 @@ $("#textContent").keyup(({target}) => {
 function cancel(){
 	if(confirm(`사이트에서 나가시겠습니다? 
 변경사항이 저장되지 않을 수 있습니다.`)){
-		location.href="<%= request.getContextPath() %>/board/boardList";
+		location.href="<%= request.getContextPath() %>/board/noticeList.do";
 	}
-};
-
-// 파일 등록했을 때 input:file에 파일명이 바뀌지 않는 문제 해결
-$('input:file').change(function(e){
-	console.log(e.target.files[0].name);
-	const fileName = e.target.files[0].name;
-	$(e.target).next().html(fileName);	
-	console.log($(e.target).next());
-	
-});
-
-// 동적으로 input:file 태그 생성
-let count = 2;
-function createInputFile(){
-	
-	if(count <= 5){
-		//console.log(count);
-		const idValue = "inputGroupFile0" + count;
-		const attrValue = "upFile" + count;
-		const buttonAddon = "button-addon" + count;
-		const inputFile = `
-		<div class="form-group" id="createdTag">
-			<div class="input-group mb-3">
-				<div class="input-group-prepend">
-					<button class="btn btn-danger" type="button" onclick="document.getElementById('createdTag').remove();"
-						style="width: 50px;" id=\${buttonAddon}>-</button>
-				</div>
-				<div class="custom-file">
-					<input type="file" class="w-70 custom-file-input" id=\${idValue} name=\${attrValue}
-						aria-describedby=\${buttonAddon} style="cursor:pointer;"/>
-						 <label class="custom-file-label" for=\${idValue} >클릭해서 파일 추가하기</label>
-				</div>
-			</div>
-		</div>
-		`;
-		$("#createInputFileByButton").append(inputFile);		
-		count++;
-		
-		// 동적으로 생성된 input:file에는 기존의 이벤트가 적용되지 않아서 한번 더 적용
-		$('input:file').change(function(e){
-			console.log(e.target.files[0].name);
-			const fileName = e.target.files[0].name;
-			$(e.target).next().html(fileName);	
-			console.log($(e.target).next());
-		});
-		
-		if(count > 5) {
-			$("#button-addon1")
-				.prop("disabled", true);	
-		}
-		
-		
-	}	
 };
 
 
 
 </script>
-
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
 
 

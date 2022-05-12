@@ -10,7 +10,6 @@ public interface NoticeService {
 
 	List<Notice> selectNoticeMain();
 
-
 	List<Board> selectAllNotice(Map<String, Object> param);
 
 	int selectTotalNoticeCount();
@@ -22,4 +21,6 @@ public interface NoticeService {
 	int deleteNotice(int no);
 
 	int updateNotice(Board board);
+
+    int insertNotice(Board board);
 }

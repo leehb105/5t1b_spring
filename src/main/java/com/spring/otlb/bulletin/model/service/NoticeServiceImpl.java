@@ -50,4 +50,9 @@ public class NoticeServiceImpl implements NoticeService{
 	public int updateNotice(Board board) {
 		return noticeDao.updateNotice(board);
 	}
+
+	@Override
+	public int insertNotice(Board board) {
+		return noticeDao.insertNotice(board);
+	}
 }

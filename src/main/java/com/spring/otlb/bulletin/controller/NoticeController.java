@@ -35,8 +35,22 @@ public class NoticeController {
 
     }
 
-    @GetMapping("/noticeForm.do")
-    public void noticeForm(){}
+    @PostMapping("/noticeEnroll.do")
+    public String noticeForm(RedirectAttributes attributes,
+                             Board board) {
+
+        int result = noticeService.insertNotice(board);
+        String msg = "";
+        if (result > 0) {
+            msg = "공지사항을 등록했습니다.";
+            attributes.addFlashAttribute("msg", msg);
+            return "redirect:/board/noticeList.do";
+        } else {
+            msg = "공지사항 등록 오류";
+            attributes.addFlashAttribute("msg", msg);
+            return "redirect:/board/noticeEnroll.do";
+        }
+    }
 
     @GetMapping("/noticeList.do")
     public void noticeList(Model model,
