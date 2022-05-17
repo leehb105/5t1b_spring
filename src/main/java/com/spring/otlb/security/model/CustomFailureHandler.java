@@ -51,7 +51,6 @@ public class CustomFailureHandler implements AuthenticationFailureHandler {
         }
 
         request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
-        
 //        response.sendRedirect("/emp/empLogin.do");
         // 로그인 페이지로 다시 포워딩
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/emp/empLogin.do");
