@@ -13,21 +13,23 @@
 	<context:component-scan base-package="com.spring.otlb" />
 	<bean 
 		id = "customSuccessHandler" 
-		class = "com.spring.otlb.emp.controller.CustomSuccessHandler"/>
+		class = "com.spring.otlb.security.CustomSuccessHandler"/>
 	<bean 
 		id = "customUserDetailsService" 
 		class = "com.spring.otlb.security.model.CustomUserDetailsService"/>
 	<bean
 		id = "customFailureHandler"
-		class = "com.spring.otlb.security.model.CustomFailureHandler">
+		class = "com.spring.otlb.security.CustomFailureHandler">
 		<property name="errorMsg" value="errorMsg" />
 		<property name="defaultFailureUrl" value="defaultFailureUrl" />
 	</bean>
 
 	<security:http>
 		<security:intercept-url pattern="/" access="permitAll"/>
+		<security:intercept-url pattern="/emp/empListView.do" access="hasRole('ROLE_ADMIN')" />
 		<!-- <security:intercept-url pattern="/**" access="hasRole('ROLE_USER')"/> -->
-		
+		<security:access-denied-handler error-page="/accessError.do" />
+
 		<security:form-login 
 			login-page="/emp/empLogin.do" 
 			login-processing-url="/emp/empLogin.do"
@@ -39,6 +41,7 @@
 		<security:logout logout-url="/emp/empLogout.do"
 			logout-success-url="/" 
 			invalidate-session="true"/>
+
 	</security:http>
 	
 	<security:authentication-manager>

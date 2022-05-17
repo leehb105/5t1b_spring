@@ -84,5 +84,10 @@ public class HomeController {
 		
 		return "index";
 	}
+
+	@RequestMapping(value = "/accessError.do", method = RequestMethod.GET)
+	public void accessError(){
+
+	}
 	
 }

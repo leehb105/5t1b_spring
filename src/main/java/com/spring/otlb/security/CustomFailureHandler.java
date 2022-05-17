@@ -1,4 +1,4 @@
-package com.spring.otlb.security.model;
+package com.spring.otlb.security;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
