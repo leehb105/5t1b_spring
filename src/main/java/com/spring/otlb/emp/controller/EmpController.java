@@ -107,7 +107,8 @@ public class EmpController {
 	}
 	@PostMapping("/empLogin.do")
 	public String empLogin(
-			@RequestParam(required = false, defaultValue = "true") boolean error,
+			@RequestParam(required = false, defaultValue = "false") boolean error,
+			@RequestParam(required = false, value = "errorMsg") String errorMsg,
 			@SessionAttribute(required=false) String next,
 			RedirectAttributes redirectAttr) {
 		
@@ -131,7 +132,7 @@ public class EmpController {
 //			location = "/empLogin.do";
 //			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
 //		}
-		
+		redirectAttr.addFlashAttribute("errorMsg", errorMsg);
 		return "redirect:/emp/empLogin.do";
 	}
 

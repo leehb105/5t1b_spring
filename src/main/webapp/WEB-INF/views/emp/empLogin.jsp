@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -34,7 +34,7 @@
 </head>
 
 <body class="bg-gradient-primary">
-    <c:if test="${errorMsg != null}">
+    <c:if test="${not empty errorMsg}">
         <script>
             alert("${errorMsg}");
         </script>

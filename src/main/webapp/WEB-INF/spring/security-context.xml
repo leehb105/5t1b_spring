@@ -20,8 +20,6 @@
 	<bean
 		id = "customFailureHandler"
 		class = "com.spring.otlb.security.CustomFailureHandler">
-		<property name="errorMsg" value="errorMsg" />
-		<property name="defaultFailureUrl" value="defaultFailureUrl" />
 	</bean>
 
 

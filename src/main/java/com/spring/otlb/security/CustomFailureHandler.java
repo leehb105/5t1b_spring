@@ -40,17 +40,16 @@ public class CustomFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request,
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
-        defaultFailureUrl = "/emp/empLogin.do?error=true";
+        defaultFailureUrl = "/emp/empLogin.do?error=true&errorMsg=";
 
-        log.debug("onAuthenticationFailure, 로그인 실패 ");
         errorMsg = "오류입니다";
         if(exception instanceof BadCredentialsException){
-            log.debug("아이디 비번 틀림");
             errorMsg = "아이디 또는 비밀번호가 일치하지 않습니다.";
-            request.setAttribute("errorMsg", errorMsg);
+
+//            request.setAttribute("errorMsg", errorMsg);
         }
 
-        request.getRequestDispatcher(defaultFailureUrl).forward(request, response);
+        request.getRequestDispatcher(defaultFailureUrl + errorMsg).forward(request, response);
 //        response.sendRedirect("/emp/empLogin.do");
         // 로그인 페이지로 다시 포워딩
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/emp/empLogin.do");
