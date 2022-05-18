@@ -46,14 +46,9 @@ public class CustomFailureHandler implements AuthenticationFailureHandler {
         if(exception instanceof BadCredentialsException){
             errorMsg = "아이디 또는 비밀번호가 일치하지 않습니다.";
 
-//            request.setAttribute("errorMsg", errorMsg);
         }
 
         request.getRequestDispatcher(defaultFailureUrl + errorMsg).forward(request, response);
-//        response.sendRedirect("/emp/empLogin.do");
-        // 로그인 페이지로 다시 포워딩
-//        RequestDispatcher dispatcher = request.getRequestDispatcher("/emp/empLogin.do");
-//        dispatcher.forward(request, response);
 
     }
 }
