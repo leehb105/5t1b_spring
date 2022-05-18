@@ -112,26 +112,6 @@ public class EmpController {
 			@SessionAttribute(required=false) String next,
 			RedirectAttributes redirectAttr) {
 		
-//		Emp loginEmp = empService.selectOneEmp(empNo);
-		
-//		UserDetails test = customUserDetailsService.loadUserByUsername(empNo);
-//		log.info("loginEmp = {}", loginEmp);
-//		log.info("encodedPassword = {}", bCryptPasswordEncoder.encode(password));
-//
-//		String location = "/";
-//		if(loginEmp != null && bCryptPasswordEncoder.matches(password, loginEmp.getPassword())) {
-//			// 로그인 성공시
-//			model.addAttribute("loginEmp", loginEmp);
-//			
-////			log.info("next = {}", next);
-////			location = next;
-////			redirectAttr.addFlashAttribute("msg", "로그인을 성공했습니다.");
-//		}
-//		else {
-//			// 로그인 실패시
-//			location = "/empLogin.do";
-//			redirectAttr.addFlashAttribute("msg", "아이디 또는 비밀번호가 틀렸습니다.");
-//		}
 		redirectAttr.addFlashAttribute("errorMsg", errorMsg);
 		return "redirect:/emp/empLogin.do";
 	}
