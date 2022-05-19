@@ -111,7 +111,6 @@ public class EmpController {
 			@RequestParam(required = false, value = "errorMsg") String errorMsg,
 			@SessionAttribute(required=false) String next,
 			RedirectAttributes redirectAttr) {
-		
 		redirectAttr.addFlashAttribute("errorMsg", errorMsg);
 		return "redirect:/emp/empLogin.do";
 	}
