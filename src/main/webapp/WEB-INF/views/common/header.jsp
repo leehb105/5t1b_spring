@@ -74,7 +74,7 @@
 	</button>
 
 	<!-- 5t1b 홈버튼-->
-	<a href="${pageContext.request.contextPath}">
+	<a href="${pageContext.request.contextPath}/">
 	<img alt="logo" src="${pageContext.request.contextPath}/resources/img/logo.png">
 	</a>
 

@@ -24,7 +24,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/board/noticeList">
+							<a class="nav-link" href="${pageContext.request.contextPath}/board/noticeList.do">
 								공지사항 <i class="fas fa-thumbtack"></i>
 								</a>
 							</h6>
@@ -46,7 +46,7 @@
 						</c:forEach>
 					</div>
 					<!-- 오늘의 메뉴 부분 -->
-					<div class="card shadow mb-4">
+					<!-- <div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">
 							<a class="nav-link" href="${pageContext.request.contextPath}/foodMenu/calendar">
@@ -56,18 +56,14 @@
 						</div>
 
 						<div class="card-body" style="line-height:0.75em">
-							<!-- <p style="list-style-type: none; text-align: center;">[밥]</p> -->
 							<p style="text-align: center;">${foodMenu.main}</p>
-							<!-- <p style="list-style-type: none; text-align: center;">[국]</p> -->
 							<p style="text-align: center;">${foodMenu.soup}</p>
-							<!-- <p style="list-style-type: none; text-align: center;">[반찬]</p> -->
 							<p style="text-align: center;">${foodMenu.side1}</p>
 							<p style="text-align: center;">${foodMenu.side2}</p>
 							<p style="text-align: center;">${foodMenu.side3}</p>
-							<!-- <p style="list-style-type: none; text-align: center;">[디저트]</p> -->
 							<p style="text-align: center;">${foodMenu.dessert}</p>
 						</div>
-					</div>
+					</div> -->
 				</div>
 
 				<!-- 자유게시판 & 익명 게시판 부분  -->
@@ -76,7 +72,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList">
+							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList.do">
 								자유게시판 <i class="fas fa-users"></i>
 								</a>
 							</h6>
@@ -100,7 +96,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/board/anonymousBoardList">
+							<a class="nav-link" href="${pageContext.request.contextPath}/board/anonymousBoardList.do">
 								익명게시판 <i class="fas fa-user-secret"></i>
 							</a>
 							</h6>
@@ -129,7 +125,7 @@
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList">
+							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList.do">
 								인기게시글 <i class="far fa-thumbs-up"></i>
 								</a>
 
