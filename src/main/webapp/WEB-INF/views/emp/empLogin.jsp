@@ -77,8 +77,8 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" name="saveNo"  class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">아이디 저장</label>
+                                                <!-- <input type="checkbox" name="saveNo"  class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">아이디 저장</label> -->
                                             </div>
                                         </div>
 
