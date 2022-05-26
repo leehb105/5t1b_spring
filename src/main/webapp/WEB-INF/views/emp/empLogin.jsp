@@ -53,7 +53,7 @@
                             <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
-                                <a href="${pageContext.request.contextPath}"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+                                <a href="${pageContext.request.contextPath}/"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                                     <div class="text-center">
                                     	<br />
                                         <h1 class="h4 text-gray-900 mb-4">환영합니다!</h1>
@@ -87,7 +87,7 @@
                                     </form:form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="${pageContext.request.contextPath}/emp/findPassword">비밀번호 찾기</a>
+                                        <a class="small" href="${pageContext.request.contextPath}/emp/findPassword.do">비밀번호 찾기</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll.do">회원가입</a>

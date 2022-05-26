@@ -153,7 +153,7 @@
 								
 								<p>
 									<a
-										href="${pageContext.request.contextPath}/board/boardView?no="
+										href="${pageContext.request.contextPath}/board/anonymousBoardView?no=${topAnonyBoard.no}"
 										style="color: black;">
 										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
 										<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
