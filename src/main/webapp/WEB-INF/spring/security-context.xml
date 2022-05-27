@@ -28,6 +28,7 @@
 		<security:intercept-url pattern="/" access="permitAll()"/>
 		<security:intercept-url pattern="/emp/empListView.do" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/emp/empLogin.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/emp/empEnroll.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/emp/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/board/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/message/**" access="isAuthenticated()"/>

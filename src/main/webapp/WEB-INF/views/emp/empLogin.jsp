@@ -85,12 +85,12 @@
                                          <input type="submit" value="로그인" class="btn btn-primary btn-user btn-block" />
 
                                     </form:form>
-                                    <hr>
+                                    <!-- <hr>
                                     <div class="text-center">
                                         <a class="small" href="${pageContext.request.contextPath}/emp/findPassword.do">비밀번호 찾기</a>
-                                    </div>
+                                    </div> -->
                                     <div class="text-center">
-                                        <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll.do">회원가입</a>
+                                        <!-- <a class="small" href="${pageContext.request.contextPath}/emp/empEnroll.do">회원가입</a> -->
                                         <br />
                                         <br />
                                         <br />
