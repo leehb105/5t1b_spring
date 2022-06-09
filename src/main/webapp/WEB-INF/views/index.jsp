@@ -17,9 +17,57 @@
 	<div id="content">
 		<!-- Begin Page Content -->
 		<div class="container-fluid">
-			<div class="row" style="flex-wrap: nowrap; margin-right: 22.8rem;">
+			<div class="row">
+				<!-- 자유 & 익명 게시판 인기게시글 부분 -->
+				<div class="col-lg-12 mb-6 mt-4">
+					<!-- 인기게시글 부분 -->
+					<div class="card shadow mb-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-primary">
+							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList.do">
+								인기게시글 <i class="far fa-thumbs-up"></i>
+								</a>
+
+							</h6>
+						</div>
+						<div>
+							<p style="margin: 0;">자유게시판</p>
+						</div>
+						<c:forEach items="${topBoardList}" var="topBoard" varStatus="status">
+							<div class="card-body">
+								<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
+								<p style="margin-bottom: 0;">
+									<a
+										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
+										style="color: black;">
+										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] 
+										<fmt:formatDate value="${topBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</a>
+								</p>
+							</div>
+							<hr style="margin: 0;">
+						</c:forEach>	
+						<hr>
+
+						<c:forEach items="${topAnonyBoardList}" var="topAnonyBoard" varStatus="status">
+							<div class="card-body">
+								<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
+								<p style="margin-bottom: 0;">
+									<a
+										href="${pageContext.request.contextPath}/board/anonymousBoardView?no=${topAnonyBoard.no}"
+										style="color: black;">
+										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
+										<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+									</a>
+								</p>
+							</div>
+							<hr style="margin: 0;">
+						</c:forEach>
+					</div>
+				</div>
 				<!-- 공지사항 & 오늘의 메뉴 부분  -->
-				<div class="col-lg-6 mb-4">
+				<div class="col-lg-12 mb-6">
+					
 					<!-- 공지사항 부분 -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -32,42 +80,21 @@
 						<c:forEach items="${noticeList}" var="notice" varStatus="status">
 							<div class="card-body">
 								<!-- 공지사항 내용 띄울 부분 -->
-								<p>
+								<p style="margin-bottom: 0;">
 									<a
 										href="${pageContext.request.contextPath}/board/noticeView.do?no=${notice.no}" 
 										style="color: black;">
 										[공지]${notice.title}
-
+										<fmt:formatDate value="${notice.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
-								<hr>
-							
 							</div>
+							<hr style="margin: 0;">
 						</c:forEach>
 					</div>
-					<!-- 오늘의 메뉴 부분 -->
-					<!-- <div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/foodMenu/calendar">
-								오늘의 메뉴 <i class="fas fa-utensils"></i>
-								</a>
-							</h6>
-						</div>
-
-						<div class="card-body" style="line-height:0.75em">
-							<p style="text-align: center;">${foodMenu.main}</p>
-							<p style="text-align: center;">${foodMenu.soup}</p>
-							<p style="text-align: center;">${foodMenu.side1}</p>
-							<p style="text-align: center;">${foodMenu.side2}</p>
-							<p style="text-align: center;">${foodMenu.side3}</p>
-							<p style="text-align: center;">${foodMenu.dessert}</p>
-						</div>
-					</div> -->
 				</div>
-
-				<!-- 자유게시판 & 익명 게시판 부분  -->
-				<div class="col-lg-6 mb-4">
+				<div class="col-lg-12 mb-6">
+					<!-- 자유게시판 & 익명 게시판 부분  -->
 					<!-- 자유게시판 부분 -->
 					<div class="card shadow mb-4">
 						<div class="card-header py-3">
@@ -80,7 +107,7 @@
 						<c:forEach items="${boardList}" var="board" varStatus="status">
 							<div class="card-body">
 								<!-- 자유게시판 내용 띄울 부분 -->
-								<p>
+								<p style="margin-bottom: 0;">
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${board.no}"
 										style="color: black;">
@@ -88,8 +115,8 @@
 									<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
-								<hr>
 							</div>
+							<hr style="margin: 0;">
 						</c:forEach>
 					</div>
 					<!-- 익명게시판부분 -->
@@ -104,7 +131,7 @@
 						<c:forEach items="${anonymousBoardList}" var="anonyBoard" varStatus="status">
 							<div class="card-body">
 								<!-- 익명 게시판 내용 띄울 부분 -->
-								<p>
+								<p style="margin-bottom: 0;">
 									<a
 										href="${pageContext.request.contextPath}/board/anonymousBoardView.do?no=${anonyBoard.no}"
 										style="color: black;">
@@ -112,56 +139,8 @@
 										<fmt:formatDate value="${anonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 									</a>
 								</p>
-								<hr>
-
 							</div>
-						</c:forEach>
-					</div>
-				</div>
-
-				<!-- 자유 & 익명 게시판 인기게시글 부분 -->
-				<div class="col-lg-6 mb-4">
-					<!-- 인기게시글 부분 -->
-					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							<h6 class="m-0 font-weight-bold text-primary">
-							<a class="nav-link" href="${pageContext.request.contextPath}/board/boardList.do">
-								인기게시글 <i class="far fa-thumbs-up"></i>
-								</a>
-
-							</h6>
-						</div>
-						<c:forEach items="${topBoardList}" var="topBoard" varStatus="status">
-							<div class="card-body">
-								<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
-								<p>
-									<a
-										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
-										style="color: black;">
-										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] 
-										<fmt:formatDate value="${topBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
-									</a>
-								</p>
-								<hr>
-							</div>
-						</c:forEach>	
-						<hr>
-
-						<c:forEach items="${topAnonyBoardList}" var="topAnonyBoard" varStatus="status">
-							<div class="card-body">
-								<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
-								
-								<p>
-									<a
-										href="${pageContext.request.contextPath}/board/anonymousBoardView?no=${topAnonyBoard.no}"
-										style="color: black;">
-										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
-										<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
-									</a>
-								</p>
-								<hr>
-
-							</div>
+							<hr style="margin: 0;">
 						</c:forEach>
 					</div>
 				</div>
