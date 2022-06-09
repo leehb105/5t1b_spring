@@ -66,6 +66,10 @@
 			board
 		WHERE
 			delete_yn = 'N'
+			<if test = "cri.keyword != null">
+				and
+				title like '%' ||  #{cri.keyword} || '%'
+			</if>
 	</select>
 	
 	<select id="selectBoardMain" resultType="board">

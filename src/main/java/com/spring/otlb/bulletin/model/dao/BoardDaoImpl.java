@@ -63,8 +63,8 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-	public int selectTotalBoardCount() {
-		return session.selectOne("board.selectTotalBoardCount");
+	public int selectTotalBoardCount(Map<String, Object> param) {
+		return session.selectOne("board.selectTotalBoardCount", param);
 	}
 
 	@Override

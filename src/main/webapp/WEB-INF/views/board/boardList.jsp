@@ -112,6 +112,7 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
                 </nav>
 				<form id='actionForm' action="${pageContext.request.contextPath}/board/boardList.do" method="get"> 
                     <input type="hidden" name="pageNum" value="${page.cri.pageNum}"> 
+					<input type="hidden" name="searchKeyword" value="${page.cri.keyword}"> 
                     <!-- <input type="hidden" name="amount" value="${page.cri.amount}">  -->
                 </form>
 		    </div>

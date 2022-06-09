@@ -95,7 +95,7 @@
 		<sec:authorize access="isAnonymous()">
 
 			<div class="book-now-btn ml-3 ml-lg-5">
-				<button onclick="location.href='${pageContext.request.contextPath}/emp/empEnoll.do'" class="btn btn-sm btn-primary shadow-sm" style="margin:3px; height:2rem;">회원가입 <i class="fas fa-unlock-alt"></i></button>
+				<!-- <button onclick="location.href='${pageContext.request.contextPath}/emp/empEnoll.do'" class="btn btn-sm btn-primary shadow-sm" style="margin:3px; height:2rem;">회원가입 <i class="fas fa-unlock-alt"></i></button> -->
 				<button onclick="location.href='${pageContext.request.contextPath}/emp/empLogin.do'" class="btn btn-sm btn-primary shadow-sm" style= "margin :3px; height:2rem;">로그인 <i class="fas fa-user-plus"></i></button>
 			</div>
 		</sec:authorize>

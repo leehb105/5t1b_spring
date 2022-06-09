@@ -26,7 +26,7 @@ public interface BoardService {
 
 	List<Attachment> selectAttachments(int no);
 
-	public int selectTotalBoardCount();
+	public int selectTotalBoardCount(Map<String, Object> param);
 
 	public Attachment selectOneAttachment(int no);
 

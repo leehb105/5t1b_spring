@@ -80,7 +80,7 @@ public class BoardController {
 //		List<String> regDate = new ArrayList<>();
 
 		
-		int total = boardService.selectTotalBoardCount();
+		int total = boardService.selectTotalBoardCount(param);
 		Paging page = new Paging(cri, total);
 		
 		

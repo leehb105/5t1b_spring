@@ -25,7 +25,7 @@ public interface BoardDao {
 	
 	public List<Board> selectAllAnonymousBoard(Map<String, Object> param);
 
-	public int selectTotalBoardCount();
+	public int selectTotalBoardCount(Map<String, Object> param);
 
 	public Attachment selectOneAttachment(int no);
 

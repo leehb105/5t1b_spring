@@ -71,8 +71,8 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public int selectTotalBoardCount() {
-		return boardDao.selectTotalBoardCount();
+	public int selectTotalBoardCount(Map<String, Object> param) {
+		return boardDao.selectTotalBoardCount(param);
 	}
 
 	@Override
