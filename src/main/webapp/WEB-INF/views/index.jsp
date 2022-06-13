@@ -30,11 +30,8 @@
 
 							</h6>
 						</div>
-						<div>
-							<p style="margin: 0;">자유게시판</p>
-						</div>
 						<c:forEach items="${topBoardList}" var="topBoard" varStatus="status">
-							<div class="card-body">
+							<div class="m-2">
 								<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
 								<p style="margin-bottom: 0;">
 									<a
@@ -47,10 +44,9 @@
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>	
-						<hr>
 
 						<c:forEach items="${topAnonyBoardList}" var="topAnonyBoard" varStatus="status">
-							<div class="card-body">
+							<div class="m-2">
 								<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
 								<p style="margin-bottom: 0;">
 									<a
@@ -78,7 +74,7 @@
 							</h6>
 						</div>
 						<c:forEach items="${noticeList}" var="notice" varStatus="status">
-							<div class="card-body">
+							<div class="m-2">
 								<!-- 공지사항 내용 띄울 부분 -->
 								<p style="margin-bottom: 0;">
 									<a
@@ -105,7 +101,7 @@
 							</h6>
 						</div>
 						<c:forEach items="${boardList}" var="board" varStatus="status">
-							<div class="card-body">
+							<div class="m-2">
 								<!-- 자유게시판 내용 띄울 부분 -->
 								<p style="margin-bottom: 0;">
 									<a
@@ -129,7 +125,7 @@
 							</h6>
 						</div>
 						<c:forEach items="${anonymousBoardList}" var="anonyBoard" varStatus="status">
-							<div class="card-body">
+							<div class="m-2">
 								<!-- 익명 게시판 내용 띄울 부분 -->
 								<p style="margin-bottom: 0;">
 									<a
