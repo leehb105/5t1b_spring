@@ -31,31 +31,36 @@
 							</h6>
 						</div>
 						<c:forEach items="${topBoardList}" var="topBoard" varStatus="status">
-							<div class="m-2">
-								<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
-								<p style="margin-bottom: 0;">
+							<!-- 자유 게시판 인기게시글 내용 띄울 부분 -->
+							<div class="m-2" style="margin-bottom: 0; display: flex;">
+								<div style="width: 85%; margin-left: 10px;">
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
 										style="color: black;">
-										[${topBoard.category}]${topBoard.title} [${topBoard.commentCount}] 
-										<fmt:formatDate value="${topBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										[${topBoard.category}]
+										${topBoard.title} [${topBoard.commentCount}] 
 									</a>
-								</p>
+								</div>
+								<div style="text-align: right;">
+									<fmt:formatDate value="${topBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</div>
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>	
 
 						<c:forEach items="${topAnonyBoardList}" var="topAnonyBoard" varStatus="status">
-							<div class="m-2">
-								<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
-								<p style="margin-bottom: 0;">
+							<!-- 익명 게시판 인기게시글 내용 띄울 부분 -->
+							<div class="m-2" style="margin-bottom: 0; display: flex;">
+								<div style="width: 85%; margin-left: 10px;">
 									<a
 										href="${pageContext.request.contextPath}/board/anonymousBoardView?no=${topAnonyBoard.no}"
 										style="color: black;">
-										[익명]${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
-										<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										[익명] ${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
 									</a>
-								</p>
+								</div>
+								<div style="text-align: right;">
+									<fmt:formatDate value="${topAnonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</div>
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>
@@ -74,16 +79,18 @@
 							</h6>
 						</div>
 						<c:forEach items="${noticeList}" var="notice" varStatus="status">
-							<div class="m-2">
-								<!-- 공지사항 내용 띄울 부분 -->
-								<p style="margin-bottom: 0;">
+							<!-- 공지사항 내용 띄울 부분 -->
+							<div class="m-2" style="margin-bottom: 0; display: flex;">
+								<div style="width: 85%; margin-left: 10px;">
 									<a
 										href="${pageContext.request.contextPath}/board/noticeView.do?no=${notice.no}" 
 										style="color: black;">
-										[공지]${notice.title}
-										<fmt:formatDate value="${notice.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										[공지] ${notice.title}
 									</a>
-								</p>
+								</div>
+								<div style="text-align: right;">
+									<fmt:formatDate value="${notice.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</div>
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>
@@ -101,16 +108,18 @@
 							</h6>
 						</div>
 						<c:forEach items="${boardList}" var="board" varStatus="status">
-							<div class="m-2">
-								<!-- 자유게시판 내용 띄울 부분 -->
-								<p style="margin-bottom: 0;">
+							<!-- 자유게시판 내용 띄울 부분 -->
+							<div class="m-2" style="margin-bottom: 0; display: flex;">
+								<div style="width: 85%; margin-left: 10px;">
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${board.no}"
 										style="color: black;">
-									[${board.category}]${board.title} [${board.commentCount}] 
-									<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										[${board.category}] ${board.title} [${board.commentCount}] 
 									</a>
-								</p>
+								</div>
+								<div style="text-align: right;">
+									<fmt:formatDate value="${board.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</div>
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>
@@ -125,16 +134,18 @@
 							</h6>
 						</div>
 						<c:forEach items="${anonymousBoardList}" var="anonyBoard" varStatus="status">
-							<div class="m-2">
-								<!-- 익명 게시판 내용 띄울 부분 -->
-								<p style="margin-bottom: 0;">
+							<!-- 익명 게시판 내용 띄울 부분 -->
+							<div class="m-2" style="margin-bottom: 0; display: flex;">
+								<div style="width: 85%; margin-left: 10px;">
 									<a
 										href="${pageContext.request.contextPath}/board/anonymousBoardView.do?no=${anonyBoard.no}"
 										style="color: black;">
-										[익명]${anonyBoard.title} [${anonyBoard.commentCount}] 
-										<fmt:formatDate value="${anonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+										[익명] ${anonyBoard.title} [${anonyBoard.commentCount}] 
 									</a>
-								</p>
+								</div>
+								<div style="text-align: right;">
+									<fmt:formatDate value="${anonyBoard.regDate}" pattern="yy-MM-dd [HH:mm]"/>
+								</div>
 							</div>
 							<hr style="margin: 0;">
 						</c:forEach>
