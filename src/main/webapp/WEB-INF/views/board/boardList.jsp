@@ -67,8 +67,8 @@ div#search-container {margin:0 0 10px 0; padding:3px; width:100%; text-align:cen
 								</a> 
 								<c:if test="${board.attachCount > 0}">
 									<span id="comment"><i class="fa fa-paperclip"></i></span> 
-									(${board.commentCount})
 								</c:if>
+								(${board.commentCount})
 							 </td>
 							<td id="writer">${board.emp.empName}</td>
 							<td id="like">${board.likeCount}</td>

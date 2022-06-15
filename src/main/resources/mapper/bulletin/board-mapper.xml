@@ -19,7 +19,7 @@
 						b.*,
 						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name, 
 						(select count(*) from attachment where board_no = b.no) attach_count, 
-						(select count(*) from board_comment where board_no = b.no) comment_count
+						(select count(*) from board_comment where board_no = b.no and delete_yn = 'N') comment_count
 					FROM
 						board b
 					WHERE
@@ -79,12 +79,14 @@
 			tb.title,
 			tb.category,
 			tb.reg_date,
-			tb.commentCount
+			tb.commentCount,
+		    tb.attach_count
 		from 
 			(SELECT
 				b.*,
-				(SELECT count(*) FROM BOARD_COMMENT WHERE NO = b.NO) commentCount
-			from  
+				(SELECT count(*) FROM BOARD_COMMENT WHERE board_no = b.NO and delete_yn = 'N') commentCount,
+				(select count(*) from attachment where board_no = b.no) attach_count
+			from
 				board b
 			WHERE
 				b.category != '공지'
@@ -106,7 +108,9 @@
 				title ,
 				reg_date,
 				category,
-				like_count
+				like_count,
+				(select count(*) from board_comment where board_no = board.no and delete_yn = 'N') comment_count,
+				(select count(*) from attachment where board_no = board.no) attach_count
 			from  
 				board
 			where  

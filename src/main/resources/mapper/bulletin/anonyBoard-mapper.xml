@@ -19,7 +19,7 @@
 						b.*,
 						(SELECT EMP_NAME FROM emp e WHERE b.EMP_NO = e.EMP_NO) emp_name,
 						(select count(*) from ANONYMOUS_ATTACHMENT where board_no = b.no) attach_count,
-						(select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = b.no) comment_count
+						(select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = b.no and delete_yn = 'N') comment_count
 					FROM
 						ANONYMOUS_BOARD b
 					WHERE
@@ -78,11 +78,13 @@
 			tb.NO,
 			tb.title,
 			tb.reg_date,
-			tb.commentCount
+			tb.commentCount,
+		    tb.attach_count
 		from 
 			(SELECT
 				b.*,
-				(SELECT count(*) FROM BOARD_COMMENT WHERE NO = b.NO) commentCount
+				(SELECT count(*) FROM ANONYMOUS_BOARD_COMMENT WHERE board_no = b.NO and delete_yn = 'N') commentCount,
+				(select count(*) from ANONYMOUS_ATTACHMENT where board_no = b.no) attach_count
 			from  
 				ANONYMOUS_BOARD b
 			WHERE
@@ -102,7 +104,9 @@
 				no,
 				title ,
 				reg_date,
-				like_count
+				like_count,
+				(select count(*) from ANONYMOUS_BOARD_COMMENT where board_no = ANONYMOUS_BOARD.no and delete_yn = 'N') comment_count,
+				(select count(*) from ANONYMOUS_ATTACHMENT where board_no = ANONYMOUS_BOARD.no) attach_count
 			FROM
 				ANONYMOUS_BOARD
 			WHERE 

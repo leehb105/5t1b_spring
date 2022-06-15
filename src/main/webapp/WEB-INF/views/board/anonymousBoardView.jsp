@@ -91,7 +91,7 @@
 							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level1">
 									<td style="padding: 10px;" width="1000px;">
-										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.emp.empName}</sub>
 										<sub class="comment-date">
 											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 										</sub>
@@ -108,14 +108,13 @@
 											<button class="btn btn-danger btn-icon-split" id="btn-reply" value="${comment.no}" onclick="commentDelete(this)" style="padding: 5px; margin-top: 20px;">삭제</button>
 										</td>
 									</c:if>
-									
 								</tr>
 							</c:if>
 							<!-- 삭제댓글 -->
 							<c:if test="${comment.deleteYn == 'Y'}">
 								<tr class="level1">
 									<td style="padding: 10px;" width="1000px;">
-										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.emp.empName}</sub>
 										<sub class="comment-date">
 											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 										</sub>
@@ -126,12 +125,13 @@
 								</tr>
 							</c:if>
 						</c:if>
+						
 						<!-- 대댓글(자식 댓글) -->
 						<c:if test="${comment.commentLevel != 1}">
 							<c:if test="${comment.deleteYn == 'N'}">
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">
-										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.emp.empName}</sub>
 										<sub class="comment-date">
 											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 										</sub>
@@ -150,7 +150,7 @@
 							<c:if test="${comment.deleteYn == 'Y'}">
 								<tr class="level2">
 									<td style="padding-left: 50px; padding-bottom: 15px;">
-										<sub class="comment-writer" style="font-weight: bold;">${comment.empNo}</sub>
+										<sub class="comment-writer" style="font-weight: bold;">${comment.emp.empName}</sub>
 										<sub class="comment-date">
 											<fmt:formatDate value="${comment.regDate}" pattern="yy-MM-dd [HH:mm]"/>
 										</sub>
