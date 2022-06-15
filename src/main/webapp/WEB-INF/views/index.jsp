@@ -38,7 +38,11 @@
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${topBoard.no}"
 										style="color: black;">
 										[${topBoard.category}]
-										${topBoard.title} [${topBoard.commentCount}] 
+										${topBoard.title} 
+										<c:if test="${topBoard.attachCount > 0}">
+											<i class="fa fa-paperclip" style="color: #858796;"></i>
+										</c:if>
+										[${topBoard.commentCount}] 
 									</a>
 								</div>
 								<div style="text-align: right;">
@@ -53,9 +57,13 @@
 							<div class="m-2" style="margin-bottom: 0; display: flex;">
 								<div style="width: 85%; margin-left: 10px;">
 									<a
-										href="${pageContext.request.contextPath}/board/anonymousBoardView?no=${topAnonyBoard.no}"
+										href="${pageContext.request.contextPath}/board/anonymousBoardView.do?no=${topAnonyBoard.no}"
 										style="color: black;">
-										[익명] ${topAnonyBoard.title} [${topAnonyBoard.commentCount}] 
+										[익명] ${topAnonyBoard.title} 
+										<c:if test="${topAnonyBoard.attachCount > 0}">
+											<i class="fa fa-paperclip" style="color: #858796;"></i>
+										</c:if>
+										[${topAnonyBoard.commentCount}] 
 									</a>
 								</div>
 								<div style="text-align: right;">
@@ -114,7 +122,11 @@
 									<a
 										href="${pageContext.request.contextPath}/board/boardView.do?no=${board.no}"
 										style="color: black;">
-										[${board.category}] ${board.title} [${board.commentCount}] 
+										[${board.category}] ${board.title} 
+										<c:if test="${board.attachCount > 0}">
+											<i class="fa fa-paperclip" style="color: #858796;"></i>
+										</c:if>
+										[${board.commentCount}] 
 									</a>
 								</div>
 								<div style="text-align: right;">
@@ -140,7 +152,11 @@
 									<a
 										href="${pageContext.request.contextPath}/board/anonymousBoardView.do?no=${anonyBoard.no}"
 										style="color: black;">
-										[익명] ${anonyBoard.title} [${anonyBoard.commentCount}] 
+										[익명] ${anonyBoard.title} 
+										<c:if test="${anonyBoard.attachCount > 0}">
+											<i class="fa fa-paperclip" style="color: #858796;"></i>
+										</c:if>
+										[${anonyBoard.commentCount}] 
 									</a>
 								</div>
 								<div style="text-align: right;">
