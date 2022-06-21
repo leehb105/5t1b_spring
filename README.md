@@ -13,3 +13,6 @@
 * JSP
    
 ## 구현 기능
+
+## ERD
+![erd](/img/erd.png)
