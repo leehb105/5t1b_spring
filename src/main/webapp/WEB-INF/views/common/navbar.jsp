@@ -62,7 +62,7 @@
 			<!-- Nav Item - Tables -->
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li class="nav-item">
-					<a class="nav-link" href="${pageContext.request.contextPath}/emp/empListView.do">
+					<a class="nav-link" href="${pageContext.request.contextPath}/admin/empListView.do">
 						<span>사원목록</span>
 					</a>
 				</li>

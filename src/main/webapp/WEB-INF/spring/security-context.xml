@@ -26,13 +26,13 @@
 	<security:http>
 		<!--구체적인 URL 패턴을 먼저 설정하고 덜 구체적인 패턴을 나중에 설정해야 함-->
 		<security:intercept-url pattern="/" access="permitAll()"/>
-		<security:intercept-url pattern="/emp/empListView.do" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/admin/empListView.do" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/emp/empLogin.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/emp/empEnroll.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/emp/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/board/**" access="isAuthenticated()"/>
 		<security:intercept-url pattern="/message/**" access="isAuthenticated()"/>
-		<security:access-denied-handler error-page="/accessError.do" />
+		<security:access-denied-handler error-page="/error/accessError.do"/>
 
 		<security:form-login 
 			login-page="/emp/empLogin.do" 

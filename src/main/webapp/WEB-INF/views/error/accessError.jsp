@@ -28,11 +28,10 @@
 	<div class="row justify-content-center">
 		<div class="container-fluid">
 
-			<!-- 404 Error Text -->
 			<div class="text-center">
 				<!-- <div class="error mx-auto" data-text="403"></div> -->
 				<p class="lead text-gray-800 mb-5">해당 페이지의 권한이 없습니다.</p>
-				<a href="${pageContext.request.contextPath}">&larr; 홈으로</a>
+				<a href="${pageContext.request.contextPath}/">&larr; 홈으로</a>
 			</div>
 
 		</div>

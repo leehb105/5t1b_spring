@@ -14,11 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -119,44 +115,8 @@ public class EmpController {
 	public String empLogout() {
 		return "redirect:";
 	}
-	
-	@GetMapping("/empListView.do")
-	public void empListView(Model model) {
-		//업무로직: celeb목록조회
-	
-		List<Emp> list = empService.selectAllMember();
-		model.addAttribute("list", list);
 
-	}
 
-	@PostMapping("/empCodeUpdate.do")
-	public String empCodeUpdate(RedirectAttributes attributes,
-							  @RequestParam String empNo,
-							  @RequestParam String updateDeptCode,
-							  @RequestParam String updateJobCode){
-
-		log.debug("empNo = {}", empNo);
-		log.debug("updateDeptCode = {}", updateDeptCode);
-		log.debug("updateJobCode = {}", updateJobCode);
-
-		String msg = "";
-		Emp emp = empService.selectOneEmp(empNo);
-		if(emp.getDeptCode().equals(updateDeptCode) && emp.getJobCode().equals(updateJobCode)){
-			msg = "변경사항이 없습니다.";
-		}else{
-			emp.setDeptCode(updateDeptCode);
-			emp.setJobCode(updateJobCode);
-			int result = empService.updateEmpCode(emp);
-			if(result > 0){
-				msg = "정보를 변경하였습니다.";
-			} else{
-				msg = "변경 요류";
-			}
-
-		}
-		attributes.addFlashAttribute("msg", msg);
-		return "redirect:/emp/empListView.do";
-	}
 
 	@GetMapping("/empView.do")
 	public void empView(Model model,

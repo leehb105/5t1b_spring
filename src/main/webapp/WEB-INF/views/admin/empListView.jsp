@@ -98,7 +98,7 @@
     <!-- End of Page Wrapper -->
     <form:form 
         id="updateFrm"
-        action="${pageContext.request.contextPath}/emp/empCodeUpdate.do" 
+        action="${pageContext.request.contextPath}/admin/empCodeUpdate.do" 
         method="post">
         <input type="hidden" id="empNo" name="empNo" value="">
         <input type="hidden" id="updateDeptCode" name="updateDeptCode" value="">

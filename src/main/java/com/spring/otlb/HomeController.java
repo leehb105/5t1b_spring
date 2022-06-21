@@ -87,7 +87,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/error/accessError.do", method = RequestMethod.GET)
 	public void accessError(){
-
+		log.debug("accessError 실행");
 	}
 	
 }
