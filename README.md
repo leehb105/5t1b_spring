@@ -15,4 +15,10 @@
 ## 구현 기능
 
 ## ERD
-![erd](/img/erd.png)
+<details>
+<summary>이미지 펼치기</summary>
+<div markdown="1">
+<img src="https://github.com/leehb105/5t1b_spring/blob/master/img/erd.png?raw=true">
+</div>
+</details>
+
