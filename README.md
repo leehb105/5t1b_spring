@@ -3,7 +3,7 @@
 > 자유/익명게시판을 이용할 수 있고 사용자간의 쪽지전송이 가능합니다.    
 > http://www.5t1b.site/   
 >  ~~_사이트 이름에는 큰 의미가 없습니다._~~    
-<br>            
+            
 ## 사용한 기술 스택
 - JAVA 8
 - Spring
@@ -12,7 +12,8 @@
 - Mybatis
 - Maven
 - JSP    
-<br>   
+- Tomcat 8.0
+   
 ## 주요 기능   
 > 회원   
 - 로그인: 스프링 시큐리티를 통한 로그인 구현 
@@ -34,7 +35,7 @@
 > 관리자페이지
 - 사원목록 조회      
 - 부서/직급 변경기능 구현     
-<br>     
+     
 ## ERD
 <details>
 <summary>이미지 펼치기</summary>
@@ -42,7 +43,6 @@
 <img src="https://github.com/leehb105/5t1b_spring/blob/master/img/erd.png?raw=true">
 </div>
 </details>
- 
 
 
 
