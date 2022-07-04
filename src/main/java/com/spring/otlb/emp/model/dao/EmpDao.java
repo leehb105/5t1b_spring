@@ -27,4 +27,6 @@ public interface EmpDao {
     Emp selectOneEmpInfo(String empNo);
 
 	int updateEmpCode(Emp emp);
+
+    List<Emp> selectEmpListByKeyword(String searchKeyword);
 }

@@ -64,5 +64,10 @@ public class EmpServiceImpl implements EmpService{
 		return empDao.updateEmpCode(emp);
 	}
 
+	@Override
+	public List<Emp> selectEmpListByKeyword(String searchKeyword) {
+		return empDao.selectEmpListByKeyword(searchKeyword);
+	}
+
 
 }

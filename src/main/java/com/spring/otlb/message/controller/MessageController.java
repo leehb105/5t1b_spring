@@ -8,9 +8,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.spring.otlb.common.Criteria;
 import com.spring.otlb.common.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,7 @@ public class MessageController {
 	
 	@Autowired
 	private EmpService empService;
-	
+
 	@PostMapping("/messageEnroll.do")
 	public String messageEnroll(@RequestParam String[] empNo,
 			Principal principal,
@@ -77,13 +79,13 @@ public class MessageController {
 		//글번호
 		log.debug("no = {}", no);
 		Message message = messageService.selectOneSentMessage(no);
-		
-		
+
+
 		model.addAttribute("message", message);
-		
+
 	}
-	
-	
+
+
 	@GetMapping("/sentMessageList.do")
 	public void sentMessageList(Model model,
 								Principal principal,
@@ -161,15 +163,15 @@ public class MessageController {
 		//받은쪽지함
 		log.debug("no = {}", no);
 		Message message = messageService.selectOneReceivedMessage(no);
-		
+
 		int result = messageService.updateReadDate(no);
 		String msg = result > 0 ? null : "쪽지 읽음처리 오류";
-		
+
 		model.addAttribute("message", message);
 		model.addAttribute("msg", msg);
 
 	}
-//	
+//
 	@GetMapping("/receivedMessageList.do")
 	public void messageList(Model model,
 							Principal principal,
@@ -188,7 +190,7 @@ public class MessageController {
 		List<Message> list = messageService.selectAllReceivedMessage(param);
 
 		for(int i = 0; i < list.size(); i++) {
-			
+
 			if(list.get(i).getContent().length() > 50) {
 				//n자가 넘는 쪽지의 경우 n자만출력해줌
 				list.get(i).setContent(list.get(i).getContent().substring(0, 40) + "...더보기");
@@ -198,17 +200,17 @@ public class MessageController {
 		int messageCount = messageService.selectReceivedMessageCount(principal.getName());
 
 		Paging page = new Paging(cri, messageCount);
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("messageCount", messageCount);
 		model.addAttribute("page", page);
 
 	}
-//	
+
 	@GetMapping("/messageForm.do")
 	public void messageForm(@RequestParam(required = false) String receiverNo,
 		Model model) {
-		
+
 		if(receiverNo != null) {
 			Emp emp = empService.selectOneEmp(receiverNo);
 			log.debug("empNo = {}", emp.getEmpNo());
@@ -216,40 +218,48 @@ public class MessageController {
 			//해야할것: 답장버튼 눌렀을때 해당 아이디가 입력칸에 들어가야함
 		}
 
-
-
-		
 	}
 
 	//한글???깨짐 현상으로 produces지정해줌
-	@GetMapping(value = "/empList.do", produces = "application/text; charset=utf8")
+//	@GetMapping(value = "/empList.do", produces = "application/text; charset=utf8")
+//	@ResponseBody
+//	public String empList(Model model,
+//		@RequestParam(required = false) String searchKeyword){
+//		log.debug("searchKeyword = {}", searchKeyword);
+//		List<Emp> empList = empService.selectAllMember();
+//		List<Emp> resultList = new ArrayList<>();
+//
+//		//검색 키워드 결과값찾기
+//		for(Emp emp : empList){
+//			if(emp.getEmpNo().contains(searchKeyword) || emp.getEmpName().contains(searchKeyword)){
+//				resultList.add(emp);
+//			}
+//		}
+//		//걸러진 결과값 202101-홍길동 의 형태로 StringBuilder생성
+//		StringBuilder sb = new StringBuilder();
+//		for(int i = 0; i < resultList.size(); i++) {
+//			sb.append(resultList.get(i).getEmpNo());
+//			sb.append("-");
+//			sb.append(resultList.get(i).getEmpName());
+//			sb.append(" ");
+//		}
+//
+//		log.debug(sb.toString());
+//		return sb.toString();
+//	}
+
 	@ResponseBody
-	public String empList(Model model,
-		@RequestParam(required = false) String searchKeyword){
+	@GetMapping(value = "/emp/{searchKeyword}", produces = "application/text; charset=UTF-8")
+	public String empList(@PathVariable("searchKeyword") String searchKeyword){
+		//입력받은 키워드로 사번, 이름 검색
 		log.debug("searchKeyword = {}", searchKeyword);
-		List<Emp> empList = empService.selectAllMember();
-		List<Emp> resultList = new ArrayList<>();
+		List<Emp> list = empService.selectEmpListByKeyword(searchKeyword);
+		log.debug("list = {}", list);
+		String json = new Gson().toJson(list);
+		return json;
 
-		//검색 키워드 결과값찾기
-		for(Emp emp : empList){
-			if(emp.getEmpNo().contains(searchKeyword) || emp.getEmpName().contains(searchKeyword)){
-				resultList.add(emp);
-			}
-		}
-		//걸러진 결과값 202101-홍길동 의 형태로 StringBuilder생성
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < resultList.size(); i++) {
-			sb.append(resultList.get(i).getEmpNo());
-			sb.append("-");
-			sb.append(resultList.get(i).getEmpName());
-			sb.append(" ");
-		}
-
-		log.debug(sb.toString());
-		return sb.toString();
 	}
 
-//	
 	
 
 	

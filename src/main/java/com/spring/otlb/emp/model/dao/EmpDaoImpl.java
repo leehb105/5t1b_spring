@@ -64,5 +64,10 @@ public class EmpDaoImpl implements EmpDao{
 		return session.update("emp.updateEmpCode", emp);
 	}
 
+	@Override
+	public List<Emp> selectEmpListByKeyword(String searchKeyword) {
+		return session.selectList("emp.selectEmpListByKeyword", searchKeyword);
+	}
+
 
 }

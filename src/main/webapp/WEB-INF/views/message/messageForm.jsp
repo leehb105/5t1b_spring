@@ -66,33 +66,45 @@ let selected2;
 /* 받는사람 검색기능 */
 $(receiver).autocomplete({ 
 	source: function(request, response) {
-		console.log(request);
+		// console.log(request.term);
 		// console.log(response);
 		$.ajax({
-			url: "<%= request.getContextPath() %>/message/empList.do",
-			data: {
-				searchKeyword : request.term
-			},
+			url: "${pageContext.request.contextPath}/message/emp/" + request.term,
+			// data: {
+			// 	searchKeyword : request.term
+			// },
 			method: "GET",
-			contentType : "application/text; charset:UTF-8",
-			success(data){
-				console.log('data' + data);
-				if(data == '') return;
-
-				const emp = data.split(" ");
-				//console.log(emp);
-				const arr = $.map(emp, (elem, i) =>{
-					const arr2 = elem.split("-");
-					//console.log(arr2);
-					
-					return{
-						lable: elem,
-						value: elem
-					};
-					
-				});
-				// console.log(arr);
+			dataType : 'json', //서버에서 반환되는 데이터 형식을 지정
+			contentType:'application/json;charset=utf-8', //서버에 데이터를 보낼 때 사용 content - type 헤더의 값
+			success: function(result){
+				if(result == '') return;
+				// console.log(result);
 				
+				// const emp = data.split(" ");
+				//console.log(emp);
+				// const arr = $.map(data, (elem, i) =>{
+				// 	// const arr2 = elem.split("-");
+				// 	//console.log(arr2);
+					
+				// 	return{
+				// 		lable: elem,
+				// 		value: elem
+				// 	};
+					
+				// });
+				// console.log(arr);
+					
+				// response(arr);
+
+				let arr = $.map( result, function( item ) {
+					return {
+						//label : 화면에 보여지는 텍스트
+						//value : 실제 text태그에 들어갈 값
+						label: item.empNo + '-' + item.empName,
+						value: item.empNo + '-' + item.empName
+					}
+				});
+				// console.log('arr' + arr);
 				response(arr);
 			},
 			error: console.log
@@ -115,14 +127,14 @@ $("#ui-id-1").click(() => {
         receiverList.value += ' ' + receiver.value;
      else receiverList.value = receiver.value;
     receiver.value = '';    
-	console.log(receiverList.value);
+	// console.log(receiverList.value);
 
 	let messageEnrollFrm = document.getElementById('messageEnrollFrm');
 
 	let input = document.createElement('input');
 	input.setAttribute("type", "hidden"); 
 	input.setAttribute("name", "empNo"); 
-	console.log(selected2);
+	// console.log(selected2);
 
 	input.setAttribute("value", selected2.innerText.split('-')[0]); 
 

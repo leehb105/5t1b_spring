@@ -109,4 +109,17 @@
 		where
 			emp_no = #{empNo}
 	</update>
+
+	<select id="selectEmpListByKeyword" resultMap="empMap">
+		SELECT
+			EMP_NO,
+			EMP_NAME
+		FROM
+			EMP
+		WHERE
+			EMP_NO LIKE '%' || #{searchKeyword} || '%'
+		   OR
+			EMP_NAME LIKE '%' || #{searchKeyword} || '%'
+	</select>
+
 </mapper>
