@@ -68,14 +68,16 @@
     </div>
  </details>
 
- > 익명게시판 댓글 작성자 구분      
+ > 익명게시판 댓글 작성자 구분    
+ - 익명 댓글의 작성자를 구분하기 위해 작성자 목록을 Hashmap을 이용해 익명 아이디로 변경      
  - <details>
    <summary>이미지 펼치기</summary>
    <div markdown="1">
-      <img src="https://github.com/leehb105/5t1b_spring/blob/master/img/image1.png">
+      <img src="https://github.com/leehb105/5t1b_spring/blob/master/img/image1.png" width="40%">
    </div>
 </details>
-
+      
+> 에러페이지 연결
  
 
 
