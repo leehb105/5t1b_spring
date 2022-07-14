@@ -73,12 +73,14 @@
  - <details>
    <summary>이미지 펼치기</summary>
    <div markdown="1">
-      <img src="https://github.com/leehb105/5t1b_spring/blob/master/img/image1.png" width="40%">
+      <img src="https://github.com/leehb105/5t1b_spring/blob/master/img/image1.png" width="50%">
    </div>
 </details>
-      
-> 에러페이지 연결
- 
+
+> 에러페이지 연결    
+- 페이지 경로를 찾을 수 없거나 권한이 없는 페이지에 접근, 서버에 문제가 생겼을 경우 각 문제에 대응되는 에러페이지로 연결하여 상세 에러 정보들을 숨길 수 있다.     
+- Excetion 발생시 [ExcetionController](https://github.com/leehb105/5t1b_spring/blob/master/src/main/java/com/spring/otlb/common/ExcetionController.java) 클래스를 거쳐 처리된다.    
+- 페이지 권한 접근제한 에러의 경우 access-denied-handler를 거쳐 에러페이지로 연결된다.
 
 
 
