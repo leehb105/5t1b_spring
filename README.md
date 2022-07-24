@@ -80,7 +80,52 @@
 > 에러페이지 연결    
 - 페이지 경로를 찾을 수 없거나 권한이 없는 페이지에 접근, 서버에 문제가 생겼을 경우 각 문제에 대응되는 에러페이지로 연결하여 상세 에러 정보들을 숨길 수 있다.     
 - Excetion 발생시 [ExcetionController](https://github.com/leehb105/5t1b_spring/blob/master/src/main/java/com/spring/otlb/common/ExcetionController.java) 클래스를 거쳐 처리된다.    
-- 페이지 권한 접근제한 에러의 경우 access-denied-handler를 거쳐 에러페이지로 연결된다.
+- 페이지 권한 접근제한 에러의 경우 access-denied-handler를 거쳐 에러페이지로 연결된다.       
+
+> 조회수 중복 증가 방지 쿠키 설정      
+- 사용자가 게시글을 클릭할 때 조회수가 증가하도록 설정            
+- 이때 조회수가 무한으로 증가하는것을 막기 위해 쿠키를 사용함     
+- 기존 쿠키가 존재하지 않는다면 새 쿠키 생성, 조회수 증가      
+ - <details>
+   <summary>코드 펼치기</summary>
+   <div markdown="1">
+      <pre>
+      <code>
+         ...
+         // 쿠키 생성
+         Cookie oldCookie = null;
+         Cookie[] cookies = request.getCookies();
+         log.debug("cookies = {}", cookies);
+         //쿠키값이 있다면
+         if(cookies != null) {
+            for(Cookie cookie : cookies) {
+               //boardView 쿠키 여부 확인
+               if(cookie.getName().equals("boardView")) {
+                  oldCookie = cookie;
+               }
+            }
+         }
+
+         if(oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + no + "]")) {
+                  boardService.updateReadCount(no);
+                     oldCookie.setValue(oldCookie.getValue() + "_[" + no + "]");
+                     oldCookie.setPath("/");
+                     oldCookie.setMaxAge(60 * 60 * 24);
+                     response.addCookie(oldCookie);
+               }
+            } else {
+               boardService.updateReadCount(no);
+               Cookie newCookie = new Cookie("boardView","[" + no + "]");
+               newCookie.setPath("/");
+               newCookie.setMaxAge(60 * 60 * 24);
+               response.addCookie(newCookie);
+         ...
+         
+      </code>
+      </pre>
+   </div>
+</details>
 
 
 
